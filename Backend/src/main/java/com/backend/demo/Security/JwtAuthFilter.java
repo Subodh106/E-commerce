@@ -42,7 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Claims claim = jwtService.extractClaims(jwt);
             String email = claim.getSubject();
 
-            if(email !=null &&
+            if(email !=null  &&
                     SecurityContextHolder.getContext().getAuthentication() ==null
             ){
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
