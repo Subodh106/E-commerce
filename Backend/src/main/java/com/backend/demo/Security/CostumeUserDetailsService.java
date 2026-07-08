@@ -13,8 +13,11 @@ public class CostumeUserDetailsService implements UserDetailsService {
     private  final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(@NonNull String email){
-        return (UserDetails) userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(@NonNull String email) {
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
     }
 }
 
