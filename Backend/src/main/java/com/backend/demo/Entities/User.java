@@ -3,19 +3,18 @@ package com.backend.demo.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Table(name="User")
 @Getter
 @Setter
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private Long Id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false , unique = false)
+    private String username;
 
     @Column(unique = true , nullable = false)
     private String email;
