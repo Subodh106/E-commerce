@@ -13,6 +13,7 @@ public class CostumeUserDetailsService implements UserDetailsService {
     private  final UserRepository userRepository;
 
     @Override
+    @lombok.NonNull
     public UserDetails loadUserByUsername(@NonNull String email) {
 
         return userRepository.findByEmail(email)
