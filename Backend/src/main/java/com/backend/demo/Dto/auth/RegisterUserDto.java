@@ -1,4 +1,4 @@
-package com.backend.demo.Dto;
+package com.backend.demo.Dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
