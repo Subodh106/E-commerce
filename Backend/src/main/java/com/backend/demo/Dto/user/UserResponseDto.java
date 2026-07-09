@@ -1,4 +1,4 @@
-package com.backend.demo.Dto;
+package com.backend.demo.Dto.user;
 
 import com.backend.demo.Entities.Role;
 import lombok.AllArgsConstructor;
