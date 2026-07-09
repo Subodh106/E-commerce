@@ -1,9 +1,14 @@
 package com.backend.demo.Service;
 
-import com.backend.demo.Dto.AuthResponseDto;
-import com.backend.demo.Dto.RegisterUserDto;
+import com.backend.demo.Dto.auth.AuthResponseDto;
+import com.backend.demo.Dto.auth.LoginUserDto;
+import com.backend.demo.Dto.auth.RegisterUserDto;
 import com.backend.demo.Entities.Role;
 import com.backend.demo.Entities.User;
+import com.backend.demo.Exception.Custom.EmailAlreadyExistException;
+import com.backend.demo.Exception.Custom.InvalidCredentialsException;
+import com.backend.demo.Exception.Custom.ResourceNotFoundException;
+import com.backend.demo.Exception.Custom.UsernameAlreadyExistException;
 import com.backend.demo.Repository.UserRepository;
 import com.backend.demo.Security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +24,10 @@ public class AuthService {
 
     public AuthResponseDto registerUser(RegisterUserDto registerUserDto){
         if(userRepository.existsByEmail(registerUserDto.getEmail())){
-            throw new RuntimeException("Email Already Exist");
+            throw new EmailAlreadyExistException("Email Already Exist");
         }
         if(userRepository.existsByUsername(registerUserDto.getUsername())){
-            throw new RuntimeException("Username Already Exist");
+            throw new UsernameAlreadyExistException("Username Already Exist");
         }
         User user = new User();
         user.setEmail(registerUserDto.getEmail());
@@ -32,9 +37,29 @@ public class AuthService {
         user.setRole(Role.USER);
         User savedUser  = userRepository.save(user);
         String token = jwtService.generateJwtToken(savedUser);
-        AuthResponseDto authResponseDto = new AuthResponseDto();
-        authResponseDto.setToken(token);
-        authResponseDto.setUser(savedUser.getId(),savedUser.getUsername(),savedUser.getEmail(),savedUser.getRole());
-        return authResponseDto;
+
+       return buildAuthResponse(savedUser ,token);
+    }
+
+    public AuthResponseDto loginUser(LoginUserDto loginUserDto){
+        User user = userRepository.findByEmail(loginUserDto.getEmail()).orElseThrow(()->new ResourceNotFoundException("User doesn't exist"));
+        boolean isPasswordValid = passwordEncoder.matches(loginUserDto.getPassword(),user.getPassword());
+        if(!isPasswordValid){
+            throw new InvalidCredentialsException("Invalid credentials");
+        }
+        String token = jwtService.generateJwtToken(user);
+       return buildAuthResponse(user,token);
+    }
+
+    private AuthResponseDto buildAuthResponse(User user, String token) {
+        AuthResponseDto response = new AuthResponseDto();
+        response.setToken(token);
+        response.setUser(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole()
+        );
+        return response;
     }
 }
