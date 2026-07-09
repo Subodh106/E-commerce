@@ -1,6 +1,9 @@
 package com.backend.demo.Exception.Handler;
 
+import com.backend.demo.Exception.Custom.EmailAlreadyExistException;
+import com.backend.demo.Exception.Custom.InvalidCredentialsException;
 import com.backend.demo.Exception.Custom.ResourceNotFoundException;
+import com.backend.demo.Exception.Custom.UsernameAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -43,5 +46,24 @@ public class GlobalExceptionHandler {
                         )
                 );
         return ResponseEntity.badRequest().body(errors);
+    }
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public ResponseEntity<String> handleEmailAlreadyExistException(Exception ex){
+        return  ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleInvalidCredentialsException(Exception ex){
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistException.class)
+    public ResponseEntity<String> handleUsernameAlreadyExistException(Exception ex){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ex.getMessage());
     }
 }
