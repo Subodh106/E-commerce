@@ -1,5 +1,6 @@
 package com.backend.demo.Service;
 
+import com.backend.demo.Dto.AuthResponseDto;
 import com.backend.demo.Dto.RegisterUserDto;
 import com.backend.demo.Entities.Role;
 import com.backend.demo.Entities.User;
@@ -16,7 +17,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    public String registerUser(RegisterUserDto registerUserDto){
+    public AuthResponseDto registerUser(RegisterUserDto registerUserDto){
         if(userRepository.existsByEmail(registerUserDto.getEmail())){
             throw new RuntimeException("Email Already Exist");
         }
@@ -29,7 +30,11 @@ public class AuthService {
         user.setUsername(registerUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
         user.setRole(Role.USER);
-        userRepository.save(user);
-        return jwtService.generateJwtToken(user);
+        User savedUser  = userRepository.save(user);
+        String token = jwtService.generateJwtToken(savedUser);
+        AuthResponseDto authResponseDto = new AuthResponseDto();
+        authResponseDto.setToken(token);
+        authResponseDto.setUser(savedUser.getId(),savedUser.getUsername(),savedUser.getEmail(),savedUser.getRole());
+        return authResponseDto;
     }
 }
