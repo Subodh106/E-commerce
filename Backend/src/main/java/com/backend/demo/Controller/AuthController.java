@@ -1,7 +1,5 @@
 package com.backend.demo.Controller;
-import com.backend.demo.Dto.AuthResponseDto;
-import com.backend.demo.Dto.RegisterUserDto;
-import com.backend.demo.Dto.RegisterUserResponseDto;
+import com.backend.demo.Dto.auth.*;
 import com.backend.demo.Service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,7 @@ public class AuthController {
         AuthResponseDto response = authService.registerUser(registerUserDto);
         String token = response.getToken();
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
-                .secure(false)
+                .secure(true)
                 .sameSite("Strict")
                 .maxAge(Duration.ofDays(1))
                 .path("/")
@@ -37,5 +35,21 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(registerUserResponseDto);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginUserResponseDto> login(@Valid @RequestBody LoginUserDto loginUserDto){
+        AuthResponseDto response = authService.loginUser(loginUserDto);
+        String token = response.getToken();
+        ResponseCookie cookie = ResponseCookie.from("jwt",token)
+                .secure(true)
+                .sameSite("Strict")
+                .maxAge(Duration.ofDays(1))
+                .path("/")
+                .httpOnly(true)
+                .build();
+        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto("User Login Successfully",response.getUser());
+        return  ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.SET_COOKIE,cookie.toString())
+                .body(loginUserResponseDto);
     }
 }
