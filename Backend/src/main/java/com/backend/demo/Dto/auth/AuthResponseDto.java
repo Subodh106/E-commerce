@@ -1,11 +1,10 @@
-package com.backend.demo.Dto;
+package com.backend.demo.Dto.auth;
 
+import com.backend.demo.Dto.user.UserResponseDto;
 import com.backend.demo.Entities.Role;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
