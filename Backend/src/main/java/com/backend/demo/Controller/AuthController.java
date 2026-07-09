@@ -31,6 +31,7 @@ public class AuthController {
                 .path("/")
                 .httpOnly(true)
                 .build();
+        System.out.println(response.getUser());
         RegisterUserResponseDto registerUserResponseDto = new RegisterUserResponseDto("User Registered Successfully", response.getUser());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())

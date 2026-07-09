@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -13,11 +12,6 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final PasswordEncoder passwordEncoder;
-
-    public JwtService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     private SecretKey getKey(){
         String jwtSecret = "f9d0a7d9b8dbe1cb8c3d84e2a7c62ab9f0a72d67c9a81de";
