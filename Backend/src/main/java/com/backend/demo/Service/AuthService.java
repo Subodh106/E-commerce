@@ -5,10 +5,9 @@ import com.backend.demo.Dto.auth.LoginUserDto;
 import com.backend.demo.Dto.auth.RegisterUserDto;
 import com.backend.demo.Entities.Role;
 import com.backend.demo.Entities.User;
-import com.backend.demo.Exception.Custom.EmailAlreadyExistException;
 import com.backend.demo.Exception.Custom.InvalidCredentialsException;
 import com.backend.demo.Exception.Custom.ResourceNotFoundException;
-import com.backend.demo.Exception.Custom.UsernameAlreadyExistException;
+import com.backend.demo.Exception.Custom.DuplicatedValueException;
 import com.backend.demo.Repository.UserRepository;
 import com.backend.demo.Security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +23,10 @@ public class AuthService {
 
     public AuthResponseDto registerUser(RegisterUserDto registerUserDto){
         if(userRepository.existsByEmail(registerUserDto.getEmail())){
-            throw new EmailAlreadyExistException("Email Already Exist");
+            throw new DuplicatedValueException("Email Already Exist");
         }
         if(userRepository.existsByUsername(registerUserDto.getUsername())){
-            throw new UsernameAlreadyExistException("Username Already Exist");
+            throw new DuplicatedValueException("Username Already Exist");
         }
         User user = new User();
         user.setEmail(registerUserDto.getEmail());
