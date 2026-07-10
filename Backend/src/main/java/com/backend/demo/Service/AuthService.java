@@ -44,7 +44,7 @@ public class AuthService {
     public AuthResponseDto loginUser(LoginUserDto loginUserDto){
         User user = userRepository.findByEmail(loginUserDto.getEmail()).orElseThrow(()->new ResourceNotFoundException("User doesn't exist"));
         boolean isPasswordValid = passwordEncoder.matches(loginUserDto.getPassword(),user.getPassword());
-        if(!isPasswordValid){
+        if(!isPasswordValid) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
         String token = jwtService.generateJwtToken(user);
@@ -57,8 +57,7 @@ public class AuthService {
         response.setUser(
                 user.getId(),
                 user.getUsername(),
-                user.getEmail(),
-                user.getRole()
+                user.getEmail()
         );
         return response;
     }

@@ -17,6 +17,7 @@ public class AuthResponseDto {
 
     }
 
-    public void setUser(Long id, String username, String email, Role role) {
+    public void setUser(Long id, String username, String email) {
+        this.user = new UserResponseDto(id,username,email,Role.USER);
     }
 }
