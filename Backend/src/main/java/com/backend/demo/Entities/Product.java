@@ -13,6 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,7 +44,7 @@ public class Product {
 
     @Column(nullable = false)
     @ManyToAny
-    private String category;
+    private List<Category> category;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
