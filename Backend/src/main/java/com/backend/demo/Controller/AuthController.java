@@ -1,5 +1,8 @@
 package com.backend.demo.Controller;
+import com.backend.demo.Common.ApiResponse;
 import com.backend.demo.Dto.auth.*;
+import com.backend.demo.Dto.user.UserResponseDto;
+import com.backend.demo.Entities.User;
 import com.backend.demo.Service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +24,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterUserResponseDto> registerUser(@Valid @RequestBody RegisterUserDto registerUserDto) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@Valid @RequestBody RegisterUserDto registerUserDto) {
         AuthResponseDto response = authService.registerUser(registerUserDto);
         String token = response.getToken();
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
@@ -32,13 +35,13 @@ public class AuthController {
                 .httpOnly(true)
                 .build();
         System.out.println(response.getUser());
-        RegisterUserResponseDto registerUserResponseDto = new RegisterUserResponseDto("User Registered Successfully", response.getUser());
+        ApiResponse<UserResponseDto> registerUserResponse = new ApiResponse<UserResponseDto>("User Created Successfully",response.getUser());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(registerUserResponseDto);
+                .body(registerUserResponse);
     }
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponseDto> login(@Valid @RequestBody LoginUserDto loginUserDto){
+    public ResponseEntity<ApiResponse<UserResponseDto>> login(@Valid @RequestBody LoginUserDto loginUserDto){
         AuthResponseDto response = authService.loginUser(loginUserDto);
         String token = response.getToken();
         ResponseCookie cookie = ResponseCookie.from("jwt",token)
@@ -48,9 +51,9 @@ public class AuthController {
                 .path("/")
                 .httpOnly(true)
                 .build();
-        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto("User Login Successfully",response.getUser());
+       ApiResponse<UserResponseDto> loginUserResponse = new ApiResponse<UserResponseDto>("User Login Successfully", response.getUser());
         return  ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE,cookie.toString())
-                .body(loginUserResponseDto);
+                .body(loginUserResponse);
     }
 }
