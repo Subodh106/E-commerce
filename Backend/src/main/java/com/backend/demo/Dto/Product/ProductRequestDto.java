@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CreateProductDto {
+public class ProductRequestDto {
     @NotBlank(message = "Product name can't be blank")
     @Size(min = 5 , max = 20 , message =  "Product name must be between 5 and 20 character")
     private String productName;
@@ -23,5 +23,7 @@ public class CreateProductDto {
     @Min(0)
     private  int stock;
     @NotBlank(message = "Product must have its category")
-    private String category;
+    private Long categoryId;
+    @NotBlank(message = "Product must have its image")
+    private String imageUrl;
 }
