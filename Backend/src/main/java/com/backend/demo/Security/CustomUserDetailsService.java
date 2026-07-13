@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public @Nullable UserDetails loadUserByUsername(@NonNull String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(()->new ResourceNotFoundException("User doesn't exist with "+email));
+                .orElseThrow(() -> new ResourceNotFoundException("User doesn't exist with "+ email));
     }
 }
 
