@@ -46,6 +46,10 @@ public class Product {
     @ManyToAny
     private List<Category> category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
