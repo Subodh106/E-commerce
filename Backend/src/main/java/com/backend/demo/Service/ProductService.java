@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -39,10 +40,14 @@ public class ProductService {
         product.setCreatedBy(user);
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
-
        Product savedProduct= productRepository.save(product);
        return buildProductResponse(savedProduct);
     }
+
+    public String getAllProducts(){
+        return "Sfs";
+    }
+
 
     private ProductResponseDto buildProductResponse(Product product){
         ProductResponseDto response = new ProductResponseDto();
