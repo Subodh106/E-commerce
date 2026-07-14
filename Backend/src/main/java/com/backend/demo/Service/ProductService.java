@@ -3,7 +3,7 @@ package com.backend.demo.Service;
 import com.backend.demo.Dto.Category.CategorySummaryDto;
 import com.backend.demo.Dto.Product.ProductRequestDto;
 import com.backend.demo.Dto.Product.ProductResponseDto;
-import com.backend.demo.Dto.user.UserSummaryDto;
+import com.backend.demo.Dto.User.UserSummaryDto;
 import com.backend.demo.Entities.Category;
 import com.backend.demo.Entities.Product;
 import com.backend.demo.Entities.User;
@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
