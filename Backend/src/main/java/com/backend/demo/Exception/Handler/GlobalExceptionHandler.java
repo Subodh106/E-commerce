@@ -1,6 +1,6 @@
 package com.backend.demo.Exception.Handler;
 
-import com.backend.demo.Dto.exception.ExceptionResponseDto;
+import com.backend.demo.Dto.Exception.ExceptionResponseDto;
 import com.backend.demo.Exception.Custom.InvalidCredentialsException;
 import com.backend.demo.Exception.Custom.ResourceNotFoundException;
 import com.backend.demo.Exception.Custom.DuplicatedValueException;
