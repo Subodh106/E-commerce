@@ -55,7 +55,6 @@ public class ProductService {
       return productPage.map(this::buildProductResponse).getContent();
     }
 
-
     private ProductResponseDto buildProductResponse(Product product){
         ProductResponseDto response = new ProductResponseDto();
         response.setId(product.getId());
