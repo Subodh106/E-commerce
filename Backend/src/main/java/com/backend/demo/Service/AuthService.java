@@ -1,8 +1,8 @@
 package com.backend.demo.Service;
 
-import com.backend.demo.Dto.auth.AuthResponseDto;
-import com.backend.demo.Dto.auth.LoginUserDto;
-import com.backend.demo.Dto.auth.RegisterUserDto;
+import com.backend.demo.Dto.Auth.AuthResponseDto;
+import com.backend.demo.Dto.Auth.LoginUserDto;
+import com.backend.demo.Dto.Auth.RegisterUserDto;
 import com.backend.demo.Entities.Role;
 import com.backend.demo.Entities.User;
 import com.backend.demo.Exception.Custom.InvalidCredentialsException;

@@ -1,4 +1,4 @@
-package com.backend.demo.Dto.exception;
+package com.backend.demo.Dto.Exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
