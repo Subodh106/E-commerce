@@ -12,9 +12,14 @@ import com.backend.demo.Repository.CategoryRepository;
 import com.backend.demo.Repository.ProductRepository;
 import com.backend.demo.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,8 +49,11 @@ public class ProductService {
        return buildProductResponse(savedProduct);
     }
 
-    public String getAllProducts(){
-        return "Sfs";
+    public List<ProductResponseDto> getAllProducts(int size , int page , String direction , String sortBy){
+        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Product> productPage = productRepository.findAll(pageable);
+      return productPage.map(this::buildProductResponse).getContent();
     }
 
 

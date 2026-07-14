@@ -30,10 +30,10 @@ public class ProductController {
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<ProductResponseDto>("Product Created Successfully", response);
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponseDto>>> getAllProducts(@RequestParam(defaultValue = "10")int size ,@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "asc") String direction , @RequestParam(defaultValue = "name") String sortBy){
-        List<ProductResponseDto> response = productService.getAllProduct(size , page , direction , sortBy);
-        ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<List<ProductResponseDto>>("All product retrived successfully",response);
+        List<ProductResponseDto> response = productService.getAllProducts(size , page , direction , sortBy);
+        ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<List<ProductResponseDto>>("All products retrived successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 }
