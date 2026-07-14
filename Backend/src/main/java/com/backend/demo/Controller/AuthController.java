@@ -1,8 +1,7 @@
 package com.backend.demo.Controller;
 import com.backend.demo.Common.ApiResponse;
-import com.backend.demo.Dto.auth.*;
-import com.backend.demo.Dto.user.UserResponseDto;
-import com.backend.demo.Entities.User;
+import com.backend.demo.Dto.Auth.*;
+import com.backend.demo.Dto.User.UserResponseDto;
 import com.backend.demo.Service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

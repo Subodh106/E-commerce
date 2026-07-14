@@ -1,6 +1,6 @@
-package com.backend.demo.Dto.auth;
+package com.backend.demo.Dto.Auth;
 
-import com.backend.demo.Dto.user.UserResponseDto;
+import com.backend.demo.Dto.User.UserResponseDto;
 import com.backend.demo.Entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
