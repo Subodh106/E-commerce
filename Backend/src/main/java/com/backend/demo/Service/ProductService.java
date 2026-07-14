@@ -11,13 +11,16 @@ import com.backend.demo.Exception.Custom.ResourceNotFoundException;
 import com.backend.demo.Repository.CategoryRepository;
 import com.backend.demo.Repository.ProductRepository;
 import com.backend.demo.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,13 +31,16 @@ public class ProductService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageService imageService;
 
-    public ProductResponseDto create(ProductRequestDto createProductDto , Long id){
+    public ProductResponseDto create(ProductRequestDto createProductDto , Long id , MultipartFile file) throws IOException {
+
         Product product = new Product();
         product.setProductName(createProductDto.getProductName());
         product.setDescription(createProductDto.getDescription());
         product.setPrice(createProductDto.getPrice());
-        product.setImageUrl(createProductDto.getImageUrl());
+        String imageUrl = imageService.upload(file);
+        product.setImageUrl(imageUrl);
         product.setStock(createProductDto.getStock());
         Category category = categoryRepository.findById(createProductDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -53,6 +59,12 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page,size,sort);
         Page<Product> productPage = productRepository.findAll(pageable);
       return productPage.map(this::buildProductResponse).getContent();
+    }
+
+    public ProductResponseDto getProductById(Long id){
+        Product savedProduct = productRepository.findById(id)
+                .orElseThrow(()-> new  EntityNotFoundException("Product not found"));
+        return buildProductResponse(savedProduct);
     }
 
     private ProductResponseDto buildProductResponse(Product product){
