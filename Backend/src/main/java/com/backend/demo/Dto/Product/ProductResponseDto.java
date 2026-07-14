@@ -1,7 +1,7 @@
 package com.backend.demo.Dto.Product;
 
 import com.backend.demo.Dto.Category.CategorySummaryDto;
-import com.backend.demo.Dto.user.UserSummaryDto;
+import com.backend.demo.Dto.User.UserSummaryDto;
 import lombok.*;
 
 import java.math.BigDecimal;
