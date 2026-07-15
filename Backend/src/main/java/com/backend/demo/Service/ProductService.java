@@ -67,6 +67,12 @@ public class ProductService {
         return buildProductResponse(savedProduct);
     }
 
+    public String  deleteProductById(Long id){
+        Product savedProduct = productRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Product not found"));
+        productRepository.delete(savedProduct);
+        return "Product deleted successfully";
+    }
+
     private ProductResponseDto buildProductResponse(Product product){
         ProductResponseDto response = new ProductResponseDto();
         response.setId(product.getId());
