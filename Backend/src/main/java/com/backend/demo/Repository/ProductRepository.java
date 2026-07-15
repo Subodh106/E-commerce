@@ -4,4 +4,6 @@ import com.backend.demo.Entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    @Override
+    void deleteById(Long Long);
 }
