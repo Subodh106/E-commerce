@@ -5,15 +5,109 @@ import com.backend.demo.Dto.Product.ProductRequestDto;
 import com.backend.demo.Dto.Product.ProductResponseDto;
 import com.backend.demo.Repository.ProductRepository;
 import com.backend.demo.Security.CustomUserDetails;
+import com.backend.demo.Service.ImageService;
 import com.backend.demo.Service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+package com.backend.demo.Service;
+
+import com.backend.demo.Dto.Category.CategorySummaryDto;
+import com.backend.demo.Dto.Product.ProductRequestDto;
+import com.backend.demo.Dto.Product.ProductResponseDto;
+import com.backend.demo.Dto.User.UserSummaryDto;
+import com.backend.demo.Entities.Category;
+import com.backend.demo.Entities.Product;
+import com.backend.demo.Entities.User;
+import com.backend.demo.Exception.Custom.ResourceNotFoundException;
+import com.backend.demo.Repository.CategoryRepository;
+import com.backend.demo.Repository.ProductRepository;
+import com.backend.demo.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class ProductService {
+
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ImageService imageService;
+
+    public ProductResponseDto create(ProductRequestDto createProductDto , Long id , MultipartFile file) throws IOException {
+
+        Product product = new Product();
+        product.setProductName(createProductDto.getProductName());
+        product.setDescription(createProductDto.getDescription());
+        product.setPrice(createProductDto.getPrice());
+        String imageUrl = imageService.upload(file);
+        product.setImageUrl(imageUrl);
+        product.setStock(createProductDto.getStock());
+        Category category = categoryRepository.findById(createProductDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        product.setCategory(category);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        product.setCreatedBy(user);
+        product.setCreatedAt(LocalDateTime.now());
+        product.setUpdatedAt(LocalDateTime.now());
+        Product savedProduct= productRepository.save(product);
+        return buildProductResponse(savedProduct);
+    }
+
+    public List<ProductResponseDto> getAllProducts(int size , int page , String direction , String sortBy){
+        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return productPage.map(this::buildProductResponse).getContent();
+    }
+
+    public ProductResponseDto getProductById(Long id){
+        Product savedProduct = productRepository.findById(id)
+                .orElseThrow(()-> new  EntityNotFoundException("Product not found"));
+        return buildProductResponse(savedProduct);
+    }
+
+    public String  deleteProductById(Long id){
+        Product savedProduct = productRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Product not found"));
+        productRepository.delete(savedProduct);
+        return "Product deleted successfully";
+    }
+
+    private ProductResponseDto buildProductResponse(Product product){
+        ProductResponseDto response = new ProductResponseDto();
+        response.setId(product.getId());
+        response.setProductName(product.getProductName());
+        response.setDescription(product.getDescription());
+        response.setPrice(product.getPrice());
+        response.setStock(product.getStock());
+        response.setImageUrl(product.getImageUrl());
+        response.setCategory(new CategorySummaryDto(product.getCategory().getId(),product.getCategory().getName()));
+        response.setCreatedBy(new UserSummaryDto(product.getCreatedBy().getId(),product.getCreatedBy().getUsername()));
+        response.setCreatedAt(product.getCreatedAt());
+        response.setUpdatedAt(product.getUpdatedAt());
+        return response;
+    }
+}
+
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -22,11 +116,11 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> createProduct(@Valid @RequestBody ProductRequestDto createProductDto, @AuthenticationPrincipal CustomUserDetails user ,@RequestParam("image" MultipartFile image) ) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<ProductResponseDto>> createProduct(@Valid @RequestBody @ModelAttribute ProductRequestDto createProductDto, @AuthenticationPrincipal CustomUserDetails user ,@RequestParam("image") MultipartFile image ) {
         ProductResponseDto response = productService.create(createProductDto, user.getId() , image);
 
-        ApiResponse<ProductResponseDto> productResponse = new ApiResponse<ProductResponseDto>("Product Created Successfully", response);
+        ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product Created Successfully", response);
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
     @GetMapping
@@ -36,9 +130,15 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> getProductById(@RequestParam Long id){
+    public ResponseEntity<ApiResponse<ProductResponseDto>> getProductById(@PathVariable Long id){
         ProductResponseDto response = productService.getProductById(id);
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product retrived successfully",response);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteProductById(@PathVariable Long id){
+        String response = productService.deleteProductById(id);
+        ApiResponse<Void> productResponse = new ApiResponse<>(response,null);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 }
