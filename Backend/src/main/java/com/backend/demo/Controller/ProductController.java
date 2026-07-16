@@ -47,4 +47,12 @@ public class ProductController {
         ApiResponse<Void> productResponse = new ApiResponse<>(response,null);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
+    @PutMapping("{id}")
+    public ResponseEntity<ApiResponse<ProductResponseDto>> updateProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserDetails user , @RequestParam int productId){
+
+    }
+    @PatchMapping("{id}")
+    public ResponseEntity<ApiResponse<ProductRequestDto>> replaceProduct(@RequestBody ProductRequestDto productRequestDto){
+
+    }
 }
