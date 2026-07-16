@@ -48,11 +48,15 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @PutMapping("{id}")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> updateProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserDetails user , @RequestParam int productId){
-
+    public ResponseEntity<ApiResponse<ProductResponseDto>> replaceProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserDetails user , @RequestParam Long productId){
+        ProductResponseDto response = productService.replaceProduct(productRequestDto,productId);
+        ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product replaced successfully",response);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @PatchMapping("{id}")
-    public ResponseEntity<ApiResponse<ProductRequestDto>> replaceProduct(@RequestBody ProductRequestDto productRequestDto){
-
+    public ResponseEntity<ApiResponse<ProductResponseDto>> updateProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserDetails user , @RequestParam Long productId){
+        ProductResponseDto response = productService.updateProduct(productRequestDto,productId );
+        ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product updated successfully",response);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 }
