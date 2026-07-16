@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -24,4 +25,6 @@ public class ProductRequestDto {
     private  int stock;
     @NotBlank(message = "Product must have its category")
     private Long categoryId;
+    @NotBlank(message = "Product must have its image")
+    private MultipartFile image;
 }

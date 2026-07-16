@@ -18,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -33,25 +32,28 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ImageService imageService;
 
-    public ProductResponseDto create(ProductRequestDto createProductDto , Long id , MultipartFile file) throws IOException {
-
-        Product product = new Product();
-        product.setProductName(createProductDto.getProductName());
-        product.setDescription(createProductDto.getDescription());
-        product.setPrice(createProductDto.getPrice());
-        String imageUrl = imageService.upload(file);
-        product.setImageUrl(imageUrl);
-        product.setStock(createProductDto.getStock());
-        Category category = categoryRepository.findById(createProductDto.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-        product.setCategory(category);
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        product.setCreatedBy(user);
-        product.setCreatedAt(LocalDateTime.now());
-        product.setUpdatedAt(LocalDateTime.now());
-       Product savedProduct= productRepository.save(product);
-       return buildProductResponse(savedProduct);
+    public ProductResponseDto create(ProductRequestDto createProductDto , Long id) {
+        try{
+            Product product = new Product();
+            product.setProductName(createProductDto.getProductName());
+            product.setDescription(createProductDto.getDescription());
+            product.setPrice(createProductDto.getPrice());
+            String imageUrl = imageService.upload(createProductDto.getImage());
+            product.setImageUrl(imageUrl);
+            product.setStock(createProductDto.getStock());
+            Category category = categoryRepository.findById(createProductDto.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+            product.setCategory(category);
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            product.setCreatedBy(user);
+            product.setCreatedAt(LocalDateTime.now());
+            product.setUpdatedAt(LocalDateTime.now());
+            Product savedProduct= productRepository.save(product);
+            return buildProductResponse(savedProduct);
+        }catch (Exception e){
+            throw new RuntimeException();
+        }
     }
 
     public List<ProductResponseDto> getAllProducts(int size , int page , String direction , String sortBy){
