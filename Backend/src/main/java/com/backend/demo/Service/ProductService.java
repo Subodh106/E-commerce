@@ -12,6 +12,7 @@ import com.backend.demo.Repository.CategoryRepository;
 import com.backend.demo.Repository.ProductRepository;
 import com.backend.demo.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -88,5 +89,17 @@ public class ProductService {
         response.setCreatedAt(product.getCreatedAt());
         response.setUpdatedAt(product.getUpdatedAt());
         return response;
+    }
+    @Transactional
+    public ProductResponseDto replateProduct(ProductRequestDto productRequestDto , Long productId){
+        Product existingProduct = productRepository.findById(productId).orElseThrow(()-> new EntityNotFoundException("Product not found"));
+        if(productRequestDto.getProductName()!=null){
+            existingProduct.setProductName(productRequestDto.getProductName());
+        }
+        if(productRequestDto.getDescription()!=null){
+            existingProduct.setDescription(productRequestDto.getDescription());
+        }
+
+        return buildProductResponse(existingProduct);
     }
 }
