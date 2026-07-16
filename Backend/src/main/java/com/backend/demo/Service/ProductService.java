@@ -91,7 +91,7 @@ public class ProductService {
         return response;
     }
     @Transactional
-    public ProductResponseDto replateProduct(ProductRequestDto productRequestDto , Long productId){
+    public ProductResponseDto updateProduct(ProductRequestDto productRequestDto , Long productId){
         Product existingProduct = productRepository.findById(productId).orElseThrow(()-> new EntityNotFoundException("Product not found"));
         if(productRequestDto.getProductName()!=null){
             existingProduct.setProductName(productRequestDto.getProductName());
@@ -100,6 +100,11 @@ public class ProductService {
             existingProduct.setDescription(productRequestDto.getDescription());
         }
 
+        return buildProductResponse(existingProduct);
+    }
+    @Transactional
+    public ProductResponseDto replaceProduct(ProductRequestDto productResponseDto,Long productId){
+        Product existingProduct = productRepository.findById(productId).orElseThrow();
         return buildProductResponse(existingProduct);
     }
 }
