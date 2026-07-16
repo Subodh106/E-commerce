@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -41,8 +40,8 @@ public class Product {
     @Min(0)
     private int stock;
 
-    @Column(nullable = false)
-    @ManyToAny
+    @JoinColumn(name = "category",nullable = false)
+    @ManyToOne
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
