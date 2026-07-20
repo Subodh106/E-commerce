@@ -2,6 +2,7 @@ package com.backend.demo.Entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class Product {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Column(nullable = false)
+    private String publicId;
 
     @Min(0)
     private int stock;
