@@ -1,6 +1,7 @@
 package com.backend.demo.Service;
 
 import com.backend.demo.Dto.Category.CategorySummaryDto;
+import com.backend.demo.Dto.Image.ImageDto;
 import com.backend.demo.Dto.Product.ProductRequestDto;
 import com.backend.demo.Dto.Product.ProductResponseDto;
 import com.backend.demo.Dto.User.UserSummaryDto;
@@ -20,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,8 +39,9 @@ public class ProductService {
             product.setProductName(createProductDto.getProductName());
             product.setDescription(createProductDto.getDescription());
             product.setPrice(createProductDto.getPrice());
-            String imageUrl = imageService.upload(createProductDto.getImage());
-            product.setImageUrl(imageUrl);
+            ImageDto image = imageService.upload(createProductDto.getImage());
+            product.setImageUrl(image.getImageUrl());
+            product.setPublicId(image.getPublicID());
             product.setStock(createProductDto.getStock());
             Category category = categoryRepository.findById(createProductDto.getCategoryId())
                     .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -72,6 +73,7 @@ public class ProductService {
 
     public String  deleteProductById(Long id){
         Product savedProduct = productRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Product not found"));
+        imageService.delete(savedProduct.getPublicId());
         productRepository.delete(savedProduct);
         return "Product deleted successfully";
     }
@@ -84,14 +86,16 @@ public class ProductService {
         response.setPrice(product.getPrice());
         response.setStock(product.getStock());
         response.setImageUrl(product.getImageUrl());
+        response.setPublicId(product.getPublicId());
         response.setCategory(new CategorySummaryDto(product.getCategory().getId(),product.getCategory().getName()));
         response.setCreatedBy(new UserSummaryDto(product.getCreatedBy().getId(),product.getCreatedBy().getUsername()));
         response.setCreatedAt(product.getCreatedAt());
         response.setUpdatedAt(product.getUpdatedAt());
+
         return response;
     }
     @Transactional
-    public ProductResponseDto updateProduct(ProductRequestDto productRequestDto , Long productId){
+    public ProductResponseDto updateProduct(ProductRequestDto productRequestDto , Long productId) {
         Product existingProduct = productRepository.findById(productId).orElseThrow(()-> new EntityNotFoundException("Product not found"));
         if(productRequestDto.getProductName()!=null){
             existingProduct.setProductName(productRequestDto.getProductName());
@@ -99,12 +103,44 @@ public class ProductService {
         if(productRequestDto.getDescription()!=null){
             existingProduct.setDescription(productRequestDto.getDescription());
         }
+        if(productRequestDto.getPrice()!=null){
+            existingProduct.setPrice(productRequestDto.getPrice());
+        }
+        if(productRequestDto.getCategoryId()!=null){
+            Category category = categoryRepository.findById(productRequestDto.getCategoryId()).orElseThrow(()->new ResourceNotFoundException("Category not found"));
+            existingProduct.setCategory(category);
+        }
+        if(productRequestDto.getImage()!=null){
+            String publicID = existingProduct.getPublicId();
+            ImageDto image = imageService.update(publicID,productRequestDto.getImage());
+            existingProduct.setImageUrl(image.getImageUrl());
+            existingProduct.setPublicId(image.getPublicID());
+        }
+        if (productRequestDto.getStock() != existingProduct.getStock()) {
+            existingProduct.setStock(productRequestDto.getStock());
+        }
+        existingProduct.setUpdatedAt(LocalDateTime.now());
 
         return buildProductResponse(existingProduct);
     }
     @Transactional
-    public ProductResponseDto replaceProduct(ProductRequestDto productResponseDto,Long productId){
-        Product existingProduct = productRepository.findById(productId).orElseThrow();
+    public ProductResponseDto replaceProduct(ProductRequestDto productRequestDto,Long productId) {
+        Product existingProduct = productRepository.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Product not found"));
+
+        existingProduct.setProductName(productRequestDto.getProductName());
+        existingProduct.setDescription(productRequestDto.getDescription());
+        existingProduct.setPrice(productRequestDto.getPrice());
+        existingProduct.setStock(productRequestDto.getStock());
+        Category category = categoryRepository.findById(productRequestDto.getCategoryId()).orElseThrow(()->new ResourceNotFoundException("Category not found"));
+        existingProduct.setCategory(category);
+        if(productRequestDto.getImage()!=null && !productRequestDto.getImage().isEmpty()) {
+            ImageDto image = imageService.update( existingProduct.getPublicId(), productRequestDto.getImage());
+            existingProduct.setImageUrl(image.getImageUrl());
+            existingProduct.setPublicId(image.getPublicID());
+        }
+        existingProduct.setStock(productRequestDto.getStock());
+        existingProduct.setUpdatedAt(LocalDateTime.now());
+
         return buildProductResponse(existingProduct);
     }
 }
