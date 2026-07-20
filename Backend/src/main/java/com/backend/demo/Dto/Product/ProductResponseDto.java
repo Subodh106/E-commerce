@@ -19,6 +19,7 @@ public class ProductResponseDto {
     private int stock;
     private CategorySummaryDto category;
     private String imageUrl;
+    private String publicId;
     private UserSummaryDto createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
