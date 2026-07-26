@@ -146,22 +146,6 @@ public class ProductService {
 
         return buildProductResponse(existingProduct);
     }
-
-    public List<ProductResponseDto> searchProduct(String search , int size , int page , String direction , String sortBy){
-        Sort sort = direction.equalsIgnoreCase("asc")
-                ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        Pageable pageable = PageRequest.of(page, size, sort);
-
-        Page<Product> productPage =
-                productRepository.findByNameContainingIgnoreCase(search, pageable);
-
-        return productPage
-                .map(this::buildProductResponse)
-                .getContent();
-    }
-
     public List<ProductResponseDto> productByFilter(String search , String category, BigDecimal minPrice , BigDecimal maxPrice, int size , int page , String direction , String sortBy){
         Specification<Product> specification = Specification.where((Specification<Product>) null);
         if(search != null && !search.isBlank()){
