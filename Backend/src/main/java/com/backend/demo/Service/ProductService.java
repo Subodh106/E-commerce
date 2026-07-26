@@ -12,6 +12,7 @@ import com.backend.demo.Exception.Custom.ResourceNotFoundException;
 import com.backend.demo.Repository.CategoryRepository;
 import com.backend.demo.Repository.ProductRepository;
 import com.backend.demo.Repository.UserRepository;
+import com.backend.demo.Specification.ProductSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -157,5 +160,27 @@ public class ProductService {
         return productPage
                 .map(this::buildProductResponse)
                 .getContent();
+    }
+
+    public List<ProductResponseDto> productByFilter(String search , String category, BigDecimal minPrice , BigDecimal maxPrice, int size , int page , String direction , String sortBy){
+        Specification<Product> specification = Specification.where((Specification<Product>) null);
+        if(search != null && !search.isBlank()){
+            specification = specification.and(ProductSpecification.hasName(search));
+        }
+        if (category != null && !category.isBlank()) {
+            specification = specification.and(ProductSpecification.hasCategory(category));
+        }
+
+        if (minPrice != null) {
+            specification = specification.and(ProductSpecification.hasMinPrice(minPrice));
+        }
+
+        if (maxPrice != null) {
+            specification = specification.and(ProductSpecification.hasMaxPrice(maxPrice));
+        }
+        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Product> productPage = productRepository.findAll(specification , pageable);
+        return productPage.map(this::buildProductResponse).getContent();
     }
 }
