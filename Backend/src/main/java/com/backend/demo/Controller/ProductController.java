@@ -59,4 +59,10 @@ public class ProductController {
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product updated successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<ProductResponseDto>>> searchProduct(@RequestParam String search , @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "asc") String direction , @RequestParam(defaultValue = "name") String sortBy){
+        List<ProductResponseDto> response = productService.searchProduct(search , size , page , direction , sortBy);
+        ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<>("Product retrieved successfully", response);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
+    }
 }
