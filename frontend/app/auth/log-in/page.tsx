@@ -14,22 +14,20 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 
 const LoginPage = () => {
-  const{register , handleSubmit , formState:{errors},reset} = useForm<logInUser>({
+  const{register , handleSubmit ,setError, formState:{errors},reset} = useForm<logInUser>({
       resolver : zodResolver(loginUserSchema),
       defaultValues:{
         email:"",
         password:""
       }
   });
-  
-  const[serverErrors , setServerErrors] = useState<string>("");
 
   const handleLoginUser : SubmitHandler<logInUser> = async(data)=>{
     try{
         console.log(data);
         reset();
     }catch(error:any){
-      setServerErrors(error.message || "Login failed")
+      setError("root",error.message || "Login failed")
     }
   }
 
@@ -73,6 +71,7 @@ const LoginPage = () => {
             <Field>
                   
             </Field>
+              {errors.root&&<FieldError>{errors.root.message}</FieldError>}
             </FieldGroup>
             <div className='flex justify-center'>
                   <Button className="w-fit cursor-pointer px-5" type='submit'>Log In</Button>
