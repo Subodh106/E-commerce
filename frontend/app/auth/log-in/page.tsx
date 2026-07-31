@@ -1,16 +1,15 @@
 "use client"
-import { loginUserSchema } from '@/app/Schema/LoginUserSchema'
-import { logInUser } from '@/app/Types/authTypes'
+import { loginUserSchema } from '@/Schema/LoginUserSchema'
+import { logInUser } from '@/Types/authTypes'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldContent, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
-
+import  * as z from "zod";
 
 
 const LoginPage = () => {
@@ -22,7 +21,7 @@ const LoginPage = () => {
       }
   });
 
-  const handleLoginUser : SubmitHandler<logInUser> = async(data)=>{
+  const handleLoginUser : SubmitHandler<z.infer<typeof loginUserSchema>> = async(data)=>{
     try{
         console.log(data);
         reset();
@@ -78,11 +77,12 @@ const LoginPage = () => {
                 </div>
           </form>
         </CardContent>
-        <CardContent className='flex  justify-center'>
+        <CardFooter className='flex  justify-center flex-col items-center gap-3'>
+          <CardDescription>Create an account?</CardDescription>
           <Link href="/auth/sign-up">
-            <Button type='submit' className="cursor-pointer">Create an Account?</Button>
+            <Button variant="outline" type='submit' className="cursor-pointer">Sign Up</Button>
           </Link>
-        </CardContent>
+        </CardFooter>
       </Card>
   )
 }
