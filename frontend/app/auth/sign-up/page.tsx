@@ -10,10 +10,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { error } from 'console'
+import axios from 'axios'
 
 
 const SignUpPage = () => {
-  const { handleSubmit, register ,setError , formState:{errors} } = useForm<z.infer<typeof SignUpUserSchema>>({
+  const { handleSubmit, register ,setError , formState:{errors} ,reset} = useForm<z.infer<typeof SignUpUserSchema>>({
     resolver: zodResolver(SignUpUserSchema),
     defaultValues:{
       email:"",
@@ -23,7 +24,14 @@ const SignUpPage = () => {
   })
 
   const handleSignUpUser:SubmitHandler<z.infer<typeof SignUpUserSchema>> = async(data)=>{
-      console.log(data);
+      try{
+      console.log(process.env.NEXT_PUBLIC_SPRING_API_URL)
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_SPRING_API_URL}/auth/user/register`,data);
+        console.log(res);
+        reset();
+    }catch(error:any){
+      setError("root",{ type:"server",message: error?.response?.data?.message || "Login failed"})
+    }
   }
   return (
     <Card >
@@ -75,7 +83,9 @@ const SignUpPage = () => {
               </FieldContent>
               {errors.password && <FieldError>{errors.password.message}</FieldError>}
             </Field>
-            {errors.root&&<FieldError>{errors.root.message}</FieldError>}
+            <Field className='text-center'>
+              {errors.root&&<FieldError>{errors.root.message}</FieldError>}
+            </Field>
           </FieldGroup>
           
           <div className='flex justify-center items-center '>

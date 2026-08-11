@@ -10,6 +10,8 @@ import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import  * as z from "zod";
+import axios from 'axios'
+import { toast } from 'sonner'
 
 
 const LoginPage = () => {
@@ -23,10 +25,14 @@ const LoginPage = () => {
 
   const handleLoginUser : SubmitHandler<z.infer<typeof loginUserSchema>> = async(data)=>{
     try{
-        console.log(data);
+      console.log(process.env.NEXT_PUBLIC_SPRING_API_URL)
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_SPRING_API_URL}/auth/user/login`,data);
+        if(res.status==200){
+          toast.success("Login successfully")
+        }
         reset();
     }catch(error:any){
-      setError("root",error.message || "Login failed")
+     setError("root", {type:"server",message:error?.response?.data?.message || "Login failed"})  
     }
   }
 
@@ -67,10 +73,10 @@ const LoginPage = () => {
                 {errors.password && <FieldError>{errors.password.message}</FieldError>}
               </FieldContent>
             </Field>
-            <Field>
-                  
+            <Field className='flex items-center justify-center text-center'>
+                  {errors.root&&<FieldError>{errors.root.message}</FieldError>}
             </Field>
-              {errors.root&&<FieldError>{errors.root.message}</FieldError>}
+              
             </FieldGroup>
             <div className='flex justify-center'>
                   <Button className="w-fit cursor-pointer px-5" type='submit'>Log In</Button>
