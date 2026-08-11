@@ -33,7 +33,6 @@ public class AuthController {
                 .path("/")
                 .httpOnly(true)
                 .build();
-        System.out.println(response.getUser());
         ApiResponse<UserResponseDto> registerUserResponse = new ApiResponse<UserResponseDto>("User Created Successfully",response.getUser());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
