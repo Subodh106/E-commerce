@@ -8,9 +8,12 @@ import { SignUpUserSchema } from '@/Schema/SignUpUserSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { error } from 'console'
 import axios from 'axios'
+import {
+  useForm,
+  type Resolver,
+  type SubmitHandler,
+  } from 'react-hook-form'
 
 
 const SignUpPage = () => {
@@ -104,3 +107,4 @@ const SignUpPage = () => {
 }
 
 export default SignUpPage
+
