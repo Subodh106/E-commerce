@@ -2,6 +2,7 @@ import { Input } from '@base-ui/react'
 import Link from 'next/link'
 import { Button } from '../ui/button'
 import {Search} from "lucide-react"
+import { ModeToggle } from './ModeToggle'
 
 const Navbar = () => {
   return (
@@ -14,6 +15,7 @@ const Navbar = () => {
         <div className='border border-black rounded-sm p-1 flex items-center justify-between' >
             <Input placeholder='Search'className="focus:none"/>
             <Search/>
+            <ModeToggle/>
         </div>
         <div className='flex justify-center items-center gap-3'>
             <Link href="/auth/log-in">
