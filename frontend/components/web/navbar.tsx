@@ -6,23 +6,23 @@ import { ModeToggle } from './ModeToggle'
 
 const Navbar = () => {
   return (
-    <nav className='flex items-center justify-between px-3 py-1'>
+    <nav className='flex items-center justify-between px-3 py-1 border'>
         <div>
-            <div>
+            <div className='text-2xl'>
                 E-Commerce
             </div>
         </div>
         <div className='border border-black rounded-sm p-1 flex items-center justify-between' >
-            <Input placeholder='Search'className="focus:none"/>
+            <Input placeholder='Search' className="outline-none"/>
             <Search/>
-            <ModeToggle/>
         </div>
         <div className='flex justify-center items-center gap-3'>
+            <ModeToggle/>
             <Link href="/auth/log-in">
-                <Button className="text-center cursor-pointer" variant="outline">lOG IN</Button>
+                <Button className="text-center cursor-pointer text-xl p-3" variant="outline">lOG IN</Button>
             </Link>
             <Link href="/auth/sign-up">
-                <Button className="text-center cursor-pointer">
+                <Button className="text-center cursor-pointer text-xl p-3">
                     SIGN UP 
                 </Button>
             </Link>
