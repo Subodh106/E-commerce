@@ -37,7 +37,7 @@ public class SecurityConfig {
                     .authorizeHttpRequests(auth-> auth.requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/auth/logout").authenticated()
                                 .requestMatchers("/api/v1/products/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET ,"/api/v1/products/**").authenticated()
+                                .requestMatchers(HttpMethod.GET ,"/api/v1/products/**").permitAll()
                         );
         httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
