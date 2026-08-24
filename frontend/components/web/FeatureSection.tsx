@@ -1,55 +1,64 @@
-import { Clock, Headphones, Lock, Truck } from "lucide-react"
+import {
+  Headphones,
+  RotateCcw,
+  ShieldCheck,
+  Truck,
+} from "lucide-react"
 
+const features = [
+  {
+    icon: Truck,
+    title: "Free Shipping",
+    description: "On orders over $50",
+  },
+  {
+    icon: RotateCcw,
+    title: "Easy Returns",
+    description: "30-day return policy",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure Payment",
+    description: "100% secure checkout",
+  },
+  {
+    icon: Headphones,
+    title: "24/7 Support",
+    description: "Dedicated support",
+  },
+]
 
-const FeatureSection = () => {
+export function FeaturesSection() {
   return (
-    <section  className="flex justify-between items-center gap-3 w-full bg-slate-100 p-4 rounded-lg">
-        <div className="flex justify-center items-center gap-2">
-            <Truck/>
-            <div className="flex justify-center items-center flex-col gap-1">
-                <span className="text-lg">
-                    Free Shipping
-                </span>
-                <span className="text-xs text-slate-700">
-                    On orders over $50
-                </span>
-            </div>
+    <section className="border-b bg-muted/30">
+      <div className="container mx-auto px-4 py-6 md:px-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          {features.map((feature) => {
+            const Icon = feature.icon
+
+            return (
+              <div
+                key={feature.title}
+                className="flex items-center gap-3"
+              >
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border bg-background">
+                  <Icon className="size-5 text-primary" />
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-semibold">
+                    {feature.title}
+                  </h3>
+
+                  <p className="text-xs text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
         </div>
-        <div className="flex justify-center items-center gap-2"> 
-            <Clock/>
-            <div className="flex justify-center items-center flex-col ">
-            <span className="text-lg">
-                Easy Returns
-            </span>
-            <span className="text-xs text-slate-700">
-                30-day return policy
-            </span>
-            </div>
-        </div>
-        <div className="flex justify-center items-center gap-2">
-            <Lock/>
-            <div className="flex justify-center flex-col items-center" >
-            <span className="text-lg">
-                Secure Payment
-            </span>
-            <span className="text-xs text-slate-700">
-                100% secure checkout
-            </span>
-            </div>
-        </div>
-        <div className="flex justify-center items-center gap-2">
-            <Headphones/>
-            <div className="flex justify-center items-center flex-col">
-            <span className="text-lg">
-                24/7 Support
-            </span>
-            <span className="text-xs text-slate-700">
-                Dedicated support
-            </span>
-            </div>
-        </div>
+      </div>
     </section>
   )
 }
-
-export default FeatureSection
