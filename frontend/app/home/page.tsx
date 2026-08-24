@@ -1,10 +1,10 @@
 "use client"
-import { CategorySection } from "@/components/web/CategorySection"
-import { FeaturedProductsSection } from "@/components/web/FeaturedProductsSection"
+import { CategorySection } from "@/components/web/category-section"
+import { FeaturedProductsSection } from "@/components/web/featured-products-section"
 
-import { FeaturesSection } from "@/components/web/FeatureSection"
-import { HeroSection } from "@/components/web/HeroSection"
-import { NewsletterSection } from "@/components/web/NewsLetterSection"
+import { FeaturesSection } from "@/components/web/feature-section"
+import { HeroSection } from "@/components/web/hero-section"
+import { NewsletterSection } from "@/components/web/news-letter-section"
 import { Separator } from "@base-ui/react"
 import axios from "axios"
 
