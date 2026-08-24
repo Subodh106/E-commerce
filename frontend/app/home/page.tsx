@@ -1,11 +1,10 @@
 "use client"
-import { Button } from "@/components/ui/button"
-import FeaturedProducts from "@/components/web/FeaturedProducts"
-import FeatureSection from "@/components/web/FeatureSection"
-import HeroSection from "@/components/web/HeroSection"
-import ProductByCategories from "@/components/web/ProductByCategories"
-import ProductCard from "@/components/web/ProductCard"
-import SpecialSection from "@/components/web/SpecialSection"
+import { CategorySection } from "@/components/web/CategorySection"
+import { FeaturedProductsSection } from "@/components/web/FeaturedProductsSection"
+
+import { FeaturesSection } from "@/components/web/FeatureSection"
+import { HeroSection } from "@/components/web/HeroSection"
+import { NewsletterSection } from "@/components/web/NewsLetterSection"
 import { Separator } from "@base-ui/react"
 import axios from "axios"
 
@@ -19,10 +18,10 @@ const page = () => {
     <div className="flex gap-3 flex-col ">
       <HeroSection/>
       <Separator/>
-      <FeatureSection/>
-      <ProductByCategories/>
-      <FeaturedProducts/>
-      <SpecialSection/>
+      <FeaturesSection/>
+      <CategorySection/>
+      <FeaturedProductsSection/>
+      <NewsletterSection/>
     </div>
   )
 }
