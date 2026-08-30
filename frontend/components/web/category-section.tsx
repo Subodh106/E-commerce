@@ -16,44 +16,23 @@ const categories = [
     name: "Electronics",
     slug: "electronics",
     productCount: 24,
-    image: "/images/categories/electronics.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
     icon: Headphones,
   },
   {
     name: "Clothing",
     slug: "clothing",
     productCount: 48,
-    image: "/images/categories/clothing.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
     icon: Shirt,
   },
   {
     name: "Shoes",
     slug: "shoes",
     productCount: 36,
-    image: "/images/categories/shoes.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
     icon: ShoppingBag,
-  },
-  {
-    name: "Bags",
-    slug: "bags",
-    productCount: 28,
-    image: "/images/categories/bags.jpg",
-    icon: ShoppingBag,
-  },
-  {
-    name: "Accessories",
-    slug: "accessories",
-    productCount: 32,
-    image: "/images/categories/accessories.jpg",
-    icon: Watch,
-  },
-  {
-    name: "Home & Living",
-    slug: "home-living",
-    productCount: 34,
-    image: "/images/categories/home-living.jpg",
-    icon: Armchair,
-  },
+  }
 ]
 
 export function CategorySection() {
