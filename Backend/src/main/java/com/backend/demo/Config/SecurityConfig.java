@@ -30,9 +30,9 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity , CorsConfigurationSource corsConfigurationSource){
         httpSecurity
-                    .cors(Customizer.withDefaults())
+                    .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource))
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth-> auth.requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/auth/logout").authenticated()
@@ -52,22 +52,5 @@ public class SecurityConfig {
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration){
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(
-                List.of("http://localhost:3000")
-        );
-        configuration.setAllowedMethods(
-                List.of("GET","POST","PUT","PATCH","DELETE")
-        );
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
-        return source;
     }
 }
