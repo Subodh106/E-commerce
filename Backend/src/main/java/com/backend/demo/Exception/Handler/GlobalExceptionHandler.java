@@ -1,9 +1,8 @@
 package com.backend.demo.Exception.Handler;
 
 import com.backend.demo.Dto.Exception.ExceptionResponseDto;
-import com.backend.demo.Exception.Custom.InvalidCredentialsException;
-import com.backend.demo.Exception.Custom.ResourceNotFoundException;
-import com.backend.demo.Exception.Custom.DuplicatedValueException;
+import com.backend.demo.Exception.Custom.*;
+import com.backend.demo.Exception.Custom.IllegalArgumentException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +58,41 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponseDto> handleGenericException(
             Exception ex, HttpServletRequest request) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", request.getRequestURI());
+    }
+
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<ExceptionResponseDto> handleExpiredException(
+            ExpiredTokenException ex , HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.UNAUTHORIZED , ex.getMessage() , request.getRequestURI());
+    }
+
+    @ExceptionHandler(MalformedTokenException.class)
+    public ResponseEntity<ExceptionResponseDto> handleExpiredException(
+            MalformedTokenException ex , HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.UNAUTHORIZED , ex.getMessage() , request.getRequestURI());
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<ExceptionResponseDto> handleExpiredException(
+            SignatureException ex , HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.UNAUTHORIZED , ex.getMessage() , request.getRequestURI());
+    }
+
+    @ExceptionHandler(UnsupportedJwtException.class)
+    public ResponseEntity<ExceptionResponseDto> handleExpiredException(
+           UnsupportedJwtException ex , HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.UNAUTHORIZED , ex.getMessage() , request.getRequestURI());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ExceptionResponseDto> handleExpiredException(
+           IllegalArgumentException ex , HttpServletRequest request
+    ){
+        return buildResponse(HttpStatus.UNAUTHORIZED , ex.getMessage() , request.getRequestURI());
     }
 
     private ResponseEntity<ExceptionResponseDto> buildResponse(
