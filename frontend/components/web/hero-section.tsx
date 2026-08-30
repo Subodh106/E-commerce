@@ -44,7 +44,7 @@ export function HeroSection() {
         <div className="relative mx-auto w-full max-w-2xl">
           <div className="relative aspect-square overflow-hidden rounded-2xl border bg-muted">
             <Image
-              src="/images/hero-product.jpg"
+              src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full"
               alt="Featured products"
               fill
               priority
