@@ -17,7 +17,7 @@ const products = [
     price: 99.99,
     rating: 4.8,
     reviews: 128,
-    image: "/images/products/headphones.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const products = [
     price: 149.99,
     rating: 4.6,
     reviews: 80,
-    image: "/images/products/smart-watch.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const products = [
     price: 79.99,
     rating: 4.7,
     reviews: 96,
-    image: "/images/products/backpack.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const products = [
     price: 89.99,
     rating: 4.5,
     reviews: 74,
-    image: "/images/products/sneakers.jpg",
+    image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
   },
 ]
 
