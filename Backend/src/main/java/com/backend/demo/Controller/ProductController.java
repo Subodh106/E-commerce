@@ -2,7 +2,7 @@ package com.backend.demo.Controller;
 import com.backend.demo.Common.ApiResponse;
 import com.backend.demo.Dto.Product.ProductRequestDto;
 import com.backend.demo.Dto.Product.ProductResponseDto;
-import com.backend.demo.Security.CustomUserDetails;
+import com.backend.demo.Security.CustomUserPrincipal;
 import com.backend.demo.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class ProductController {
     private  final ProductService productService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<ProductResponseDto>> createProduct(@Valid @ModelAttribute ProductRequestDto createProductDto, @AuthenticationPrincipal CustomUserDetails user ) throws IOException {
+    public ResponseEntity<ApiResponse<ProductResponseDto>> createProduct(@Valid @ModelAttribute ProductRequestDto createProductDto, @AuthenticationPrincipal CustomUserPrincipal user ) throws IOException {
         ProductResponseDto response = productService.create(createProductDto, user.getId());
 
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product Created Successfully", response);
@@ -49,13 +49,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> replaceProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserDetails user , @PathVariable Long productId) throws Exception {
+    public ResponseEntity<ApiResponse<ProductResponseDto>> replaceProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserPrincipal user , @PathVariable Long productId) throws Exception {
         ProductResponseDto response = productService.replaceProduct(productRequestDto,productId);
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product replaced successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> updateProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserDetails user , @PathVariable Long productId) throws Exception {
+    public ResponseEntity<ApiResponse<ProductResponseDto>> updateProduct(@RequestBody ProductRequestDto productRequestDto , @AuthenticationPrincipal CustomUserPrincipal user , @PathVariable Long productId) throws Exception {
         ProductResponseDto response = productService.updateProduct(productRequestDto,productId );
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product updated successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
