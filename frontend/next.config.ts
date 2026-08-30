@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
         {
           protocol:"https",
           hostname:"media.wired.com"
+        },{
+          protocol:"https",
+          hostname:"i.dell.com"
         }
       ]
   }
