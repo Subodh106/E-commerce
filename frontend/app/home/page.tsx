@@ -5,7 +5,7 @@ import { HeroSection } from "@/components/web/hero-section"
 import { NewsletterSection } from "@/components/web/news-letter-section"
 import { Separator } from "@base-ui/react"
 
-const  page = async() => {
+const  page = () => {
   return (
     <div className="flex gap-3 flex-col ">
       <HeroSection/>

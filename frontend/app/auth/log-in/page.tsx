@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import  * as z from "zod";
 import axios from 'axios'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 
 const LoginPage = () => {
@@ -23,6 +24,8 @@ const LoginPage = () => {
       }
   });
 
+  const router = useRouter();
+
   const handleLoginUser : SubmitHandler<z.infer<typeof loginUserSchema>> = async(data)=>{
     try{
       console.log(process.env.NEXT_PUBLIC_SPRING_API_URL)
@@ -31,6 +34,7 @@ const LoginPage = () => {
           toast.success("Login successfully")
         }
         reset();
+        router.push("/home")
     }catch(error:any){
      setError("root", {type:"server",message:error?.response?.data?.message || "Login failed"})  
     }
