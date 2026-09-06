@@ -1,8 +1,10 @@
+"use server"
 import { NextRequest, NextResponse } from "next/server";
 
 export function proxy(request : NextRequest){
     const {pathname} = request.nextUrl;
-    const isAuthed = request.cookies.get("AUTH_COOKIE")?.value==="1";
+    const isAuthed = request.cookies.get("token")?.value=="1";
+  
     if(pathname.startsWith("/home")){
         if(!isAuthed){
             console.log("not home")
@@ -23,5 +25,5 @@ export function proxy(request : NextRequest){
 }
 
 export const config={
-    matcher:["/home","/auth/log-in"]
+    matcher:["/home/:path","/auth/log-in/:path"]
 }
