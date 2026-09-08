@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -13,99 +13,11 @@ import BreadCrumb from "@/components/web/bread-crumb";
 import FilterContent from "@/components/web/filter-content";
 import ProductCard from "@/components/web/product-card";
 import DesktopSideBar from "@/components/web/desktop-sidebar";
+import axios from "axios";
+import { Button } from "@base-ui/react";
+import { ProductType } from "@/Types/HomeTypes";
+import { toast } from "sonner";
 
-const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: 99.99,
-    rating: 4.6,
-    reviews: 128,
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    category: "Electronics",
-    price: 149.99,
-    rating: 4.4,
-    reviews: 69,
-    image:
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 3,
-    name: "Minimal Backpack",
-    category: "Bags",
-    price: 79.99,
-    rating: 4.7,
-    reviews: 96,
-    image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 4,
-    name: "Denim Jacket",
-    category: "Clothing",
-    price: 58.99,
-    rating: 4.3,
-    reviews: 68,
-    image:
-      "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 5,
-    name: "Sunglasses",
-    category: "Accessories",
-    price: 29.99,
-    rating: 4.6,
-    reviews: 112,
-    image:
-      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 6,
-    name: "Table Lamp",
-    category: "Home & Living",
-    price: 34.99,
-    rating: 4.5,
-    reviews: 88,
-    image:
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 7,
-    name: "Cotton T-Shirt",
-    category: "Clothing",
-    price: 18.99,
-    rating: 4.2,
-    reviews: 56,
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 8,
-    name: "White Sneakers",
-    category: "Shoes",
-    price: 56.99,
-    rating: 4.5,
-    reviews: 74,
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: 9,
-    name: "Leather Wallet",
-    category: "Accessories",
-    price: 24.99,
-    rating: 4.3,
-    reviews: 45,
-    image:
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80",
-  },
-];
 
 const categories = [
   "All Categories",
@@ -122,7 +34,9 @@ export default function ShopPage() {
   const [sort, setSort] = useState("Newest");
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [mobileFilter, setMobileFilter] = useState(false);
+  const[serverErrors ,setServerErrors] = useState();
 
+  const[products , setProducts] = useState<ProductType[]>([]);
   const filteredProducts =
     selectedCategory === "All Categories"
       ? products
@@ -154,6 +68,22 @@ export default function ShopPage() {
     );
   };
 
+  useEffect(()=>{
+      getAllProducts();
+  },[setSelectedCategory,setSort])
+
+    const getAllProducts = async (): Promise<any> => {
+        try {
+          const res = await axios.get(`http://localhost:8080/api/v1/products`,{withCredentials:true});
+          if(res.status==200){
+          const result = res?.data?.data;
+          setProducts([...result])
+          }
+        } catch (error:any) {
+          setServerErrors(error?.response?.data);
+          toast.error(error);
+        }
+    };
   return (
     <main className="min-h-screen bg-white text-slate-900">
       {/* Breadcrumb */}
