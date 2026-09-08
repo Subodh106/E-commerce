@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,27 +29,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-
-        if(authHeader==null || !authHeader.startsWith("Bearer ")){
-            filterChain.doFilter(request,response);
+        System.out.println(request.getHeader("Authorization"));
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
             return;
         }
-        try{
+        try {
             String jwt = authHeader.substring(7);
-            Long userID = jwtService.extractClaims(jwt ,claims ->claims.get("userId",Long.class));
-            if(SecurityContextHolder.getContext().getAuthentication() == null
-            ){
-                if(jwtService.isTokenValid(jwt)){
+            Long userID = jwtService.extractClaims(jwt, claims -> claims.get("userId", Long.class));
+            if (SecurityContextHolder.getContext().getAuthentication() == null
+            ) {
+                if (jwtService.isTokenValid(jwt)) {
                     CustomUserPrincipal principal = new CustomUserPrincipal(userID);
-                    Authentication auth = new UsernamePasswordAuthenticationToken(principal,null, List.of());
+                    Authentication auth = new UsernamePasswordAuthenticationToken(principal, null, List.of());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
 
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             SecurityContextHolder.clearContext();
             try {
                 throw new Exception(ex.getMessage());
@@ -57,7 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
 
