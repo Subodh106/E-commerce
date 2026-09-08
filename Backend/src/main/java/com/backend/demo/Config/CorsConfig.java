@@ -22,7 +22,7 @@ public class CorsConfig{
                 .toList();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(origin);
-        configuration.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE1"));
+        configuration.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE"));
         configuration.setMaxAge(3600L);
         configuration.setAllowedHeaders(List.of("*"));
 
