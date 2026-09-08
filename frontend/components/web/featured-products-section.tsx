@@ -8,7 +8,7 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import ProductCard from "./product-card"
+import FeaturedProductCard from "./featured-product-card"
 
 const products = [
   {
@@ -76,7 +76,7 @@ export function FeaturedProductsSection() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => {
               return (
-                <ProductCard key={product.id} id={product.id} name={product.name} rating={product.rating} price={product.rating} reviews={product.reviews} image={product.image} />
+                <FeaturedProductCard key={product.id} id={product.id} name={product.name} rating={product.rating} price={product.rating} reviews={product.reviews} image={product.image} />
               )
           })
 }

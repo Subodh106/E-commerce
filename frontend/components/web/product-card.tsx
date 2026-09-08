@@ -1,84 +1,67 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { Button } from '../ui/button'
-import { Heart } from 'lucide-react'
-import { Star , ShoppingCart, } from 'lucide-react'
-import React from 'react'
-import { ProductType } from '@/Types/HomeTypes'
+import { ProductType } from "@/Types/HomeTypes";
+import { Heart, Star } from "lucide-react";
 
-
-
-
-const ProductCard = ({id , name , image ,rating ,price , reviews}:ProductType) => {
+export default function ProductCard({
+  product,
+  liked,
+  onWishlist,
+}: {
+  product: ProductType;
+  liked: boolean;
+  onWishlist: () => void;
+}) {
   return (
-    <article className="group overflow-hidden rounded-xl border bg-card"
-            >
-              {/* Product Image */}
-              <div className="relative aspect-square overflow-hidden bg-muted">
-                <Link href={`/products/${id}`}>
-                  <Image
-                    src={image}
-                    alt={name}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                  />
-                </Link>
+    <article className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-lg">
+      {/* Image */}
+      <div className="relative aspect-square overflow-hidden bg-slate-100">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        />
 
-                {/* Wishlist */}
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="absolute right-3 top-3 size-8 rounded-full"
-                >
-                  <Heart className="size-4" />
-                  <span className="sr-only">
-                    Add {name} to wishlist
-                  </span>
-                </Button>
-              </div>
+        <button
+          onClick={onWishlist}
+          className="absolute right-3 top-3 rounded-full bg-white p-2 shadow-sm transition hover:scale-105"
+        >
+          <Heart
+            size={17}
+            className={
+              liked
+                ? "fill-red-500 text-red-500"
+                : "text-slate-700"
+            }
+          />
+        </button>
+      </div>
 
-              {/* Product Information */}
-              <div className="space-y-3 p-4">
-                <Link href={`/products/${id}`}>
-                  <h3 className="line-clamp-1 font-semibold transition-colors hover:text-primary">
-                    {name}
-                  </h3>
-                </Link>
+      {/* Info */}
+      <div className="p-4">
+        <p className="mb-1 text-xs text-slate-500">
+          {product.category}
+        </p>
 
-                {/* Rating */}
-                <div className="flex items-center gap-1 text-xs">
-                  <Star className="size-3 fill-yellow-400 text-yellow-400" />
+        <h3 className="truncate text-sm font-semibold">
+          {product.name}
+        </h3>
 
-                  <span className="font-medium">
-                    {rating}
-                  </span>
+        <div className="mt-2 flex items-center justify-between">
+          <span className="font-semibold">
+            ${product.price.toFixed(2)}
+          </span>
 
-                  <span className="text-muted-foreground">
-                    ({reviews})
-                  </span>
-                </div>
-
-                {/* Price and Cart */}
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-bold sm:text-base">
-                    ${price.toFixed(2)}
-                  </span>
-
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="size-8"
-                  >
-                    <ShoppingCart className="size-4" />
-                    <span className="sr-only">
-                      Add {name} to cart
-                    </span>
-                  </Button>
-                </div>
-              </div>
-            </article>
-          )
-        }
-
-export default ProductCard
+          <div className="flex items-center gap-1 text-xs">
+            <Star
+              size={13}
+              className="fill-yellow-400 text-yellow-400"
+            />
+            <span>{product.rating}</span>
+            <span className="text-slate-400">
+              ({product.reviews})
+            </span>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
