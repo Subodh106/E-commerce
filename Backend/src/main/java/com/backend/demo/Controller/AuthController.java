@@ -3,16 +3,14 @@ import com.backend.demo.Common.ApiResponse;
 import com.backend.demo.Dto.Auth.*;
 import com.backend.demo.Dto.User.UserResponseDto;
 import com.backend.demo.Service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 
@@ -26,13 +24,14 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@Valid @RequestBody RegisterUserDto registerUserDto) {
         AuthResponseDto response = authService.registerUser(registerUserDto);
         String token = response.getToken();
-        ResponseCookie cookie = ResponseCookie.from("jwt", token)
+        ResponseCookie cookie = ResponseCookie.from("token", token)
                 .secure(true)
                 .sameSite("Strict")
                 .maxAge(Duration.ofDays(1))
                 .path("/")
                 .httpOnly(true)
                 .build();
+
         ApiResponse<UserResponseDto> registerUserResponse = new ApiResponse<UserResponseDto>("User Created Successfully",response.getUser());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
@@ -42,16 +41,22 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserResponseDto>> login(@Valid @RequestBody LoginUserDto loginUserDto){
         AuthResponseDto response = authService.loginUser(loginUserDto);
         String token = response.getToken();
-        ResponseCookie cookie = ResponseCookie.from("jwt",token)
+        ResponseCookie cookie = ResponseCookie.from("token",token)
                 .secure(true)
                 .sameSite("Strict")
                 .maxAge(Duration.ofDays(1))
                 .path("/")
                 .httpOnly(true)
                 .build();
+        System.out.println(cookie);
        ApiResponse<UserResponseDto> loginUserResponse = new ApiResponse<UserResponseDto>("User Login Successfully", response.getUser());
         return  ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE,cookie.toString())
                 .body(loginUserResponse);
+    }
+    @GetMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logoutUser(HttpServletRequest response){
+        ApiResponse<Void> logoutUserResponse = new ApiResponse<>("User logout successfully",null);
+        return ResponseEntity.status(200).body(logoutUserResponse);
     }
 }
