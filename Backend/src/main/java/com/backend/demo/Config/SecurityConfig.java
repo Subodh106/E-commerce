@@ -36,8 +36,8 @@ public class SecurityConfig {
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth-> auth.requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/auth/logout").authenticated()
-                                .requestMatchers("/api/v1/products/**").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET ,"/api/v1/products/**").permitAll()
+                                .requestMatchers("/api/v1/products/**").permitAll()
+                                .requestMatchers(HttpMethod.GET ,"/api/v1/products/").permitAll()
                         );
         httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
