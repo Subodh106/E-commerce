@@ -28,14 +28,16 @@ const LoginPage = () => {
 
   const handleLoginUser : SubmitHandler<z.infer<typeof loginUserSchema>> = async(data)=>{
     try{
-      console.log(process.env.NEXT_PUBLIC_SPRING_API_URL)
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_SPRING_API_URL}/auth/user/login`,data);
+      console.log('what')
+      console.log(process.env.NEXT_PUBLIC_SPRING_API_URL || "http://localhost:8080")
+        const res = await axios.post(`http://localhost:8080/api/v1/auth/user/login`,data ,{withCredentials:true});
         if(res.status==200){
           toast.success("Login successfully")
         }
         reset();
         router.push("/home")
     }catch(error:any){
+      console.log(error?.response?.data);
      setError("root", {type:"server",message:error?.response?.data?.message || "Login failed"})  
     }
   }
