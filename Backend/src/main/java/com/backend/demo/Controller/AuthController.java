@@ -32,7 +32,8 @@ public class AuthController {
                 .httpOnly(true)
                 .build();
 
-        ApiResponse<UserResponseDto> registerUserResponse = new ApiResponse<UserResponseDto>("User Created Successfully",response.getUser());
+        ApiResponse<UserResponseDto> registerUserResponse = new ApiResponse<>("User Created Successfully",response.getUser());
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(registerUserResponse);
@@ -42,14 +43,14 @@ public class AuthController {
         AuthResponseDto response = authService.loginUser(loginUserDto);
         String token = response.getToken();
         ResponseCookie cookie = ResponseCookie.from("token",token)
-                .secure(true)
+                .secure(false)
                 .sameSite("Strict")
                 .maxAge(Duration.ofDays(1))
                 .path("/")
                 .httpOnly(true)
                 .build();
         System.out.println(cookie);
-       ApiResponse<UserResponseDto> loginUserResponse = new ApiResponse<UserResponseDto>("User Login Successfully", response.getUser());
+       ApiResponse<UserResponseDto> loginUserResponse = new ApiResponse<>("User Login Successfully", response.getUser());
         return  ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE,cookie.toString())
                 .body(loginUserResponse);
