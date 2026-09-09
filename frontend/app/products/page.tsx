@@ -71,7 +71,7 @@ export default function ShopPage() {
 
   useEffect(()=>{
       getAllProducts();
-  },[page])
+  },[setSelectedCategory,setSort])
 
     const getAllProducts = async (): Promise<void> => {
       
@@ -87,9 +87,7 @@ export default function ShopPage() {
           toast.error(error?.response?.data);
         }
     };
-
-    
-  return (
+ return (
     <main className="min-h-screen bg-white text-slate-900">
       {/* Breadcrumb */}
         <BreadCrumb/>
