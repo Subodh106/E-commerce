@@ -14,9 +14,11 @@ import FilterContent from "@/components/web/filter-content";
 import ProductCard from "@/components/web/product-card";
 import DesktopSideBar from "@/components/web/desktop-sidebar";
 import axios from "axios";
-import { Button } from "@base-ui/react";
 import { ProductType } from "@/Types/HomeTypes";
+
 import { toast } from "sonner";
+import Pagination from "@/components/web/pagination";
+import SearchItem from "@/components/web/search";
 
 
 const categories = [
@@ -35,7 +37,7 @@ export default function ShopPage() {
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [mobileFilter, setMobileFilter] = useState(false);
   const[serverErrors ,setServerErrors] = useState();
-  const[page,setPage] = useState<number>(5);
+  const[page,setPage] = useState<number>(0);
 
   const[products , setProducts] = useState<ProductType[]>([]);
   const filteredProducts =
@@ -71,12 +73,12 @@ export default function ShopPage() {
 
   useEffect(()=>{
       getAllProducts();
-  },[setSelectedCategory,setSort])
+  },[page])
 
     const getAllProducts = async (): Promise<void> => {
       
         try {
-          const res = await axios.get(`http://localhost:8080/api/v1/products?size=20&page=${page}&direction=desc&sortBy=price`,{withCredentials:true});
+          const res = await axios.get(`http://localhost:8080/api/v1/products?size=9&page=${page}&direction=asc&sortBy=price`,{withCredentials:true});
           if(res.status==200){
           const result = res?.data?.data;
           setProducts([...result]);
@@ -163,18 +165,7 @@ export default function ShopPage() {
           </div>
 
           {/* Search */}
-          <div className="relative mb-6">
-            <Search
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-            />
-
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full rounded-lg border border-slate-200 py-3 pl-10 pr-4 text-sm outline-none focus:border-slate-900"
-            />
-          </div>
+            <SearchItem/>
 
           {/* Products */}
           {sortedProducts.length > 0 ? (
@@ -200,35 +191,7 @@ export default function ShopPage() {
           )}
 
           {/* Pagination */}
-          <div className="mt-10 flex justify-center">
-            <div className="flex items-center gap-2">
-              <button className="rounded-lg border border-slate-200 p-2 hover:bg-slate-50">
-                <ChevronLeft size={16} />
-              </button>
-
-              <button className="rounded-lg bg-slate-950 px-4 py-2 text-sm text-white">
-                1
-              </button>
-
-              <button className="rounded-lg border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50">
-                2
-              </button>
-
-              <button className="rounded-lg border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50">
-                3
-              </button>
-
-              <span className="px-2 text-slate-400">...</span>
-
-              <button className="rounded-lg border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50">
-                10
-              </button>
-
-              <button className="rounded-lg border border-slate-200 p-2 hover:bg-slate-50">
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
+            <Pagination page={page} setPage={setPage}/>
         </section>
       </div>
     </main>
