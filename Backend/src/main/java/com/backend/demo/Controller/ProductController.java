@@ -32,8 +32,6 @@ public class ProductController {
     }
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponseDto>>> getAllProducts(@RequestParam(defaultValue = "10")int size ,@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "asc") String direction , @RequestParam(defaultValue = "productName") String sortBy) {
-        System.out.println("page");
-        System.out.print(direction);
         List<ProductResponseDto> response = productService.getAllProducts(size, page, direction, sortBy);
         ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<>("All products retrieved successfully", response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
