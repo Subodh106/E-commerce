@@ -35,6 +35,7 @@ export default function ShopPage() {
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [mobileFilter, setMobileFilter] = useState(false);
   const[serverErrors ,setServerErrors] = useState();
+  const[page,setPage] = useState<number>(5);
 
   const[products , setProducts] = useState<ProductType[]>([]);
   const filteredProducts =
@@ -70,20 +71,24 @@ export default function ShopPage() {
 
   useEffect(()=>{
       getAllProducts();
-  },[setSelectedCategory,setSort])
+  },[page])
 
-    const getAllProducts = async (): Promise<any> => {
+    const getAllProducts = async (): Promise<void> => {
+      
         try {
-          const res = await axios.get(`http://localhost:8080/api/v1/products`,{withCredentials:true});
+          const res = await axios.get(`http://localhost:8080/api/v1/products?size=20&page=${page}&direction=desc&sortBy=price`,{withCredentials:true});
           if(res.status==200){
           const result = res?.data?.data;
-          setProducts([...result])
+          setProducts([...result]);
+          console.log(res);
           }
         } catch (error:any) {
           setServerErrors(error?.response?.data);
-          toast.error(error);
+          toast.error(error?.response?.data);
         }
     };
+
+    
   return (
     <main className="min-h-screen bg-white text-slate-900">
       {/* Breadcrumb */}
