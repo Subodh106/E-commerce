@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import React from 'react'
+
 
 const Pagination = ({page ,setPage}:{page:number , setPage:(page:number)=>void}) => {
 
