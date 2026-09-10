@@ -61,13 +61,6 @@ public class ProductService {
         }
     }
 
-    public List<ProductResponseDto> getAllProducts(int size , int page , String direction , String sortBy){
-        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
-        Pageable pageable = PageRequest.of(page,size,sort);
-        Page<Product> productPage = productRepository.findAll(pageable);
-      return productPage.map(this::buildProductResponse).getContent();
-    }
-
     public ProductResponseDto getProductById(Long id){
         Product savedProduct = productRepository.findById(id)
                 .orElseThrow(()-> new  EntityNotFoundException("Product not found"));
@@ -147,7 +140,7 @@ public class ProductService {
         return buildProductResponse(existingProduct);
     }
     public List<ProductResponseDto> productByFilter(String search , String category, BigDecimal minPrice , BigDecimal maxPrice, int size , int page , String direction , String sortBy){
-        Specification<Product> specification = Specification.where((Specification<Product>) null);
+        Specification<Product> specification = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
         if(search != null && !search.isBlank()){
             specification = specification.and(ProductSpecification.hasName(search));
         }
@@ -162,7 +155,8 @@ public class ProductService {
         if (maxPrice != null) {
             specification = specification.and(ProductSpecification.hasMaxPrice(maxPrice));
         }
-        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        String sortProperty = (sortBy!=null && !sortBy.isBlank()?sortBy:"id");
+        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortProperty).ascending():Sort.by(sortProperty).descending();
         Pageable pageable = PageRequest.of(page,size,sort);
         Page<Product> productPage = productRepository.findAll(specification , pageable);
         return productPage.map(this::buildProductResponse).getContent();
