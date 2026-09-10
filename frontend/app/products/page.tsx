@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import {
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Search,
   SlidersHorizontal,
   X,
 } from "lucide-react";
@@ -38,16 +35,10 @@ export default function ShopPage() {
   const [mobileFilter, setMobileFilter] = useState(false);
   const[serverErrors ,setServerErrors] = useState();
   const[page,setPage] = useState<number>(0);
-
   const[products , setProducts] = useState<ProductType[]>([]);
-  const filteredProducts =
-    selectedCategory === "All Categories"
-      ? products
-      : products.filter(
-          (product) => product.category === selectedCategory
-        );
+  const[search ,setSearch] = useState<string>("");
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  const sortedProducts = [...products].sort((a, b) => {
     if (sort === "Price: Low to High") {
       return a.price - b.price;
     }
@@ -73,12 +64,13 @@ export default function ShopPage() {
 
   useEffect(()=>{
       getAllProducts();
-  },[page])
+      console.log(search)
+  },[page,selectedCategory,search])
 
     const getAllProducts = async (): Promise<void> => {
       
         try {
-          const res = await axios.get(`http://localhost:8080/api/v1/products?size=9&page=${page}&direction=asc&sortBy=price`,{withCredentials:true});
+          const res = await axios.get(`http://localhost:8080/api/v1/products?search=${search}&category=${selectedCategory}&size=9&page=${page}&direction=asc&sortBy=price`,{withCredentials:true});
           if(res.status==200){
           const result = res?.data?.data;
           setProducts([...result]);
@@ -165,7 +157,7 @@ export default function ShopPage() {
           </div>
 
           {/* Search */}
-            <SearchItem/>
+            <SearchItem search={search} setSearch={setSearch}/>
 
           {/* Products */}
           {sortedProducts.length > 0 ? (
