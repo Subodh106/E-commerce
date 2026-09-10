@@ -31,9 +31,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponseDto>>> getAllProducts(@RequestParam(defaultValue = "10")int size ,@RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "asc") String direction , @RequestParam(defaultValue = "productName") String sortBy) {
-        List<ProductResponseDto> response = productService.getAllProducts(size, page, direction, sortBy);
-        ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<>("All products retrieved successfully", response);
+    public ResponseEntity<ApiResponse<List<ProductResponseDto>>> productByFilter(@RequestParam(required = false) String search, @RequestParam(required = false) String category, @RequestParam(required = false)BigDecimal minPrice , @RequestParam(required = false) BigDecimal maxPrice ,@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "asc") String direction , @RequestParam(defaultValue = "price") String sortBy) {
+
+        List<ProductResponseDto> response = productService.productByFilter(search, category, minPrice, maxPrice, size, page, direction, sortBy);
+        ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<>("Product retrieved successfully", response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @GetMapping("/{id}")
@@ -60,11 +61,5 @@ public class ProductController {
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product updated successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
-    @GetMapping("/filter")
-    public ResponseEntity<ApiResponse<List<ProductResponseDto>>> productByFilter(@RequestParam(required = false) String search, @RequestParam(required = false) String category, @RequestParam(required = false)BigDecimal minPrice , @RequestParam(required = false) BigDecimal maxPrice ,@RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "0") int page , @RequestParam(defaultValue = "asc") String direction , @RequestParam(defaultValue = "price") String sortBy) {
 
-        List<ProductResponseDto> response = productService.productByFilter(search, category, minPrice, maxPrice, size, page, direction, sortBy);
-        ApiResponse<List<ProductResponseDto>> productResponse = new ApiResponse<>("Product retrieved successfully", response);
-        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
-    }
 }
