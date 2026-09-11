@@ -49,7 +49,6 @@ public class AuthController {
                 .path("/")
                 .httpOnly(true)
                 .build();
-        System.out.println(cookie);
        ApiResponse<UserResponseDto> loginUserResponse = new ApiResponse<>("User Login Successfully", response.getUser());
         return  ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE,cookie.toString())
