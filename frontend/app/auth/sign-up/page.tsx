@@ -11,7 +11,6 @@ import Link from 'next/link'
 import axios from 'axios'
 import {
   useForm,
-  type Resolver,
   type SubmitHandler,
   } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
@@ -30,8 +29,7 @@ const SignUpPage = () => {
 
   const handleSignUpUser:SubmitHandler<z.infer<typeof SignUpUserSchema>> = async(data)=>{
       try{
-      console.log(process.env.NEXT_PUBLIC_SPRING_API_URL)
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_SPRING_API_URL}/auth/user/register`,data);
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/auth/user/register`,data);
         console.log(res);
         reset();
         router.push("/home")
