@@ -1,11 +1,9 @@
 "use server"
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import { isatty } from "tty";
-
 export function proxy(request : NextRequest){
     const {pathname} = request.nextUrl;
     const isAuthed = request.cookies.get("token")?.value=="1";
+    console.log(isAuthed);
     console.log(request.cookies.get("token"))
   
     if(pathname.startsWith("/home") && !isAuthed){
@@ -25,7 +23,7 @@ export function proxy(request : NextRequest){
             productsUrl.searchParams.set("next",pathname);
             return NextResponse.redirect(productsUrl);
     }
-    if(pathname==="/auth/log-in" && !isAuthed){
+    if(pathname==="/auth/log-in" && isAuthed){
         console.log("home")
         const home = request.nextUrl.clone();
         home.pathname = "/home";
@@ -36,5 +34,5 @@ export function proxy(request : NextRequest){
 }
 
 export const config={
-    matcher:["/home/:path","/auth/log-in"]
+    matcher:["/home/:path","/auth/log-in/:path"]
 }
