@@ -1,8 +1,6 @@
 package com.backend.demo.Security;
 
 import com.backend.demo.Entities.Role;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
