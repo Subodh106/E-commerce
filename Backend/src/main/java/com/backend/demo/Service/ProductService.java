@@ -140,23 +140,12 @@ public class ProductService {
         return buildProductResponse(existingProduct);
     }
     public List<ProductResponseDto> productByFilter(String search , String category, BigDecimal minPrice , BigDecimal maxPrice, int size , int page , String direction , String sortBy){
-        Specification<Product> specification = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
-        if(search != null && !search.isBlank()){
-            specification = specification.and(ProductSpecification.hasName(search));
-        }
-        if (category != null && !category.isBlank()) {
-            specification = specification.and(ProductSpecification.hasCategory(category));
-        }
-
-        if (minPrice != null) {
-            specification = specification.and(ProductSpecification.hasMinPrice(minPrice));
-        }
-
-        if (maxPrice != null) {
-            specification = specification.and(ProductSpecification.hasMaxPrice(maxPrice));
-        }
+        Specification<Product> specification = Specification.where(ProductSpecification.hasName(search))
+                .and(ProductSpecification.hasCategory(category))
+                .and(ProductSpecification.hasMinPrice(minPrice))
+                .and(ProductSpecification.hasMinPrice(maxPrice));
         String sortProperty = (sortBy!=null && !sortBy.isBlank()?sortBy:"id");
-        Sort sort = direction.equalsIgnoreCase("asc")?Sort.by(sortProperty).ascending():Sort.by(sortProperty).descending();
+        Sort sort = direction.isBlank()&& direction.equalsIgnoreCase("asc")?Sort.by(sortProperty).ascending():Sort.by(sortProperty).descending();
         Pageable pageable = PageRequest.of(page,size,sort);
         Page<Product> productPage = productRepository.findAll(specification , pageable);
         return productPage.map(this::buildProductResponse).getContent();
