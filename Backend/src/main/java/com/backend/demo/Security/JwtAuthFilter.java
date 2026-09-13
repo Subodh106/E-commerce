@@ -1,5 +1,6 @@
 package com.backend.demo.Security;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -32,37 +33,42 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        Cookie[] cookies = request.getCookies();
+
+        final Cookie[] cookies = request.getCookies();
 
         String jwts = null;
 
-        System.out.println(Arrays.toString(cookies));
+        if (cookies==null || cookies.length==0) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
 
         for(Cookie cookie : cookies){
             if("token".equals(cookie.getName())) {
                 jwts = cookie.getValue();
-                System.out.println(jwts);
                 break;
             }
         }
-        if (jwts == null) {
-            filterChain.doFilter(request, response);
+        if(jwts == null){
+            filterChain.doFilter(request,response);
             return;
         }
         try {
-            Long userID = jwtService.extractClaims(jwts, claims -> claims.get("userId", Long.class));
-            if (userID != null && SecurityContextHolder.getContext().getAuthentication() == null
+            Claims claims = jwtService.extractAllClaims(jwts);
+            Long userID = Long.valueOf(claims.getSubject());
+            if (SecurityContextHolder.getContext().getAuthentication() == null
             ) {
+                if (jwtService.isTokenValid(jwts)) {
                     CustomUserPrincipal principal = new CustomUserPrincipal(userID);
                     Authentication auth = new UsernamePasswordAuthenticationToken(principal, null, List.of());
                     SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
-
 
         } catch (Exception ex) {
             SecurityContextHolder.clearContext();
-            throw new RuntimeException(STR."Jwt Authentication failed: \{ex.getMessage()}",ex);
+           response.sendError(HttpServletResponse.SC_UNAUTHORIZED, STR."jwt authorization failed: \{ex.getMessage()}");
         }
 
         filterChain.doFilter(request, response);
