@@ -30,8 +30,8 @@ public class SecurityConfig {
                     .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource))
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth-> auth.requestMatchers("/api/v1/auth/**").permitAll()
-                            .requestMatchers("/api/v1/auth/logout").permitAll()
-                            .requestMatchers(HttpMethod.GET ,"/api/v1/products","/api/v1/products/**").permitAll()
+                            .requestMatchers("/api/v1/auth/logout").authenticated()
+                            .requestMatchers(HttpMethod.GET ,"/api/v1/products","/api/v1/products/**").authenticated()
                             .anyRequest().authenticated()
                         );
         httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
