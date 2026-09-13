@@ -10,5 +10,5 @@ export default function homeLayout  ({children}:{children:React.ReactNode}){
         {children}
         <Footer/>
         </>
-    )
+    ) 
 }
