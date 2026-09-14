@@ -15,8 +15,7 @@ export function proxy(request : NextRequest){
       
     }
     if(pathname ==="/products" && !isAuthed){
-      
-            console.log(request.cookies.get("token"));
+    
             console.log("products");
             const productsUrl = request.nextUrl.clone();
             productsUrl.pathname = "/auth/log-in";
