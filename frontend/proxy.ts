@@ -6,17 +6,13 @@ export function proxy(request : NextRequest){
     console.log(isAuthed);
     console.log(request.cookies.get("token"))
   
-    if(pathname.startsWith("/home") && !isAuthed){
-            console.log("not home")
+    if(pathname==="/home" && !isAuthed){
             const loginUrl = request.nextUrl.clone();
             loginUrl.pathname="/auth/log-in";
             loginUrl.searchParams.set("next" ,pathname);
             return NextResponse.redirect(loginUrl);
-      
     }
     if(pathname ==="/products" && !isAuthed){
-    
-            console.log("products");
             const productsUrl = request.nextUrl.clone();
             productsUrl.pathname = "/auth/log-in";
             productsUrl.searchParams.set("next",pathname);
@@ -33,5 +29,5 @@ export function proxy(request : NextRequest){
 }
 
 export const config={
-    matcher:["/home/:path","/auth/log-in/:path"]
+    matcher:["/home/:path","/auth/log-in/:path","/products/:path"]
 }
