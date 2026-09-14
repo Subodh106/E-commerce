@@ -23,7 +23,7 @@ import {
 import { ModeToggle } from "./mode-toggle"
 
 const navItems = [
-  { name: "Home", href: "/" },
+  { name: "Home", href: "/home" },
   { name: "Shop", href: "/products" },
   { name: "Categories", href: "/categories" },
   { name: "About", href: "/about" },
@@ -45,7 +45,7 @@ export function Navbar() {
           <SheetContent side="left" className="w-72">
             <div className="flex h-full flex-col">
               <Link
-                href="/"
+                href="/home"
                 className="flex items-center gap-2 text-xl font-bold"
               >
                 <ShoppingBag className="size-5" />
