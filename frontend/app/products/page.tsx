@@ -6,16 +6,16 @@ import {
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import BreadCrumb from "@/components/web/bread-crumb";
-import FilterContent from "@/components/web/filter-content";
-import ProductCard from "@/components/web/product-card";
-import DesktopSideBar from "@/components/web/desktop-sidebar";
+import BreadCrumb from "@/components/web/product-components/bread-crumb";
+import ProductCard from "@/components/web/product-components/product-card";
+import DesktopSideBar from "@/components/web/product-components/desktop-sidebar";
 import axios from "axios";
 import { ProductType } from "@/Types/HomeTypes";
 
 import { toast } from "sonner";
-import Pagination from "@/components/web/pagination";
-import SearchItem from "@/components/web/search";
+import Pagination from "@/components/web/product-components/pagination";
+import SearchItem from "@/components/web/product-components/search";
+import FilterContent from "@/components/web/product-components/filter-content";
 
 
 const categories = [
