@@ -37,7 +37,7 @@ export default function ShopPage() {
   const[page,setPage] = useState<number>(0);
   const[products , setProducts] = useState<ProductType[]>([]);
   const[search ,setSearch] = useState<string>("");
-
+  const[price , setPrice] = useState<number>(500);
   const sortedProducts = [...products].sort((a, b) => {
     if (sort === "Price: Low to High") {
       return a.price - b.price;
@@ -65,12 +65,12 @@ export default function ShopPage() {
   useEffect(()=>{
       getAllProducts();
       console.log(search)
-  },[page,selectedCategory,search])
+  },[page,selectedCategory,search,price])
 
     const getAllProducts = async (): Promise<void> => {
       
         try {
-          const res = await axios.get(`http://localhost:8080/api/v1/products?search=${search}&category=${selectedCategory}&size=9&page=${page}&direction=asc&sortBy=price`,{withCredentials:true});
+          const res = await axios.get(`http://localhost:8080/api/v1/products?search=${search}&category=${selectedCategory}&minPrice=10&maxPrice=${price}&size=9&page=${page}&direction=asc&sortBy=price`,{withCredentials:true});
           if(res.status==200){
           const result = res?.data?.data;
           setProducts([...result]);
@@ -90,7 +90,10 @@ export default function ShopPage() {
         {/* Desktop Sidebar */}
         <DesktopSideBar categories = {categories}
                 selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory} />
+                setSelectedCategory={setSelectedCategory}
+                price = {price}
+                setPrice = {setPrice}
+                />
 
         {/* Mobile Filter */}
         {mobileFilter && (
@@ -111,6 +114,8 @@ export default function ShopPage() {
                 categories = {categories}
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
+                price = {price}
+                setPrice ={setPrice}
               />
             </div>
           </div>
@@ -123,7 +128,7 @@ export default function ShopPage() {
             <div>
               <h1 className="text-2xl font-bold">All Products</h1>
               <p className="mt-1 text-sm text-slate-500">
-                Showing 1–{sortedProducts.length} of 120 products
+                Showing 1-{sortedProducts.length} of 120 products
               </p>
             </div>
 
