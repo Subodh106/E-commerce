@@ -1,13 +1,19 @@
 import { Star, Heart } from "lucide-react";
+import PriceRange from "./price-range";
 
 export default function FilterContent({
   categories,
   selectedCategory,
   setSelectedCategory,
+  price , 
+  setPrice
 }: {
-  categories :string[] ,
+  categories :string[] ;
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
+  price : number;
+  setPrice :(price : number)=>void;
+
 }) {
 
   return (
@@ -44,22 +50,7 @@ export default function FilterContent({
       <div className="my-7 border-t border-slate-200" />
 
       {/* Price */}
-      <h2 className="mb-5 font-semibold">Price Range</h2>
-
-      <div className="flex items-center justify-between text-xs text-slate-500">
-        <span>$0</span>
-        <span>$500</span>
-      </div>
-
-      <input
-        type="range"
-        min="0"
-        max="500"
-        defaultValue="500"
-        className="mt-3 w-full accent-slate-900"
-      />
-
-      <div className="my-7 border-t border-slate-200" />
+          <PriceRange price={price} setPrice = {setPrice} />
 
       {/* Rating */}
       <h2 className="mb-5 font-semibold">Rating</h2>
