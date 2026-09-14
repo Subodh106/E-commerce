@@ -5,10 +5,14 @@ const DesktopSideBar = ({
   categories,
   selectedCategory,
   setSelectedCategory,
+  price ,
+  setPrice
 }: {
   categories :string[] ,
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
+  price : number;
+  setPrice:(price:number)=>void;
 }) => {
   return (
     <aside className="hidden w-64 shrink-0 rounded-xl border border-slate-200 p-5 lg:block">
@@ -16,6 +20,9 @@ const DesktopSideBar = ({
         categories={categories}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        price = {price}
+        setPrice = {setPrice}
+        
       />
     </aside>
   );
