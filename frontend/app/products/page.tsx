@@ -36,14 +36,17 @@ export default function ShopPage() {
   const[serverErrors ,setServerErrors] = useState();
   const[page,setPage] = useState<number>(0);
   const[products , setProducts] = useState<ProductType[]>([{
-  "id": 101,
-  "name": "Wireless Bluetooth Headphones",
-  "category": "Electronics",
-  "image": "https://example.com/images/headphones.jpg",
-  "rating": 4.5,
-  "price": 59.99,
-  "reviews": 128
-},]);
+    "id": 101,
+    "name": "Wireless Bluetooth Headphones",
+    "category": "Electronics",
+    "image": "https://example.com/images/headphones.jpg",
+    "rating": 4.5,
+    "price": 59.99,
+    "reviews": 128,
+    "description": "",
+    "stock": 0,
+    "created_by": ""
+  },]);
   const[search ,setSearch] = useState<string>("");
   const[price , setPrice] = useState<number>(500);
   const sortedProducts = [...products].sort((a, b) => {
@@ -105,14 +108,14 @@ export default function ShopPage() {
 
         {/* Mobile Filter */}
         {mobileFilter && (
-          <div className="fixed inset-0 z-50 bg-black/30 lg:hidden">
-            <div className="absolute right-0 h-full w-80 overflow-y-auto bg-white p-6">
+          <div className="fixed inset-0 z-50 bg-black/30 lg:hidden" onClick={()=>setMobileFilter(false)} >
+            <div className="absolute right-0 h-full w-80 overflow-y-auto bg-white dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200 p-6">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Filters</h2>
 
                 <button
                   onClick={() => setMobileFilter(false)}
-                  className="rounded-lg p-2 hover:bg-slate-100"
+                  className="rounded-lg p-2 hover:bg-slate-100 cursor-pointer dark:bg-slate-900 dark:hover:bg-late-800"
                 >
                   <X size={20} />
                 </button>
@@ -143,7 +146,7 @@ export default function ShopPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setMobileFilter(true)}
-                className="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm lg:hidden text-slate-700  dark:border-slate-700 dark:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800 "
+                className="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm lg:hidden cursor-pointer"
               >
                 <SlidersHorizontal size={16} />
                 Filters
@@ -153,12 +156,12 @@ export default function ShopPage() {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="appearance-none rounded-lg border border-slate-300 bg-white py-2 pl-4 pr-10 text-sm outline-none focus:border-slate-900"
+                  className="appearance-none rounded-lg border border-slate-300 py-2 pl-4 pr-10 text-sm  cursor-pointer"
                 >
-                  <option>Newest</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Rating</option>
+                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Newest</option>
+                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Price: Low to High</option>
+                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Price: High to Low</option>
+                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Rating</option>
                 </select>
 
                 <ChevronDown

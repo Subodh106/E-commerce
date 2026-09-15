@@ -2,32 +2,30 @@
 import { NextRequest, NextResponse } from "next/server";
 export function proxy(request : NextRequest){
     const {pathname} = request.nextUrl;
-    const isAuthed = request.cookies.get("token")?.value=="1";
-    console.log(isAuthed);
-    console.log(request.cookies.get("token"))
+    const isAuthed = request.cookies.get("token")?.value;
+
+    const protectedRoute = ["/home","/products"]
+
+    const isProtectedRoutes = protectedRoute.some((route:string)=>pathname.startsWith(route))
   
-    if(pathname==="/home" && !isAuthed){
-            const loginUrl = request.nextUrl.clone();
-            loginUrl.pathname="/auth/log-in";
-            loginUrl.searchParams.set("next" ,pathname);
-            return NextResponse.redirect(loginUrl);
+    if(isProtectedRoutes && isAuthed===null){
+        const loginUrl = request.nextUrl.clone();
+        loginUrl.pathname = "/log-in";
+        loginUrl.searchParams.set("next" , pathname);
+        return NextResponse.redirect(loginUrl)
     }
-    if(pathname ==="/products" && !isAuthed){
-            const productsUrl = request.nextUrl.clone();
-            productsUrl.pathname = "/auth/log-in";
-            productsUrl.searchParams.set("next",pathname);
-            return NextResponse.redirect(productsUrl);
-    }
-    if(pathname==="/auth/log-in" && isAuthed){
-        console.log("home")
-        const home = request.nextUrl.clone();
-        home.pathname = "/home";
-        return NextResponse.redirect(home);
 
+    if(pathname.startsWith("/log-in") && isAuthed!=null){
+        const homeUrl = request.nextUrl.clone();
+        homeUrl.pathname = "/home";
+        return NextResponse.redirect(homeUrl);
     }
+
     return NextResponse.next();
-}
 
+}
 export const config={
-    matcher:["/home/:path","/auth/log-in/:path","/products/:path"]
+    matcher:["/home/:path*",
+        "/log-in/:path*",
+        "/products/:path*"],
 }
