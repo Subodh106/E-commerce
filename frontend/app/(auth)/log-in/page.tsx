@@ -35,8 +35,8 @@ const LoginPage = () => {
         reset();
         router.push("/home")
     }catch(error:any){
-      console.log(error?.response?.data);
      setError("root", {type:"server",message:error?.response?.data?.message || "Login failed"})  
+     toast.error(error?.response?.data?.message || "Login failed")
     }
   }
 
