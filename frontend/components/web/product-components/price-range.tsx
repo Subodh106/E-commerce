@@ -11,7 +11,7 @@ const PriceRange = ({price , setPrice}:{
     }
 
   return (
-    <div>
+    <div className='dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200'>
         <h2 className="mb-5 font-semibold">Price Range</h2>
 
       <div className="flex items-center justify-between text-xs text-slate-500">
