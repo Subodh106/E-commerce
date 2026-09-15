@@ -35,7 +35,15 @@ export default function ShopPage() {
   const [mobileFilter, setMobileFilter] = useState(false);
   const[serverErrors ,setServerErrors] = useState();
   const[page,setPage] = useState<number>(0);
-  const[products , setProducts] = useState<ProductType[]>([]);
+  const[products , setProducts] = useState<ProductType[]>([{
+  "id": 101,
+  "name": "Wireless Bluetooth Headphones",
+  "category": "Electronics",
+  "image": "https://example.com/images/headphones.jpg",
+  "rating": 4.5,
+  "price": 59.99,
+  "reviews": 128
+},]);
   const[search ,setSearch] = useState<string>("");
   const[price , setPrice] = useState<number>(500);
   const sortedProducts = [...products].sort((a, b) => {
@@ -82,7 +90,7 @@ export default function ShopPage() {
         }
     };
  return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-white text-slate-900 dark:bg-black  dark:text-zinc-100 transition-colors duration-200">
       {/* Breadcrumb */}
         <BreadCrumb/>
 
@@ -135,7 +143,7 @@ export default function ShopPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setMobileFilter(true)}
-                className="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm lg:hidden"
+                className="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm lg:hidden text-slate-700  dark:border-slate-700 dark:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800 "
               >
                 <SlidersHorizontal size={16} />
                 Filters
