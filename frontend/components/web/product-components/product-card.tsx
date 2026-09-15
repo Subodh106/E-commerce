@@ -12,7 +12,7 @@ export default function ProductCard({
   onWishlist: () => void;
 }) {
   return (
-    <Link href={`/${product.id}`}>
+    <Link href={`/products/${product.id}`}>
     <article className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-slate-100">
