@@ -38,8 +38,8 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> getProductById(@PathVariable Long id){
-        ProductResponseDto response = productService.getProductById(id);
+    public ResponseEntity<ApiResponse<ProductResponseDto>> getProductById(@PathVariable String id){
+        ProductResponseDto response = productService.getProductById(Long.parseLong(id));
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product retrieved successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
