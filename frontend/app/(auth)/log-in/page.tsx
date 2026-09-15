@@ -13,9 +13,11 @@ import  * as z from "zod";
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import useUser from '@/hooks/useUser'
 
 
 const LoginPage = () => {
+  const {user , setUser} = useUser();
   const{register , handleSubmit ,setError, formState:{errors},reset} = useForm<logInUser>({
       resolver : zodResolver(loginUserSchema),
       defaultValues:{
@@ -31,6 +33,7 @@ const LoginPage = () => {
         const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/auth/user/login`,data ,{withCredentials:true});
         if(res.status==200){
           toast.success("Login successfully")
+          setUser(res?.data?.data);
         }
         reset();
         router.push("/home")
