@@ -17,7 +17,7 @@ export default function FilterContent({
 }) {
 
   return (
-    <div>
+    <div className="dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
       <h2 className="mb-5 font-semibold">Categories</h2>
 
       <div className="space-y-4">
@@ -31,7 +31,7 @@ export default function FilterContent({
               name="category"
               checked={selectedCategory === category}
               onChange={() => setSelectedCategory(category)}
-              className="h-4 w-4 accent-slate-900"
+              className="h-4 w-4 dark:text-zinc-100"
             />
 
             <span
