@@ -14,6 +14,7 @@ import {
   type SubmitHandler,
   } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const SignUpPage = () => {
   const { handleSubmit, register ,setError , formState:{errors} ,reset} = useForm<z.infer<typeof SignUpUserSchema>>({
@@ -34,7 +35,8 @@ const SignUpPage = () => {
         reset();
         router.push("/home")
     }catch(error:any){
-      setError("root",{ type:"server",message: error?.response?.data?.message || "Login failed"})
+      setError("root",{ type:"server",message: error?.response?.data?.message || "Sign up failed"})
+      toast.error(error?.response?.data?.message || "Login failed")
     }
   }
   return (
