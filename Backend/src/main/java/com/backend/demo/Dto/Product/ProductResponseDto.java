@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ProductResponseDto {
     private  long id;
-
     private String productName;
     private String description;
     private BigDecimal price;
