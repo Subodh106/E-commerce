@@ -84,7 +84,7 @@ public class ProductService {
         response.setImageUrl(product.getImageUrl());
         response.setPublicId(product.getPublicId());
         response.setCategory(new CategorySummaryDto(product.getCategory().getId(),product.getCategory().getName()));
-        response.setCreatedBy(new UserSummaryDto(product.getCreatedBy().getId(),product.getCreatedBy().getUsername()));
+        response.setCreatedBy(new UserSummaryDto(product.getCreatedBy().getId(),product.getCreatedBy().getUsername() ,product.getCreatedBy().getRole()));
         response.setCreatedAt(product.getCreatedAt());
         response.setUpdatedAt(product.getUpdatedAt());
 
