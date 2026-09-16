@@ -21,7 +21,8 @@ public class Cart {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
+    @ManyToOne
     private CartItem cartItem;
 
     @Column(nullable = false)
