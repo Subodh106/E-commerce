@@ -8,6 +8,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -17,8 +18,11 @@ import java.util.Date;
 
 @Service
 public class JwtService {
+
+    @Value("${app.jwt.secret}")
+    private String jwtSecret;
+
     private SecretKey getKey(){
-        String jwtSecret = "f9d0a7d9b8dbe1cb8c3d84e2a7c62ab9f0a72d67c9a81de";
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_16));
     }
 
