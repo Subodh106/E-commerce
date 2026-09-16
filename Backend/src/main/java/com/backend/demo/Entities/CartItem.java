@@ -7,12 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Check;
-import org.hibernate.annotations.DialectOverride;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "cart_items")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,7 +21,8 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(nullable = false )
+    @JoinColumn(nullable = false, name = "product_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
 
@@ -40,7 +40,11 @@ public class CartItem {
             columnDefinition = "quantity"
     )
     @Min(1)
-    private Integer quantity;
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id" , nullable = false)
+    private Cart cart;
 
     @Column(nullable = false)
     private Date added_at;
