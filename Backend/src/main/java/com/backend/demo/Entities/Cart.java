@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name = "carts")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,9 +23,9 @@ public class Cart {
     @Column(nullable = false)
     private Long userId;
 
-    @JoinColumn(nullable = false)
-    @ManyToOne
-    private CartItem cartItem;
+    @Column(nullable = false,name = "cart_items")
+    @OneToMany(mappedBy = "cart" ,cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 
     @Column(nullable = false)
     private Date created_at;
