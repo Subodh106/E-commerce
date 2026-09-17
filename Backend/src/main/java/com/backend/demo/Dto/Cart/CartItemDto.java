@@ -1,10 +1,15 @@
 package com.backend.demo.Dto.Cart;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.backend.demo.Dto.Category.CategorySummaryDto;
+import lombok.*;
 
+import java.math.BigDecimal;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CartItemDto {
-
+    private Long productId;
+    private int quantity;
 }
