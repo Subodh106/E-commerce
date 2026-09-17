@@ -27,7 +27,6 @@ public class CartController {
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> addToCart(@RequestBody CartItemDto cartItemDto, @AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
         Long userId = customUserPrincipal.getId();
-        System.out.println("In Controller");
         Optional<Cart> response = cartService.addToCart(cartItemDto , userId);
         ApiResponse<Void> cartResponse = new ApiResponse<>("Item added to cart successfully",null);
 
