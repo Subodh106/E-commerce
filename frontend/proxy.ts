@@ -6,9 +6,11 @@ export function proxy(request : NextRequest){
 
     const protectedRoute = ["/home","/products"]
 
+    console.log(isAuthed);
+
     const isProtectedRoutes = protectedRoute.some((route:string)=>pathname.startsWith(route))
   
-    if(isProtectedRoutes && isAuthed===null){
+    if(isProtectedRoutes && isAuthed==undefined){
         const loginUrl = request.nextUrl.clone();
         loginUrl.pathname = "/log-in";
         loginUrl.searchParams.set("next" , pathname);
