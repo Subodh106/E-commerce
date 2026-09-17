@@ -1,5 +1,6 @@
 package com.backend.demo.Entities;
 
+import com.backend.demo.Dto.Category.CategorySummaryDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -21,9 +23,25 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @JoinColumn(nullable = false, name = "product_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Product product;
+    @Column(nullable = false)
+    private Long productId;
+
+    @Column(nullable = false)
+    private Category category;
+
+    @Positive
+    @Column(
+            nullable = false,
+            name = "price",
+            check = {
+                    @CheckConstraint(
+                            name = "check_price_positive",
+                            constraint = "price >= 1"
+                    )
+            }
+    )
+    @Min(0)
+    private BigDecimal price;
 
 
     @Positive
@@ -33,7 +51,7 @@ public class CartItem {
             check = {
                 @CheckConstraint(
                     name = "check_quantity_positive",
-                    constraint = "quantity > 0"
+                    constraint = "quantity >= 0"
                 )
             },
 
