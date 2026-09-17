@@ -19,10 +19,11 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    @Value("${app.jwt.secret}")
-    private String jwtSecret;
+//    @Value("${app.jwt.secret}")
+//    private String jwtSecret;
 
     private SecretKey getKey(){
+        String jwtSecret = "dsfsdfsfsdfsdfsdfsdfsdfsd";
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_16));
     }
 
