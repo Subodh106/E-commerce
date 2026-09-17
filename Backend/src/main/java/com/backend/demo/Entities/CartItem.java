@@ -26,7 +26,8 @@ public class CartItem {
     @Column(nullable = false)
     private Long productId;
 
-    @Column(nullable = false)
+    @JoinColumn(name = "category",nullable = false)
+    @ManyToOne
     private Category category;
 
     @Positive
