@@ -1,11 +1,13 @@
 package com.backend.demo.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -32,4 +34,7 @@ public class Cart {
 
     @Column(nullable = false)
     private Date updated_at;
+
+    public void setCartItems(long id, Category category, @Positive BigDecimal price, int quantity, Date date) {
+    }
 }
