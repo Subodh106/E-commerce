@@ -25,10 +25,10 @@ public class CartController {
 
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> addToCart(@RequestBody CartItemDto cartItemDto, @AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
+    public ResponseEntity<ApiResponse<Cart>> addToCart(@RequestBody CartItemDto cartItemDto, @AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
         Long userId = customUserPrincipal.getId();
-        Optional<Cart> response = cartService.addToCart(cartItemDto , userId);
-        ApiResponse<Void> cartResponse = new ApiResponse<>("Item added to cart successfully",null);
+        Cart response = cartService.addToCart(cartItemDto , userId);
+        ApiResponse<Cart> cartResponse = new ApiResponse<>("Item added to cart successfully",response);
 
     return ResponseEntity.status(201).body(cartResponse);
     }
