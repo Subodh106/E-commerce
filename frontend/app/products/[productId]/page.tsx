@@ -35,12 +35,11 @@ export default function ProductDetails() {
   const router = useRouter();
 
   useEffect(()=>{
-    // getProductDetails();
+    getProductDetails();
   },[])
 
   const getProductDetails = async()=>{
-    
-      try {
+    try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/products/${productId}` ,{withCredentials:true})
         console.log(res)
       } catch (error:any) {
