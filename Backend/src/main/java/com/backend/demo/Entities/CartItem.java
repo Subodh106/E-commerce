@@ -4,10 +4,7 @@ import com.backend.demo.Dto.Category.CategorySummaryDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -17,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +41,8 @@ public class CartItem {
     @Min(0)
     private BigDecimal price;
 
+    @Column(nullable = false)
+    private String imageUrl;
 
     @Positive
     @Column(
@@ -67,5 +66,6 @@ public class CartItem {
 
     @Column(nullable = false)
     private Date added_at;
+
 
 }
