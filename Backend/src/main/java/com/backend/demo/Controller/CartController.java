@@ -6,12 +6,11 @@ import com.backend.demo.Dto.Cart.CartResponseDto;
 import com.backend.demo.Security.CustomUserPrincipal;
 import com.backend.demo.Service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -28,5 +27,29 @@ public class CartController {
         ApiResponse<CartResponseDto> cartResponse = new ApiResponse<>("Item added to cart successfully",response);
 
     return ResponseEntity.status(201).body(cartResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<CartResponseDto>> getCart(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
+        Long userId = customUserPrincipal.getId();
+        CartResponseDto response = cartService.getCart(userId);
+        ApiResponse<CartResponseDto> cartResponse = new ApiResponse<>("Cart fetched successfully",response);
+        return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<Void>> deleteCart( @AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
+        Long userId = customUserPrincipal.getId();
+        cartService.deleteCart(userId);
+        ApiResponse<Void> cartResponse = new ApiResponse<>("Cart deleted successfully", null);
+        return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<ApiResponse<Void>> removeProductFromCart(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable Long productId){
+        Long userId = customUserPrincipal.getId();
+        cartService.removeProductFromCart(userId , productId);
+        ApiResponse<Void> cartResponse = new ApiResponse<>("Product is removed from cart successfully", null);
+        return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
     }
 }
