@@ -1,13 +1,13 @@
 package com.backend.demo.Dto.Cart;
 
-import com.backend.demo.Dto.Category.CategorySummaryDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,10 +16,7 @@ import java.util.Date;
 public class CartResponseDto {
     private Long id;
     private Long user_id;
-    private Long product_id;
-    private CategorySummaryDto categorySummaryDto;
-    private BigDecimal price;
-    private int quantity;
+    private List<CartItemResponseDto> cartItems= new ArrayList<>();
     private Date create_at;
     private Date updated_at;
 }
