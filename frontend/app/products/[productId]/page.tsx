@@ -35,7 +35,7 @@ export default function ProductDetails() {
   const router = useRouter();
 
   useEffect(()=>{
-    getProductDetails();
+    // getProductDetails();
   },[])
 
   const getProductDetails = async()=>{
@@ -50,6 +50,16 @@ export default function ProductDetails() {
       }
   }
 
+  const addToCart = async()=>{
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart`,{
+        productId,quantity
+      },{withCredentials:true})
+    } catch (error:any) {
+      setServerErrors(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
+    } 
+  }
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -71,6 +81,7 @@ export default function ProductDetails() {
         setSelectedColor={setSelectedColor}
         quantity={quantity}
         setQuantity={setQuantity}
+        addToCart={addToCart}
         />
        
       </div>
