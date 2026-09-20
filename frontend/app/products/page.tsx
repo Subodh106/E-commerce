@@ -49,6 +49,7 @@ export default function ShopPage() {
   },]);
   const[search ,setSearch] = useState<string>("");
   const[price , setPrice] = useState<number>(500);
+
   const sortedProducts = [...products].sort((a, b) => {
     if (sort === "Price: Low to High") {
       return a.price - b.price;
