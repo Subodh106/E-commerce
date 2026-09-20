@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +59,23 @@ public class CartService {
         existedCart.setUpdated_at(new Date());
         Cart savedCart = cartRepository.save(existedCart);
         return buildCartDto(savedCart);
+    }
+
+    public CartResponseDto getCart(Long userID){
+        Cart existingCart = cartRepository.findByUserId(userID).orElseThrow(()-> new ResourceNotFoundException("Cart not found"));
+        return buildCartDto(existingCart);
+    }
+
+    public void deleteCart(Long userId){
+        Cart existingCart = cartRepository.findByUserId(userId).orElseThrow(()-> new ResourceNotFoundException("Cart not found"));
+        cartRepository.delete(existingCart);
+    }
+
+    @Transactional
+    public void removeProductFromCart(Long userId , Long productId){
+        Cart existingCart = cartRepository.findByUserId(userId).orElseThrow(()->new ResourceNotFoundException("Cart not found"));
+        List<CartItem> cartItems = existingCart.getCartItems();
+        cartItems.removeIf(cartItem -> Objects.equals(cartItem.getProductId(), productId));
     }
 
     private CartResponseDto buildCartDto(Cart cart){
