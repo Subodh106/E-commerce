@@ -2,12 +2,10 @@ package com.backend.demo.Entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class Cart {
 
     @Column(nullable = false,name = "cart_items")
     @OneToMany(mappedBy = "cart" ,cascade = CascadeType.ALL)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @Column(nullable = false)
     private Date created_at;
@@ -35,6 +33,4 @@ public class Cart {
     @Column(nullable = false)
     private Date updated_at;
 
-    public void setCartItems(long id, Category category, @Positive BigDecimal price, int quantity, Date date) {
-    }
 }
