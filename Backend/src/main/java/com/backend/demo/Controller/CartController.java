@@ -3,7 +3,6 @@ package com.backend.demo.Controller;
 import com.backend.demo.Common.ApiResponse;
 import com.backend.demo.Dto.Cart.CartItemDto;
 import com.backend.demo.Dto.Cart.CartResponseDto;
-import com.backend.demo.Entities.Cart;
 import com.backend.demo.Security.CustomUserPrincipal;
 import com.backend.demo.Service.CartService;
 import lombok.RequiredArgsConstructor;
