@@ -1,3 +1,4 @@
+"use client"
 import { Star, Minus, Plus, ShoppingCart, Heart, Truck, RefreshCw, ShieldCheck } from 'lucide-react'
 
 type rightSectionProps ={
@@ -6,6 +7,7 @@ type rightSectionProps ={
     setSelectedColor:(selectedColor:string)=>void;
     quantity:number;
     setQuantity:(quantity:number)=>void;
+    addToCart : ()=>void;
 }
 
 type colors = {
@@ -13,7 +15,7 @@ type colors = {
     class:string
 }
 
-export default function Rightsection({colors,selectedColor , setSelectedColor , quantity , setQuantity}:rightSectionProps) {
+export default function Rightsection({colors,selectedColor , setSelectedColor , quantity , setQuantity , addToCart}:rightSectionProps) {
   return (
      <div className="lg:col-span-4 flex flex-col space-y-6">
           <div>
@@ -76,10 +78,10 @@ export default function Rightsection({colors,selectedColor , setSelectedColor , 
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <button className="w-full bg-zinc-900 dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2">
+            <button onClick={addToCart} className="cursor-pointer w-full bg-zinc-900 dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2">
               <ShoppingCart className="w-5 h-5" /> Add to Cart
             </button>
-            <button className="w-full bg-gray-100 dark:bg-zinc-900 text-zinc-900 dark:text-white py-3.5 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors">
+            <button  className="cursor-pointer w-full bg-gray-100 dark:bg-zinc-900 text-zinc-900 dark:text-white py-3.5 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors">
               Buy Now
             </button>
           </div>
