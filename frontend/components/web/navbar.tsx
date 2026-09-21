@@ -96,7 +96,7 @@ export function Navbar() {
 
         {/* Logo */}
         <Link
-          href="/"
+          href="/home"
           className="flex shrink-0 items-center gap-2 text-lg font-bold md:text-xl"
         >
           <ShoppingBag className="size-5" />
