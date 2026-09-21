@@ -29,6 +29,7 @@ import OrderConfirm from '@/components/web/cart/order-confirm';
 import ListItems from '@/components/web/cart/list-items';
 import OrderSummaryCard from '@/components/web/cart/order-summary-card';
 import { es } from 'zod/locales';
+import { Footer } from '@/components/web/footer';
 
 export type cart = {
   id : string ;
@@ -197,16 +198,6 @@ export default function page() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 antialiased">
       <Navbar/>
-
-      {/* Floating Toast Notification */}
-      {/* {toast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-slate-900 text-slate-50 dark:bg-slate-100 dark:text-slate-900 rounded-xl shadow-xl text-sm font-medium animate-in fade-in slide-in-from-bottom-5">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400 dark:text-emerald-600 shrink-0" />
-          <span>{toast.message}</span>
-        </div>
-      )} */}
-
-      {/* 1. TOP HEADER / NAV BAR */}
       {/* MAIN CONTAINER */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
@@ -296,52 +287,7 @@ export default function page() {
       )}
 
       {/* FOOTER */}
-      <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 mt-20 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
-            <div>
-              <h4 className="font-bold mb-3 text-slate-900 dark:text-white">ShopHub</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                Discover top quality products at the best prices. Fast delivery & simple returns.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-slate-900 dark:text-white">Customer Care</h4>
-              <ul className="space-y-2 text-slate-500 dark:text-slate-400 text-xs">
-                <li><a href="#" className="hover:text-indigo-600">Help Center</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Track Order</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Returns & Policy</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-slate-900 dark:text-white">Company</h4>
-              <ul className="space-y-2 text-slate-500 dark:text-slate-400 text-xs">
-                <li><a href="#" className="hover:text-indigo-600">About Us</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Careers</a></li>
-                <li><a href="#" className="hover:text-indigo-600">Privacy Policy</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-3 text-slate-900 dark:text-white">Newsletter</h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">Get 10% off your first order.</p>
-              <div className="flex gap-1.5">
-                <Input placeholder="Your email" className="h-8 text-xs" />
-                <Button>Join</Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-6 border-t border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-4">
-            <p>© {new Date().getFullYear()} ShopHub Inc. Built with Shadcn UI & Tailwind CSS.</p>
-            <div className="flex gap-4">
-              <a href="#" className="hover:underline">Terms</a>
-              <a href="#" className="hover:underline">Privacy</a>
-              <a href="#" className="hover:underline">Cookies</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
+      <Footer/>
     </div>
   );
 }
