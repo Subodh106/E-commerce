@@ -66,9 +66,13 @@ public class CartService {
         return buildCartDto(existingCart);
     }
 
-    public void deleteCart(Long userId){
+    @Transactional
+    public void clearCart(Long userId){
         Cart existingCart = cartRepository.findByUserId(userId).orElseThrow(()-> new ResourceNotFoundException("Cart not found"));
-        cartRepository.delete(existingCart);
+        if(existingCart.getCartItems()==null){
+            throw new ResourceNotFoundException("Cart is already empty");
+        }
+        existingCart.getCartItems().clear();
     }
 
     @Transactional
