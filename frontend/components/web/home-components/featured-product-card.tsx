@@ -11,10 +11,10 @@ import { ProductType } from '@/Types/HomeTypes'
 
 const FeaturedProductCard = ({id , name  , image ,rating ,price , reviews}:ProductType) => {
   return (
-    <article className="group overflow-hidden rounded-xl border bg-card"
+    <article className="group overflow-hidden rounded-xl border bg-card dark:bg-slate-950"
             >
               {/* Product Image */}
-              <div className="relative aspect-square overflow-hidden bg-muted">
+              <div className="relative aspect-square overflow-hidden bg-muted dark:bg-slate-950">
                 <Link href={`/products/${id}`}>
                   <Image
                     src={image}

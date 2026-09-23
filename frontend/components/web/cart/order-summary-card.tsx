@@ -24,7 +24,7 @@ export type OrderSummaryCard = {
 export default function OrderSummaryCard({appliedPromo,removePromo,handleApplyPromo, promoInput , setPromoInput , promoError , discountAmount , shippingFee , estimatedTax , subTotal ,grandTotal , isCheckingOut , handleCheckOutProcess}:OrderSummaryCard) {
   return (
        <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs">
+              <div className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs">
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white pb-4 border-b border-slate-100 dark:border-slate-800">
                   Order Summary
                 </h2>
@@ -36,7 +36,7 @@ export default function OrderSummaryCard({appliedPromo,removePromo,handleApplyPr
                   </label>
 
                   {appliedPromo ? (
-                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs">
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50 dark:bg-slate-950 border border-emerald-200 dark:border-emerald-800/60 text-xs">
                       <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
                         <Tag className="w-4 h-4" />
                         <span className="font-mono font-bold">{appliedPromo.code}</span>
@@ -154,7 +154,7 @@ export default function OrderSummaryCard({appliedPromo,removePromo,handleApplyPr
               </div>
 
               {/* Security guarantee note */}
-              <div className="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
+              <div className="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
                 <ShieldCheck className="w-6 h-6 text-emerald-500 shrink-0" />
                 <span>256-bit Bank Grade SSL Encryption keeps your payment details secure.</span>
               </div>

@@ -4,8 +4,8 @@ import { CheckCircle2, RotateCcw } from 'lucide-react'
 
 export default function OrderConfirm({handleRestoreCart}:{handleRestoreCart:()=>void}) {
   return (
-    <div className="max-w-md mx-auto text-center py-16 px-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="max-w-md mx-auto text-center py-16 px-6 bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="w-16 h-16 bg-emerald-100 dark:bg-slate-950 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 className="w-10 h-10" />
             </div>
             <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Order Confirmed!</h2>

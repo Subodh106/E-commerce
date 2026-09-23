@@ -24,7 +24,7 @@ export default function ListItems(
 ) {
   return (
      <div className="lg:col-span-8 space-y-6">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden">
+              <div className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden">
                 
                 {/* Header */}
                 <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
@@ -49,7 +49,7 @@ export default function ListItems(
                 <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider bg-slate-50/50 dark:bg-slate-900/50">
+                      <tr className="border-b border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider bg-slate-50/50 dark:bg-slate-950">
                         <th className="py-3.5 px-6">Product</th>
                         <th className="py-3.5 px-4 text-center">Price</th>
                         <th className="py-3.5 px-4 text-center">Quantity</th>
@@ -66,7 +66,7 @@ export default function ListItems(
                               <img
                                 src={item.image}
                                 alt={item.name}
-                                className="w-16 h-16 rounded-xl object-cover bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shrink-0"
+                                className="w-16 h-16 rounded-xl object-cover bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shrink-0"
                               />
                               <div>
                                 <h3 className="font-semibold text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">
@@ -143,7 +143,7 @@ export default function ListItems(
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-20 h-20 rounded-xl object-cover bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shrink-0"
+                          className="w-20 h-20 rounded-xl object-cover bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shrink-0"
                         />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-2">
@@ -207,7 +207,7 @@ export default function ListItems(
                 </div>
 
                 {/* Footer link back to shop */}
-                <div className="p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <div className="p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                   <Button variant="outline" className="gap-2">
                     <ArrowLeft className="w-4 h-4" />
                     Continue Shopping

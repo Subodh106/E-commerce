@@ -1,33 +1,17 @@
 "use client"
 import { useState, useMemo, FormEvent, useEffect } from 'react';
 import {
-  Trash2,
-  ArrowLeft,
-  Plus,
-  Minus,
-  CheckCircle2,
-  ShieldCheck,
-  Truck,
   RotateCcw,
-  X,
-  Tag,
-  ChevronRight,
   AlertCircle,
   ShoppingBasket,
-  Lock,
-  Percent,
-  Check,
-  Badge,
 } from 'lucide-react';
 import { Button  } from '@/components/ui/button';
 
-import { Navbar } from '@/components/web/navbar';
 import Breadcrumb from '@/components/web/cart/Breadcrumb';
 import FreeShippingIndicator from '@/components/web/cart/free-shipping-indicator';
 import OrderConfirm from '@/components/web/cart/order-confirm';
 import ListItems from '@/components/web/cart/list-items';
 import OrderSummaryCard from '@/components/web/cart/order-summary-card';
-import { Footer } from '@/components/web/footer';
 import { toast } from 'sonner';
 import axios from 'axios';
 
@@ -194,10 +178,6 @@ export default function page() {
       } 
   }
 
-    const removeItem = (id :string, name:string) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-  };
-
   const removeProductFromCart = async(id:string)=>{
     try {
       const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart/${id}`,{withCredentials:true});
@@ -213,8 +193,8 @@ export default function page() {
   },[])
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 antialiased">
-      <Navbar/>
+   
+      <div>
       {/* MAIN CONTAINER */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
@@ -280,7 +260,7 @@ export default function page() {
         )}
       </main>
 
-      {/* CLEAR CART RADIX/SHADCN CONFIRMATION MODAL */}
+    
       {showClearModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="bg-white dark:bg-slate-950 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
@@ -303,8 +283,6 @@ export default function page() {
         </div>
       )}
 
-      {/* FOOTER */}
-      <Footer/>
-    </div>
+      </div>
   );
 }

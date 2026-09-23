@@ -78,10 +78,10 @@ export default function Rightsection({colors,selectedColor , setSelectedColor , 
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <button onClick={addToCart} className="cursor-pointer w-full bg-zinc-900 dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2">
+            <button onClick={addToCart} className="cursor-pointer w-full bg-zinc-900 dark:bg-slate-950 text-white dark:text-white py-3.5 rounded-xl font-medium hover:bg-zinc-800 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2">
               <ShoppingCart className="w-5 h-5" /> Add to Cart
             </button>
-            <button  className="cursor-pointer w-full bg-gray-100 dark:bg-zinc-900 text-zinc-900 dark:text-white py-3.5 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors">
+            <button  className="cursor-pointer w-full bg-gray-100 dark:bg-slate-950 text-zinc-900 dark:text-white py-3.5 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors"> 
               Buy Now
             </button>
           </div>

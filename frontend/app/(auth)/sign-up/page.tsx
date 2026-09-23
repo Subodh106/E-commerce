@@ -40,7 +40,7 @@ const SignUpPage = () => {
     }
   }
   return (
-    <Card >
+    <Card className="dark:bg-slate-950">
       <CardHeader>
           <CardTitle>Create your account</CardTitle>
           <CardDescription>

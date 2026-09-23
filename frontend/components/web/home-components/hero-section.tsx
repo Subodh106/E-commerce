@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
   return (
-    <section className="border-b">
+    <section className="border-b dark:bg-slate-950">
       <div className="container mx-auto grid min-h-150 items-center gap-10 px-4 py-12 md:grid-cols-2 md:px-6 lg:py-16">
         {/* Content */}
         <div className="flex max-w-xl flex-col items-start">
-          <span className="mb-6 rounded-full border bg-muted px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          <span className="mb-6 rounded-full border bg-muted dark:bg-slate-950 px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             New Collection
           </span>
 
@@ -42,7 +42,7 @@ export function HeroSection() {
 
         {/* Hero Image */}
         <div className="relative mx-auto w-full max-w-2xl">
-          <div className="relative aspect-square overflow-hidden rounded-2xl border bg-muted">
+          <div className="relative aspect-square overflow-hidden rounded-2xl border bg-muted dark:bg-slate-950">
             <Image
               src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full"
               alt="Featured products"
@@ -54,7 +54,7 @@ export function HeroSection() {
           </div>
 
           {/* Small floating card */}
-          <div className="absolute -bottom-4 left-4 hidden rounded-xl border bg-background p-4 shadow-lg sm:block">
+          <div className="absolute -bottom-4 left-4 hidden rounded-xl border bg-background dark:bg-slate-950 p-4 shadow-lg sm:block">
             <p className="text-xs text-muted-foreground">
               Featured Collection
             </p>

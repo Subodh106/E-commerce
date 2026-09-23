@@ -47,7 +47,7 @@ const products = [
 
 export function FeaturedProductsSection() {
   return (
-    <section className="border-t py-12 md:py-16">
+    <section className="border-t py-12 md:py-16 dark:bg-slate-950">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-8 flex items-end justify-between gap-4">

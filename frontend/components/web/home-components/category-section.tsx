@@ -71,10 +71,10 @@ export function CategorySection() {
               <Link
                 key={category.slug}
                 href={`/categories/${category.slug}`}
-                className="group overflow-hidden rounded-xl border bg-card transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+                className="group overflow-hidden rounded-xl border bg-card dark:bg-slate-950 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
               >
                 {/* Image */}
-                <div className="relative aspect-square overflow-hidden bg-muted">
+                <div className="relative aspect-square overflow-hidden bg-muted dark:bg-slate-950">
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -89,7 +89,7 @@ export function CategorySection() {
                 {/* Content */}
                 <div className="relative p-4">
                   {/* Icon */}
-                  <div className="absolute -top-5 left-4 flex size-10 items-center justify-center rounded-full border bg-background shadow-sm">
+                  <div className="absolute -top-5 left-4 flex size-10 items-center justify-center rounded-full border bg-background dark:bg-slate-950 shadow-sm">
                     <Icon className="size-5 text-primary" />
                   </div>
 

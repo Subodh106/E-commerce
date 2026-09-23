@@ -7,7 +7,7 @@ import { Separator } from "@base-ui/react"
 
 const  page = () => {
   return (
-    <div className="flex gap-3 flex-col ">
+    <div className="min-h-screen flex gap-3 flex-col bg-white dark:bg-slate-950">
       <HeroSection/>
       <Separator/>
       <FeaturesSection/>

@@ -44,7 +44,7 @@ const LoginPage = () => {
   }
 
   return (
-      <Card>
+      <Card className="dark:bg-slate-950">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>

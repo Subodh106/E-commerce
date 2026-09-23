@@ -7,9 +7,9 @@ export function NewsletterSection() {
   return (
     <section className="py-12 md:py-16">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="rounded-2xl border bg-muted/40 px-6 py-10 md:px-12 md:py-14">
+        <div className="rounded-2xl border bg-muted/40 dark:bg-slate-950 px-6 py-10 md:px-12 md:py-14">
           <div className="mx-auto max-w-2xl text-center">
-            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-background shadow-sm">
+            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-background dark:bg-slate-950 shadow-sm">
               <Mail className="size-5 text-primary" />
             </div>
 

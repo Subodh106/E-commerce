@@ -34,7 +34,7 @@ export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-slate-950 backdrop-blur supports-backdrop-filter:bg-white/80">
       <div className="container flex h-16 items-center justify-between gap-4">
         {/* Mobile Menu */}
         <Sheet>
@@ -183,7 +183,7 @@ export function Navbar() {
 
       {/* Mobile Search */}
       {searchOpen && (
-        <div className="container border-t py-3 md:hidden">
+        <div className="container border-t py-3 dark:bg-slate-950 md:hidden">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
 
