@@ -24,7 +24,7 @@ public class Cart {
     private Long userId;
 
     @Column(nullable = false,name = "cart_items")
-    @OneToMany(mappedBy = "cart" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart" ,cascade = CascadeType.ALL , orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
     @Column(nullable = false)
