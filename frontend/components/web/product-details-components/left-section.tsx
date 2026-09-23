@@ -29,7 +29,7 @@ export default function LeftSection({images , selectedImage , setSelectedImage ,
          
 
           {/* Main Display Image */}
-          <div className="md:col-span-10 order-1 md:order-2 bg-gray-100 dark:bg-zinc-900 rounded-2xl overflow-hidden relative aspect-square flex items-center justify-center">
+          <div className="md:col-span-10 order-1 md:order-2 bg-gray-100 dark:bg-slate-950 rounded-2xl overflow-hidden relative aspect-square flex items-center justify-center">
             <img
               src={images[selectedImage]}
               alt="Wireless Headphones"
