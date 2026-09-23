@@ -7,9 +7,10 @@ import React from 'react'
 export type ListItems = {
     cart : cart[];
     totalItemCount : number;
-    setShowClearModal:(vvalue :boolean)=>void;
+    setShowClearModal:(value :boolean)=>void;
     updateQuantity : (id:string , value:number)=>void;
     removeItem : (id:string )=>void;
+    clearCart : ()=>void
 }
 
 export default function ListItems(
@@ -18,10 +19,12 @@ export default function ListItems(
         totalItemCount,
         setShowClearModal,
         updateQuantity,
-        removeItem
+        removeItem,
+        clearCart
     }
     :ListItems
 ) {
+
   return (
      <div className="lg:col-span-8 space-y-6">
               <div className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden">
@@ -37,8 +40,7 @@ export default function ListItems(
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setShowClearModal(true)}
-                    className="text-red-500 hover:text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 gap-1.5"
+                    onClick={clearCart}                    className="text-red-500 hover:text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 gap-1.5"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     Clear Cart
