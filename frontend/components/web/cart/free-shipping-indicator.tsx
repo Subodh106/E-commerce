@@ -12,7 +12,7 @@ type freeShippingIndicator = {
 export default function FreeShippingIndicator({cart,postDiscountSubtotal,freeShippingThreshold}:freeShippingIndicator) {
   return (
   cart.length > 0 && (
-          <div className="mb-8 p-4 rounded-xl border border-indigo-100 dark:border-indigo-950/50 bg-indigo-50/60 dark:bg-indigo-950/20 backdrop-blur-xs">
+          <div className="mb-8 p-4 rounded-xl border border-indigo-100 dark:border-indigo-950/50 bg-indigo-50/60 dark:bg-slate-950 backdrop-blur-xs">
             <div className="flex items-center justify-between text-xs sm:text-sm font-medium mb-2">
               <div className="flex items-center gap-2 text-indigo-950 dark:text-indigo-200">
                 <Truck className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -31,9 +31,9 @@ export default function FreeShippingIndicator({cart,postDiscountSubtotal,freeShi
               </span>
             </div>
             {/* Progress Bar Container */}
-            <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-200 dark:bg-slate-950 h-2 rounded-full overflow-hidden">
               <div
-                className="bg-indigo-600 dark:bg-indigo-500 h-full rounded-full transition-all duration-500 ease-out"
+                className="bg-indigo-600 dark:bg-slate-950 h-full rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${Math.min(100, (postDiscountSubtotal / freeShippingThreshold) * 100)}%` }}
               />
             </div>
