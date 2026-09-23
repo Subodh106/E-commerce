@@ -9,7 +9,7 @@ export type ListItems = {
     totalItemCount : number;
     setShowClearModal:(vvalue :boolean)=>void;
     updateQuantity : (id:string , value:number)=>void;
-    removeItem : (id:string , name:string)=>void;
+    removeItem : (id:string )=>void;
 }
 
 export default function ListItems(
@@ -123,7 +123,7 @@ export default function ListItems(
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => removeItem(item.id, item.name)}
+                              onClick={() => removeItem(item.id)}
                               className="text-slate-400 hover:text-red-500 dark:hover:text-red-400"
                             >
                               <X className="w-4 h-4" />
@@ -153,7 +153,7 @@ export default function ListItems(
                             <Button
                               variant="ghost"
                             
-                              onClick={() => removeItem(item.id, item.name)}
+                              onClick={() => removeItem(item.id)}
                               className="text-slate-400 hover:text-red-500 shrink-0"
                             >
                               <X className="w-4 h-4" />
