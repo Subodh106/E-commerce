@@ -6,7 +6,7 @@ import Rightsection from '@/components/web/product-details-components/right-sect
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
-import { toast, Toaster } from 'sonner';
+import { toast} from 'sonner';
 import { ProductType } from '@/Types/HomeTypes';
 
 const images = [
