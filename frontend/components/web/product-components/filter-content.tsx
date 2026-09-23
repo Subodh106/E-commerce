@@ -17,7 +17,7 @@ export default function FilterContent({
 }) {
 
   return (
-    <div className="dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
+    <div className="dark:bg-slate-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
       <h2 className="mb-5 font-semibold">Categories</h2>
 
       <div className="space-y-4">
