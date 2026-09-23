@@ -38,9 +38,9 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ApiResponse<Void>> deleteCart( @AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
+    public ResponseEntity<ApiResponse<Void>> clearCart( @AuthenticationPrincipal CustomUserPrincipal customUserPrincipal){
         Long userId = customUserPrincipal.getId();
-        cartService.deleteCart(userId);
+        cartService.clearCart(userId);
         ApiResponse<Void> cartResponse = new ApiResponse<>("Cart deleted successfully", null);
         return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
     }
