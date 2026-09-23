@@ -188,6 +188,17 @@ export default function page() {
     }
   }
 
+  const clearCart = async()=>{
+    try {
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart`,{withCredentials:true})
+      setShowClearModal(true);
+      console.log(res);
+    } catch (error:any) {
+      setServerErrors(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
+    }
+  }
+
   useEffect(()=>{
     getCart();
   },[])
@@ -237,7 +248,8 @@ export default function page() {
                 setShowClearModal={setShowClearModal}
                 updateQuantity={updateQuantity}
                 removeItem={removeProductFromCart}
-              />
+                clearCart={clearCart}
+                />
 
             {/* COLUMN 2: ORDER SUMMARY CARD (4 cols) */}
               <OrderSummaryCard
