@@ -54,13 +54,16 @@ export default function ProductDetails() {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart`,{
         productId,quantity
       },{withCredentials:true})
+      if(res.status===200){
+        toast.success(res?.data?.data);
+      }
     } catch (error:any) {
       setServerErrors(error?.response?.data?.message)
       toast.error(error?.response?.data?.message);
     } 
   }
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 bg-white dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-white dark:bg-slate-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Section: Image Gallery & Tabs */}
