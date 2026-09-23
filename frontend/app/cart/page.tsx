@@ -1,5 +1,5 @@
 "use client"
-import { useState, useMemo, FormEvent } from 'react';
+import { useState, useMemo, FormEvent, useEffect } from 'react';
 import {
   Trash2,
   ArrowLeft,
@@ -21,15 +21,15 @@ import {
 } from 'lucide-react';
 import { Button  } from '@/components/ui/button';
 
-import { Input } from '@/components/ui/input';
 import { Navbar } from '@/components/web/navbar';
 import Breadcrumb from '@/components/web/cart/Breadcrumb';
 import FreeShippingIndicator from '@/components/web/cart/free-shipping-indicator';
 import OrderConfirm from '@/components/web/cart/order-confirm';
 import ListItems from '@/components/web/cart/list-items';
 import OrderSummaryCard from '@/components/web/cart/order-summary-card';
-import { es } from 'zod/locales';
 import { Footer } from '@/components/web/footer';
+import { toast } from 'sonner';
+import axios from 'axios';
 
 export type cart = {
   id : string ;
@@ -43,7 +43,7 @@ export type cart = {
 
 const INITIAL_CART = [
   {
-    id: 'sh-101',
+    id: '101',
     name: 'Wireless Headphones',
     price: 99,
     quantity: 1,
@@ -52,7 +52,7 @@ const INITIAL_CART = [
     inStock: true,
   },
   {
-    id: 'sh-102',
+    id: '102',
     name: 'Cotton T-Shirt',
     price: 19.99,
     quantity: 2,
@@ -61,7 +61,7 @@ const INITIAL_CART = [
     inStock: true,
   },
   {
-    id: 'sh-103',
+    id: '103',
     name: 'Minimal Backpack',
     price: 78.99,
     quantity: 1,
@@ -90,16 +90,12 @@ export default function page() {
   const [promoError, setPromoError] = useState('');
   
   // UI States
-  const [showClearModal, setShowClearModal] = useState(false);
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [orderConfirmed, setOrderConfirmed] = useState(false);
-  const [toast, setToast] = useState<Toast | null>(null);
+  const [showClearModal, setShowClearModal] = useState<boolean>(false);
+  const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false);
+  const [orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
 
-  // Toast Notification Helper
-  const triggerToast = (message :string, type = 'default') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  const [serverErrors , setServerErrors] = useState();
+
 
   const updateQuantity = (id:string, delta:number) => {
     setCart((prev) =>
@@ -114,15 +110,11 @@ export default function page() {
     );
   };
 
-  const removeItem = (id :string, name:string) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-    triggerToast(`Removed "${name}" from cart`);
-  };
+
 
   const handleClearCart = () => {
     setCart([]);
     setShowClearModal(false);
-    triggerToast('Shopping cart cleared');
   };
 
   const handleRestoreCart = () => {
@@ -130,7 +122,6 @@ export default function page() {
     setAppliedPromo(null);
     setPromoInput('');
     setOrderConfirmed(false);
-    triggerToast('Restored sample cart items');
   };
 
   const handleApplyPromo = (e: FormEvent<HTMLFormElement>) => {
@@ -145,11 +136,9 @@ export default function page() {
 
     if (cleanCode === 'SAVE10') {
       setAppliedPromo({ code: 'SAVE10', type: 'fixed', amount: 10 });
-      triggerToast('Coupon SAVE10 applied ($10 OFF)!', 'success');
       setPromoInput('');
     } else if (cleanCode === 'HALFPRICE') {
       setAppliedPromo({ code: 'HALFPRICE', type: 'percent', amount: 0.5 });
-      triggerToast('Coupon HALFPRICE applied (50% OFF)!', 'success');
       setPromoInput('');
     } else {
       setPromoError('Invalid coupon. Try "SAVE10" or "HALFPRICE"');
@@ -158,7 +147,6 @@ export default function page() {
 
   const removePromo = () => {
     setAppliedPromo(null);
-    triggerToast('Coupon code removed');
   };
 
   const subtotal = useMemo(() => {
@@ -195,6 +183,35 @@ export default function page() {
     }, 1200);
   };
 
+  const getCart =  async()=>{
+      
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart` , {withCredentials:true});
+      console.log(res);
+      } catch (error:any) {
+        setServerErrors(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
+      } 
+  }
+
+    const removeItem = (id :string, name:string) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const removeProductFromCart = async(id:string)=>{
+    try {
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart/${id}`,{withCredentials:true});
+      console.log(res);
+    } catch (error:any) {
+      setServerErrors(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
+    }
+  }
+
+  useEffect(()=>{
+    getCart();
+  },[])
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 antialiased">
       <Navbar/>
@@ -216,8 +233,8 @@ export default function page() {
             <OrderConfirm handleRestoreCart={handleRestoreCart}/>
         ) : cart.length === 0 ? (
           /* EMPTY CART SCREEN */
-          <div className="max-w-md mx-auto text-center py-16 px-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="max-w-md mx-auto text-center py-16 px-6 bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="w-16 h-16 bg-slate-100 dark:bg-slate-950 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">
               <ShoppingBasket className="w-8 h-8" />
             </div>
             <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Your cart is empty</h2>
@@ -239,7 +256,7 @@ export default function page() {
                 totalItemCount={totalItemCount}
                 setShowClearModal={setShowClearModal}
                 updateQuantity={updateQuantity}
-                removeItem={removeItem}
+                removeItem={removeProductFromCart}
               />
 
             {/* COLUMN 2: ORDER SUMMARY CARD (4 cols) */}
@@ -266,8 +283,8 @@ export default function page() {
       {/* CLEAR CART RADIX/SHADCN CONFIRMATION MODAL */}
       {showClearModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
-            <div className="w-12 h-12 bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mb-4">
+          <div className="bg-white dark:bg-slate-950 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div className="w-12 h-12 bg-red-100 dark:bg-slate-950 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mb-4">
               <AlertCircle className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold mb-1 text-slate-900 dark:text-white">Clear Shopping Cart?</h3>
