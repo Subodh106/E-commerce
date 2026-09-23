@@ -94,7 +94,7 @@ export default function ShopPage() {
         }
     };
  return (
-    <main className="min-h-screen bg-white text-slate-900 dark:bg-black  dark:text-zinc-100 transition-colors duration-200">
+    <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950  dark:text-zinc-100 transition-colors duration-200">
       {/* Breadcrumb */}
         <BreadCrumb/>
 
@@ -110,13 +110,13 @@ export default function ShopPage() {
         {/* Mobile Filter */}
         {mobileFilter && (
           <div className="fixed inset-0 z-50 bg-black/30 lg:hidden" onClick={()=>setMobileFilter(false)} >
-            <div className="absolute right-0 h-full w-80 overflow-y-auto bg-white dark:bg-black text-zinc-900 dark:text-zinc-100 transition-colors duration-200 p-6">
+            <div className="absolute right-0 h-full w-80 overflow-y-auto bg-white dark:bg-slate-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200 p-6">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Filters</h2>
 
                 <button
                   onClick={() => setMobileFilter(false)}
-                  className="rounded-lg p-2 hover:bg-slate-100 cursor-pointer dark:bg-slate-900 dark:hover:bg-late-800"
+                  className="rounded-lg p-2 hover:bg-slate-100 cursor-pointer dark:bg-slate-950 dark:hover:bg-late-800"
                 >
                   <X size={20} />
                 </button>
@@ -159,10 +159,10 @@ export default function ShopPage() {
                   onChange={(e) => setSort(e.target.value)}
                   className="appearance-none rounded-lg border border-slate-300 py-2 pl-4 pr-10 text-sm  cursor-pointer"
                 >
-                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Newest</option>
-                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Price: Low to High</option>
-                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Price: High to Low</option>
-                  <option className="dark:bg-slate-900 dark:text-slate-300 text-slate-900">Rating</option>
+                  <option className="dark:bg-slate-950 dark:text-slate-300 text-slate-900">Newest</option>
+                  <option className="dark:bg-slate-950 dark:text-slate-300 text-slate-900">Price: Low to High</option>
+                  <option className="dark:bg-slate-950 dark:text-slate-300 text-slate-900">Price: High to Low</option>
+                  <option className="dark:bg-slate-950 dark:text-slate-300 text-slate-900">Rating</option>
                 </select>
 
                 <ChevronDown
