@@ -46,9 +46,9 @@ public class CartController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<ApiResponse<Void>> removeProductFromCart(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable Long productId){
+    public ResponseEntity<ApiResponse<Void>> removeProductFromCart(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable String productId){
         Long userId = customUserPrincipal.getId();
-        cartService.removeProductFromCart(userId , productId);
+        cartService.removeProductFromCart(userId , Long.parseLong(productId));
         ApiResponse<Void> cartResponse = new ApiResponse<>("Product is removed from cart successfully", null);
         return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
     }
