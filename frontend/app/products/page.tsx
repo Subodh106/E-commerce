@@ -16,6 +16,8 @@ import { toast } from "sonner";
 import Pagination from "@/components/web/product-components/pagination";
 import SearchItem from "@/components/web/product-components/search";
 import FilterContent from "@/components/web/product-components/filter-content";
+import { getAllProducts } from "@/services/productService";
+import path from "path";
 
 
 const categories = [
@@ -35,6 +37,8 @@ export default function ShopPage() {
   const [mobileFilter, setMobileFilter] = useState(false);
   const[serverErrors ,setServerErrors] = useState();
   const[page,setPage] = useState<number>(0);
+  const[direction , setDirection]=useState<string>("asc");
+  const[sortBy , setSortBy] = useState<string>("price");
   const[products , setProducts] = useState<ProductType[]>([{
     "id": 101,
     "name": "Wireless Bluetooth Headphones",
@@ -75,14 +79,22 @@ export default function ShopPage() {
   };
 
   useEffect(()=>{
-      getAllProducts();
+      fetchProducts();
       console.log(search)
   },[page,selectedCategory,search,price])
 
-    const getAllProducts = async (): Promise<void> => {
-      
+    const fetchProducts = async (): Promise<void> => {
+          
         try {
-          const res = await axios.get(`http://localhost:8080/api/v1/products?search=${search}&category=${selectedCategory}&minPrice=10&maxPrice=${price}&size=9&page=${page}&direction=asc&sortBy=price`,{withCredentials:true});
+          const pathVaiables = {
+            search ,
+            selectedCategory,
+            price,
+            page,
+            direction,
+            sortBy
+          }
+          const res = await getAllProducts(pathVaiables)
           if(res.status==200){
           const result = res?.data?.data;
           setProducts([...result]);
