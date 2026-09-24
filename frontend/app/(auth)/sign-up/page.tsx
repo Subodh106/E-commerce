@@ -8,13 +8,13 @@ import { SignUpUserSchema } from '@/Schema/SignUpUserSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import axios from 'axios'
 import {
   useForm,
   type SubmitHandler,
   } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { registerUser } from '@/services/authService'
 
 const SignUpPage = () => {
   const { handleSubmit, register ,setError , formState:{errors} ,reset} = useForm<z.infer<typeof SignUpUserSchema>>({
@@ -30,7 +30,7 @@ const SignUpPage = () => {
 
   const handleSignUpUser:SubmitHandler<z.infer<typeof SignUpUserSchema>> = async(data)=>{
       try{
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/auth/user/register`,data);
+        const res = await registerUser(data);
         console.log(res);
         reset();
         router.push("/home")
