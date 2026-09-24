@@ -8,6 +8,7 @@ import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { toast} from 'sonner';
 import { ProductType } from '@/Types/HomeTypes';
+import { getProductById } from '@/services/productService';
 
 const images = [
   'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60',
@@ -40,7 +41,7 @@ export default function ProductDetails() {
 
   const getProductDetails = async()=>{
     try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/products/${productId}` ,{withCredentials:true})
+        const res = await getProductById(productId);
         console.log(res)
       } catch (error:any) {
         setServerErrors(error?.response?.data?.message)
