@@ -9,6 +9,7 @@ import axios from 'axios';
 import { toast} from 'sonner';
 import { ProductType } from '@/Types/HomeTypes';
 import { getProductById } from '@/services/productService';
+import { AddToCart } from '@/services/cartService';
 
 const images = [
   'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60',
@@ -52,9 +53,7 @@ export default function ProductDetails() {
 
   const addToCart = async()=>{
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart`,{
-        productId,quantity
-      },{withCredentials:true})
+      const res = await AddToCart({productId,quantity});
       if(res.status===200){
         toast.success(res?.data?.data);
       }
