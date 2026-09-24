@@ -14,6 +14,7 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import useUser from '@/hooks/useUser'
+import { logIn } from '@/services/authService'
 
 
 const LoginPage = () => {
@@ -30,7 +31,7 @@ const LoginPage = () => {
 
   const handleLoginUser : SubmitHandler<z.infer<typeof loginUserSchema>> = async(data)=>{
     try{
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/auth/user/login`,data ,{withCredentials:true});
+        const res = await logIn(data);
         if(res.status==200){
           toast.success("Login successfully")
           setUser(res?.data?.data);
