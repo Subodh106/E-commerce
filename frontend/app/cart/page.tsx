@@ -14,6 +14,7 @@ import ListItems from '@/components/web/cart/list-items';
 import OrderSummaryCard from '@/components/web/cart/order-summary-card';
 import { toast } from 'sonner';
 import axios from 'axios';
+import { fetchCart, removeItemFromCart } from '@/services/cartService';
 
 export type cart = {
   id : string ;
@@ -170,7 +171,7 @@ export default function page() {
   const getCart =  async()=>{
       
       try {
-        const res = await getCart();
+        const res = await fetchCart();
       console.log(res);
       } catch (error:any) {
         setServerErrors(error?.response?.data?.message);
@@ -180,7 +181,7 @@ export default function page() {
 
   const removeProductFromCart = async(id:string)=>{
     try {
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart/${id}`,{withCredentials:true});
+      const res = await removeItemFromCart(id);
       console.log(res);
     } catch (error:any) {
       setServerErrors(error?.response?.data?.message);
