@@ -170,7 +170,7 @@ export default function page() {
   const getCart =  async()=>{
       
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart` , {withCredentials:true});
+        const res = await getCart();
       console.log(res);
       } catch (error:any) {
         setServerErrors(error?.response?.data?.message);
