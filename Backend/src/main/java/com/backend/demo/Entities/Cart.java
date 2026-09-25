@@ -28,6 +28,15 @@ public class Cart {
     private List<CartItem> cartItems = new ArrayList<>();
 
     @Column(nullable = false)
+    private BigDecimal subTotal;
+
+    @Column(nullable = false)
+    private BigDecimal shipping;
+
+    @Column(nullable = false)
+    private BigDecimal total;
+
+    @Column(nullable = false)
     private Date created_at;
 
     @Column(nullable = false)
