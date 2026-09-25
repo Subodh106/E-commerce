@@ -10,9 +10,11 @@ import com.backend.demo.Exception.Custom.ResourceNotFoundException;
 import com.backend.demo.Repository.CartRepository;
 import com.backend.demo.Repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +46,25 @@ public class CartService {
             existedCart.setCartItems(new ArrayList<>());
         }
 
+        CartItem cartItem = createCartItem(cartItemDto, product, existedCart);
+        existedCart.setUserId(userId);
+
+        List<CartItem> cartItemList = existedCart.getCartItems();
+        cartItemList.add(cartItem);
+        existedCart.setCartItems(cartItemList);
+        BigDecimal subTotal = BigDecimal.valueOf(0);
+        List<CartItem> cartItem1 = existedCart.getCartItems();
+        for(CartItem cartItem2 : cartItem1){
+            subTotal = subTotal.add( cartItem2.getSubTotal());
+        }
+        existedCart.setSubTotal(subTotal);
+        existedCart.setTotal(existedCart.getSubTotal().add(existedCart.getShipping()));
+        existedCart.setUpdated_at(new Date());
+        Cart savedCart = cartRepository.save(existedCart);
+        return buildCartDto(savedCart);
+    }
+
+    private static @NonNull CartItem createCartItem(CartItemDto cartItemDto, Product product, Cart existedCart) {
         CartItem cartItem = new CartItem();
         cartItem.setProductId(product.getId());
         cartItem.setCategory(product.getCategory());
@@ -51,14 +72,10 @@ public class CartService {
         cartItem.setImageUrl(product.getImageUrl());
         cartItem.setQuantity(cartItemDto.getQuantity());
         cartItem.setCart(existedCart);
-
-        existedCart.setUserId(userId);
-        List<CartItem> cartItemList = existedCart.getCartItems();
-        cartItemList.add(cartItem);
-        existedCart.setCartItems(cartItemList);
-        existedCart.setUpdated_at(new Date());
-        Cart savedCart = cartRepository.save(existedCart);
-        return buildCartDto(savedCart);
+        BigDecimal price = product.getPrice();
+        BigDecimal quantity = BigDecimal.valueOf(cartItem.getQuantity());
+        cartItem.setSubTotal(price.multiply(quantity));
+        return cartItem;
     }
 
     public CartResponseDto getCart(Long userID){
