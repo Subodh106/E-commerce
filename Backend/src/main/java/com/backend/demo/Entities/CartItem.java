@@ -65,6 +65,9 @@ public class CartItem {
     private Cart cart;
 
     @Column(nullable = false)
+    private BigDecimal subTotal;
+
+    @Column(nullable = false)
     private Date added_at;
 
 
