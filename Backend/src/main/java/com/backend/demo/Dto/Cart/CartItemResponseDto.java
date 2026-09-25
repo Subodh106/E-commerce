@@ -23,6 +23,7 @@ public class CartItemResponseDto {
     private String imageUrl;
     private int quantity;
     private Cart cart;
+    private BigDecimal subtotal;
     private Date added_at;
 
     public void setCategory(Category category) {
