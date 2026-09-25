@@ -42,17 +42,32 @@ public class CartService {
                 cartItemDto.getProductId()).orElseThrow(()->
                     new ResourceNotFoundException("Product is not found")
                 );
-        if(existedCart.getCartItems()==null){
-            existedCart.setCartItems(new ArrayList<>());
-        }
 
-        CartItem cartItem = createCartItem(cartItemDto, product, existedCart);
+        CartItem cartItem = existedCart.getCartItems()
+                .stream().
+                filter(items ->
+                        items.getProductId()
+                                .equals(product.getId()))
+                .findFirst()
+                .orElse(null);
         existedCart.setUserId(userId);
+
+        if(cartItem !=null){
+            cartItem.setQuantity(
+                    cartItem.getQuantity()+cartItemDto.getQuantity()
+            );
+            cartItem.setSubTotal(
+                    product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()))
+            );
+        }else{
+            CartItem cartItem1 = createCartItem(cartItemDto,product,existedCart);
+            existedCart.getCartItems().add(cartItem1);
+        }
 
         List<CartItem> cartItemList = existedCart.getCartItems();
         cartItemList.add(cartItem);
         existedCart.setCartItems(cartItemList);
-        BigDecimal subTotal = BigDecimal.valueOf(0);
+        BigDecimal subTotal = BigDecimal.ZERO;
         List<CartItem> cartItem1 = existedCart.getCartItems();
         for(CartItem cartItem2 : cartItem1){
             subTotal = subTotal.add( cartItem2.getSubTotal());
