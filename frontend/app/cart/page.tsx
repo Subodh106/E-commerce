@@ -73,7 +73,10 @@ export default function page() {
   const [promoInput, setPromoInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<appliedPromo|null>(null); // { code: 'SAVE10', type: 'fixed'|'percent', amount: 10 }
   const [promoError, setPromoError] = useState('');
-  
+  const[subTotal , setSubtotal] = useState<number>(100);
+  const[discountAmount,setDiscountAmount]=useState<number>(10);  
+
+
   // UI States
   const [showClearModal, setShowClearModal] = useState<boolean>(false);
   const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false);
@@ -134,22 +137,8 @@ export default function page() {
     setAppliedPromo(null);
   };
 
-  const subtotal = useMemo(() => {
-    return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  }, [cart]);
-
-  const discountAmount = useMemo(() => {
-    if (!appliedPromo) return 0;
-    if (appliedPromo.type === 'fixed') {
-      return Math.min(subtotal, appliedPromo.amount);
-    }
-    if (appliedPromo.type === 'percent') {
-      return subtotal * appliedPromo.amount;
-    }
-    return 0;
-  }, [subtotal, appliedPromo]);
-
-  const postDiscountSubtotal = Math.max(0, subtotal - discountAmount);
+ 
+  const postDiscountSubtotal = Math.max(0, subTotal - discountAmount);
   
   // Free shipping logic ($100 target)
   const freeShippingThreshold = 100;
@@ -263,7 +252,7 @@ export default function page() {
                 discountAmount={discountAmount}
                 shippingFee={shippingFee}
                 estimatedTax={estimatedTax}
-                subTotal={subtotal}
+                subTotal={subTotal}
                 grandTotal={grandTotal}
                 isCheckingOut = {isCheckingOut}
                 handleCheckOutProcess={handleCheckoutProcess}
