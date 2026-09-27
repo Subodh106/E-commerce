@@ -18,7 +18,7 @@ export default function AdminDashboard() {
           Dashboard
         </h1>
 
-        <p className="mt-1 text-sm text-black/50">
+        <p className="mt-1 text-sm text-black dark:text-white">
           Manage your store and monitor your ecommerce activity.
         </p>
       </div>
