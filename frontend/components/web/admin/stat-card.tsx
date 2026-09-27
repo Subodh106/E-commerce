@@ -15,16 +15,16 @@ export default function StatCard({
   icon: Icon,
 }: StatCardProps) {
   return (
-    <Card className="border-black/10 shadow-none">
+    <Card className="border-black/10 shadow-none dark:bg-slate-900">
       <CardContent className="flex items-start justify-between p-5">
         <div>
-          <p className="text-sm text-black/50">{title}</p>
+          <p className="text-sm text-black/50 dark:text-white/50">{title}</p>
 
           <h2 className="mt-2 text-2xl font-bold tracking-tight">
             {value}
           </h2>
 
-          <p className="mt-1 text-xs text-black/50">{description}</p>
+          <p className="mt-1 text-xs dark:text-white/50 text-black/50">{description}</p>
         </div>
 
         <div className="rounded-md border border-black/10 p-2.5">

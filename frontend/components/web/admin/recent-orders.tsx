@@ -34,7 +34,7 @@ const orders = [
 
 export default function RecentOrders() {
   return (
-    <Card className="border-black/10 shadow-none">
+    <Card className="border-black/10 shadow-none dark:bg-slate-900">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>Recent Orders</CardTitle>
@@ -56,13 +56,13 @@ export default function RecentOrders() {
           >
             <div>
               <p className="text-sm font-medium">{order.id}</p>
-              <p className="text-xs text-black/50">{order.customer}</p>
+              <p className="text-xs text-black/50 dark:text-white/50">{order.customer}</p>
             </div>
 
             <div className="text-right">
               <p className="text-sm font-medium">{order.amount}</p>
 
-              <span className="text-xs text-black/50">
+              <span className="text-xs text-black/50 dark:text-white/50">
                 {order.status}
               </span>
             </div>

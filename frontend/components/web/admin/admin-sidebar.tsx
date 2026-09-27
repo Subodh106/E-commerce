@@ -68,7 +68,7 @@ export default function AdminSidebar() {
                 dark:hover:bg-slate-800
                 text-sm font-medium transition ${
                 active
-                  ? "bg-slate-100 text-slate-800 dark:bg-slate-300 dark:text-slate-100"
+                  ? "bg-slate-950 text-slate-100 dark:bg-slate-800 dark:text-slate-100"
                   : "text-slate-950 hover:bg-slate-800 hover:text-slate-100"
               }`}
             >

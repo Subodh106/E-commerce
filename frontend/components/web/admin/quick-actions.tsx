@@ -26,7 +26,7 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <Card className="border-black/10 shadow-none">
+    <Card className="border-black/10 shadow-none dark:bg-slate-900">
       <CardHeader>
         <CardTitle>Quick Actions</CardTitle>
       </CardHeader>
@@ -40,7 +40,7 @@ export default function QuickActions() {
               <Link
                 key={action.title}
                 href={action.href}
-                className="group rounded-lg border border-black/10 p-5 transition hover:border-black hover:bg-black hover:text-white"
+                className="group rounded-lg border border-black/10 p-5 transition hover:border-black hover:bg-black hover:text-white dark:hover:bg-slate-800"
               >
                 <Icon className="h-5 w-5" />
 
@@ -48,7 +48,7 @@ export default function QuickActions() {
                   {action.title}
                 </h3>
 
-                <p className="mt-1 text-sm text-black/50 group-hover:text-white/60">
+                <p className="mt-1 text-sm text-black/50 dark:text-white/50 group-hover:text-white/60">
                   {action.description}
                 </p>
               </Link>

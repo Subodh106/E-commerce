@@ -19,17 +19,17 @@ export default function SalesOverview() {
   const max = Math.max(...sales.map((item) => item.value));
 
   return (
-    <Card className="border-black/10 shadow-none">
+    <Card className="border-black/10 shadow-none dark:bg-slate-900">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div>
             <CardTitle>Sales Overview</CardTitle>
-            <p className="mt-1 text-sm text-black/50">
+            <p className="mt-1 text-sm text-black/50 dark:text-white/50">
               Sales performance for the last 7 days
             </p>
           </div>
 
-          <select className="rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none">
+          <select className="rounded-md border border-black/10 bg-slate-100 dark:border-slate-200 dark:bg-slate-950 px-3 py-2 text-sm outline-none">
             <option>Last 7 days</option>
             <option>Last 30 days</option>
             <option>Last 90 days</option>
@@ -51,7 +51,7 @@ export default function SalesOverview() {
                 }}
               />
 
-              <span className="pb-3 text-xs text-black/50">
+              <span className="pb-3 text-xs text-black/50 dark:text-white/50">
                 {item.day}
               </span>
             </div>
