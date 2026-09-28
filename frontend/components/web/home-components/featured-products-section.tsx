@@ -18,6 +18,7 @@ const products = [
     rating: 4.8,
     reviews: 128,
     image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
+    description:" "
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const products = [
     rating: 4.6,
     reviews: 80,
     image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
+    description : ""
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ const products = [
     rating: 4.7,
     reviews: 96,
     image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
+    description : ""
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ const products = [
     rating: 4.5,
     reviews: 74,
     image: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db14255/media-gallery/touch/fpr/laptop-db14255t-bl-fpr-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=975&qlt=100,1&resMode=sharp2&size=975,804&chrss=full",
+    description:""
   },
 ]
 
@@ -76,7 +80,8 @@ export function FeaturedProductsSection() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => {
               return (
-                <FeaturedProductCard key={product.id} id={product.id} name={product.name} rating={product.rating} price={product.rating} reviews={product.reviews} image={product.image} />
+
+                <FeaturedProductCard key={product.id} id={product.id} name={product.name} image={product.image} rating={product.rating} price={product.price} reviews={product.reviews} description={product.description} stock={0} />
               )
           })
 }
