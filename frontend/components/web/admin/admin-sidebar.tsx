@@ -8,6 +8,7 @@ import {
   Tags,
   Settings,
   LogOut,
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -44,11 +45,16 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-slate-950 bg-slate-100 dark:text-slate-100 dark:bg-slate-950">
-      <div className="flex h-16 items-center border-b border-black/10 px-6">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-slate-950 dark:border-slate-100 bg-slate-100 dark:text-slate-100 dark:bg-slate-950">
+      <div className="flex h-16 items-center border-b border-black/10 px-6 ">
         <div>
-          <h1 className="text-lg font-bold">ShopStore</h1>
-          <p className="text-xs text-slate-950 dark:text-slate-100">Admin Panel</p>
+          <div className="flex items-center justify-items-center gap-2">
+            <ShoppingBag className="size-5"/>
+            <h1 className="text-lg font-bold">ShopHub</h1>
+          </div>
+          <p className="text-xs text-slate-950 dark:text-slate-100">
+            Admin Panel
+          </p>
         </div>
       </div>
 
@@ -64,13 +70,13 @@ export default function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 rounded-md px-3 py-2.5  dark:text-slate-100 dark:bg-slate-950
+              className={`flex items-center gap-3 rounded-md px-3 py-2.5  dark:text-slate-100
                 dark:hover:bg-slate-800
                 text-sm font-medium transition ${
-                active
-                  ? "bg-slate-950 text-slate-100 dark:bg-slate-800 dark:text-slate-100"
-                  : "text-slate-950 hover:bg-slate-800 hover:text-slate-100"
-              }`}
+                  active
+                    ? "bg-slate-950 hover:bg-slate- text-slate-100 dark:bg-slate-800 dark:text-slate-100"
+                    : "text-slate-950 hover:bg-slate-800 hover:text-slate-100"
+                }`}
             >
               <Icon className="h-4 w-4" />
               {item.name}
