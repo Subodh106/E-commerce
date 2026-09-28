@@ -6,27 +6,12 @@ import { PackagePlus } from "lucide-react";
 export default function CreateProductCard() {
   return (
     <Card
-      className="
-                border-slate-300
-                bg-slate-100
-                text-slate-950
-
-                dark:border-slate-800
-                dark:bg-slate-950
-                dark:text-slate-100
-
-                lg:col-span-2
-              "
+      className=" border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 lg:col-span-2"
     >
       <CardHeader>
         <div className="flex items-center gap-3">
           <div
-            className="
-                      flex h-10 w-10 items-center justify-center
-                      rounded-lg
-                      bg-slate-200
-                      dark:bg-slate-800
-                    "
+            className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800 "
           >
             <PackagePlus className="h-5 w-5" />
           </div>
@@ -44,9 +29,9 @@ export default function CreateProductCard() {
       <CardContent className="space-y-5">
         {/* Product Name */}
 
-        <div className="space-y-2">
-          <label htmlFor="productName" className="text-sm font-medium">
-            Product Name
+        <div className="space-y-2 flex gap-3 text-center items-center">
+          <label htmlFor="productName" className=" font-medium ">
+            Product Name :
           </label>
 
           <Input
@@ -58,18 +43,17 @@ export default function CreateProductCard() {
                       border-slate-300
                       bg-slate-100
                       text-slate-950
-
                       placeholder:text-slate-500
-
+                        border
+                        rounded-sm
+                        p-1
+                        text-center
                       focus-visible:ring-slate-950
-
                       dark:border-slate-700
                       dark:bg-slate-950
                       dark:text-slate-100
-
-                      dark:placeholder:text-slate-500
-
-                      dark:focus-visible:ring-slate-100
+                     dark:placeholder:text-slate-500
+                     dark:focus-visible:ring-slate-100
                     "
           />
         </div>
@@ -86,26 +70,7 @@ export default function CreateProductCard() {
             name="description"
             placeholder="Write a detailed description..."
             required
-            className="
-                      min-h-32
-                      resize-none
-
-                      border-slate-300
-                      bg-slate-100
-                      text-slate-950
-
-                      placeholder:text-slate-500
-
-                      focus-visible:ring-slate-950
-
-                      dark:border-slate-700
-                      dark:bg-slate-950
-                      dark:text-slate-100
-
-                      dark:placeholder:text-slate-500
-
-                      dark:focus-visible:ring-slate-100
-                    "
+            className=" min-h-32 resize-none border-slate-300 bg-slate-100 text-slate-950 rounded-3xl placeholder:text-slate-500 focus-visible:ring-slate-950 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus-visible:ring-slate-100"
           />
         </div>
 
@@ -125,23 +90,7 @@ export default function CreateProductCard() {
               step="0.01"
               placeholder="0.00"
               required
-              className="
-                        border-slate-300
-                        bg-slate-100
-                        text-slate-950
-
-                        placeholder:text-slate-500
-
-                        focus-visible:ring-slate-950
-
-                        dark:border-slate-700
-                        dark:bg-slate-950
-                        dark:text-slate-100
-
-                        dark:placeholder:text-slate-500
-
-                        dark:focus-visible:ring-slate-100
-                      "
+              className="border-slate-300 bg-slate-100 text-slate-950 placeholder:text-slate-500 outline-none dark:border-slate-700 dark:bg-slate-950 "
             />
           </div>
 
@@ -157,23 +106,7 @@ export default function CreateProductCard() {
               min="0"
               placeholder="0"
               required
-              className="
-                        border-slate-300
-                        bg-slate-100
-                        text-slate-950
-
-                        placeholder:text-slate-500
-
-                        focus-visible:ring-slate-950
-
-                        dark:border-slate-700
-                        dark:bg-slate-950
-                        dark:text-slate-100
-
-                        dark:placeholder:text-slate-500
-
-                        dark:focus-visible:ring-slate-100
-                      "
+              className=" border-slate-300 bg-slate-100 text-slate-950 placeholder:text-slate-500 focus-visible:ring-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus-visible:ring-slate-100"
             />
           </div>
         </div>
@@ -189,27 +122,7 @@ export default function CreateProductCard() {
             id="category"
             name="category"
             required
-            className="
-                      h-10
-                      w-full
-                      rounded-md
-                      border
-                      border-slate-300
-                      bg-slate-100
-                      px-3
-                      text-sm
-                      text-slate-950
-                      outline-none
-
-                      focus:ring-2
-                      focus:ring-slate-950
-
-                      dark:border-slate-700
-                      dark:bg-slate-950
-                      dark:text-slate-100
-
-                      dark:focus:ring-slate-100
-                    "
+            className="h-10 w-full rounded-md border border-slate-300 bg-slate-100 px-3 text-sm text-slate-950 outline-none focus:ring-2 focus:ring-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:ring-slate-100"
           >
             <option value="">Select category</option>
 
