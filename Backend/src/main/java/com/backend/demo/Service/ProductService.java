@@ -38,6 +38,7 @@ public class ProductService {
 
     public ProductResponseDto create(ProductRequestDto createProductDto , Long id) {
         try{
+            System.out.println("dfaf");
             Product product = new Product();
             product.setProductName(createProductDto.getProductName());
             product.setDescription(createProductDto.getDescription());
