@@ -76,10 +76,10 @@ export default function CreateProductCard() {
 
         {/* Price + Stock */}
 
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div className="space-y-2">
+        <div className="grid gap-5 sm:grid-row-2">
+          <div className="space-y-2 flex items-center gap-3 text-center  ">
             <label htmlFor="price" className="text-sm font-medium">
-              Price
+              Price :
             </label>
 
             <Input
@@ -87,16 +87,17 @@ export default function CreateProductCard() {
               name="price"
               type="number"
               min="0"
-              step="0.01"
               placeholder="0.00"
               required
-              className="border-slate-300 bg-slate-100 text-slate-950 placeholder:text-slate-500 outline-none dark:border-slate-700 dark:bg-slate-950 "
+              className="border border-slate-300 dark:text-slate-100 bg-slate-100 text-slate-950
+              px-2 placeholder:text-slate-500 outline-none rounded-sm dark:border-slate-700 dark:bg-slate-950"
             />
-          </div>
 
-          <div className="space-y-2">
+            </div>
+
+          <div className="space-y-2 flex  items-center- gap-3 text-center">
             <label htmlFor="stock" className="text-sm font-medium">
-              Stock
+              Stock :
             </label>
 
             <Input
@@ -106,7 +107,9 @@ export default function CreateProductCard() {
               min="0"
               placeholder="0"
               required
-              className=" border-slate-300 bg-slate-100 text-slate-950 placeholder:text-slate-500 focus-visible:ring-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus-visible:ring-slate-100"
+              className=" border border-slate-300 bg-slate-100 text-slate-950 placeholder:text-slate-500 focus-visible:ring-slate-950 dark:border-slate-700 
+              rounded-sm px-2
+              dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus-visible:ring-slate-100"
             />
           </div>
         </div>
