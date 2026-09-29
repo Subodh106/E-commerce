@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CreateProductCard from "@/components/web/admin/create-product-card";
+import { createProduct } from "@/services/adminService";
 
 interface ProductImage {
   file: File;
@@ -22,38 +23,36 @@ interface ProductImage {
 }
 
 export default function CreateProductPage() {
-  const [images, setImages] = useState<ProductImage[]>([]);
+  const [images, setImages] = useState<ProductImage | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const files = event.target.files;
+    const file = event.target.files?.[0];
 
-    if (!files) return;
+    if (!file) return;
 
-    const newImages = Array.from(files).map((file) => ({
+    const newImage: ProductImage = {
       file,
       preview: URL.createObjectURL(file),
-    }));
+    };
 
-    setImages((prev) => [...prev, ...newImages]);
+    setImages(newImage);
 
     event.target.value = "";
   };
 
-  const removeImage = (index: number) => {
-    setImages((prev) => {
-      URL.revokeObjectURL(prev[index].preview);
-
-      return prev.filter((_, i) => i !== index);
-    });
+  const removeImage = (_index: number) => {
+    setImages(null);
   };
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
+
+    if (!images) return;
 
     setIsSubmitting(true);
 
@@ -70,14 +69,18 @@ export default function CreateProductPage() {
 
       console.log(
         "Images:",
-        images.map((image) => image.file)
+        images
       );
 
-      // Later:
-      // await createProduct(formData);
+      const createProductData = {
+        formDate: formData,
+        image: images.file,
+      };
 
-    } catch (error) {
-      console.error("Create product failed:", error);
+      const res = await createProduct(createProductData);
+
+    } catch (error:any) {
+      console.log("Create product failed:", error?.response?.data?.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -209,13 +212,9 @@ export default function CreateProductPage() {
 
                 {/* Preview */}
 
-                {images.length > 0 && (
+                {images && (
                   <div className="grid grid-cols-2 gap-3">
-
-                    {images.map((image, index) => (
-
                       <div
-                        key={`${image.file.name}-${index}`}
                         className="
                           group
                           relative
@@ -233,14 +232,14 @@ export default function CreateProductPage() {
                       >
 
                         <img
-                          src={image.preview}
-                          alt={`Product ${index + 1}`}
+                          src={images.preview}
+                          alt={`Product}`}
                           className="h-full w-full object-cover"
                         />
 
                         <button
                           type="button"
-                          onClick={() => removeImage(index)}
+                          onClick={() => removeImage(1)}
                           className="
                             absolute
                             right-2
@@ -265,28 +264,7 @@ export default function CreateProductPage() {
                           <X className="h-3.5 w-3.5" />
                         </button>
 
-                        <span
-                          className="
-                            absolute
-                            bottom-2
-                            left-2
-                            rounded-md
-                            bg-slate-950/80
-                            px-2
-                            py-1
-                            text-[10px]
-                            text-slate-100
-
-                            dark:bg-slate-100/90
-                            dark:text-slate-950
-                          "
-                        >
-                          {index + 1}
-                        </span>
-
                       </div>
-
-                    ))}
 
                   </div>
                 )}
