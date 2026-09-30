@@ -7,6 +7,7 @@ import com.backend.demo.Entities.Cart;
 import com.backend.demo.Entities.CartItem;
 import com.backend.demo.Entities.Product;
 import com.backend.demo.Exception.Custom.ResourceNotFoundException;
+import com.backend.demo.Repository.CartItemRepository;
 import com.backend.demo.Repository.CartRepository;
 import com.backend.demo.Repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Transactional
     public CartResponseDto addToCart(CartItemDto cartItemDto , Long userId){
