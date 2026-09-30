@@ -78,7 +78,7 @@ export default function CreateProductPage() {
       };
 
       const res = await createProduct(createProductData);
-
+      console.log(res);
     } catch (error:any) {
       console.log("Create product failed:", error?.response?.data?.message);
     } finally {
