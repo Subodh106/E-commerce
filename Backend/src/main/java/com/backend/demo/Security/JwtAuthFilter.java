@@ -33,6 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
+        System.out.println("Outside");
         final Cookie[] cookies = request.getCookies();
 
         String jwts = null;
@@ -54,6 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
         try {
+            System.out.println("Inside chain");
             Claims claims = jwtService.extractAllClaims(jwts);
             Long userID = Long.valueOf(claims.getSubject());
             if (SecurityContextHolder.getContext().getAuthentication() == null
@@ -70,6 +72,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, STR."jwt authorization failed: \{ex.getMessage()}");
         }
 
+        System.out.println("After chain");
         filterChain.doFilter(request, response);
     }
 

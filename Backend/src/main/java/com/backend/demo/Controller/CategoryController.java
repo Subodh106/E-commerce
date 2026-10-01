@@ -16,12 +16,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CategoryResponseDto>> createCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<ApiResponse<CategoryResponseDto>> createCategory(@RequestBody CategoryDto categoryDto) {
+        System.out.println("Create route");
         CategoryResponseDto response = categoryService.createCategory(categoryDto);
-        ApiResponse<CategoryResponseDto> categoryResponse = new ApiResponse<>("New category is created ",response);
+        ApiResponse<CategoryResponseDto> categoryResponse = new ApiResponse<>("New category is created ", response);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
     }
 
