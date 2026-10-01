@@ -4,6 +4,7 @@ import com.backend.demo.Common.ApiResponse;
 import com.backend.demo.Dto.Category.CategoryDto;
 import com.backend.demo.Dto.Category.CategoryResponseDto;
 import com.backend.demo.Service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CategoryResponseDto>> createCategory(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<ApiResponse<CategoryResponseDto>> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
         System.out.println("Create route");
         CategoryResponseDto response = categoryService.createCategory(categoryDto);
         ApiResponse<CategoryResponseDto> categoryResponse = new ApiResponse<>("New category is created ", response);
