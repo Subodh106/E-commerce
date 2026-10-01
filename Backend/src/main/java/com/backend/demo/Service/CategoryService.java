@@ -36,9 +36,6 @@ public class CategoryService {
 
     public List<CategoryResponseDto> getAllCategory(){
         List<Category> categories = categoryRepository.findAll();
-        if(categories.isEmpty()){
-            throw new ResourceNotFoundException("Category not found");
-        }
         List<CategoryResponseDto> categoryList = new ArrayList<>();
         for(Category category : categories){
             categoryList.add(buildCategory(category));
@@ -47,7 +44,10 @@ public class CategoryService {
     }
 
     public void deleteCategory(Long Id){
-        categoryRepository.findById(Id).orElseThrow(()->new ResourceNotFoundException("Category not found"));
+        Category category = categoryRepository.findById(Id).orElseThrow(()->new ResourceNotFoundException("Category not found"));
+        if(!category.getProductList().isEmpty()){
+            throw new IllegalStateException("Cannot delete category containing products");
+        }
         categoryRepository.deleteById(Id);
     }
 
