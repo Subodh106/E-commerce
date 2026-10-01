@@ -27,6 +27,7 @@ import {
 import CreateCategory from "@/components/web/admin/create-category-section";
 
 import { create_Category } from "@/services/categoryService";
+import { toast } from "sonner";
 
 
 export interface Category {
@@ -132,7 +133,9 @@ export default function CategoriesPage() {
 
   const createCategory = async()=>{
     try {
-      const res = await create_Category(categoryName);
+      const res = await create_Category({category:categoryName});
+      toast.success(res?.data?.message)
+      setIsDialogOpen(false)
     } catch (error:any) {
       console.log(error?.response?.data?.message)
     }
