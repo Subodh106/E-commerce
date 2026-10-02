@@ -136,7 +136,6 @@ export default function CategoriesPage() {
           </CardContent>
         </Card>
 
-        {/* SINGLE RESPONSIVE CONTAINER */}
         <Card className="border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
           <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
             <div className="flex items-center justify-between">
@@ -208,7 +207,7 @@ export default function CategoriesPage() {
         </Card>
       </div>
 
-      {/* CREATE / EDIT DIALOG */}
+      {/* CREATE */}
       <CreateCategory
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
