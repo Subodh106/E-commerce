@@ -7,7 +7,6 @@ import {
   Pencil,
   Trash2,
   Package,
-  MoreHorizontal,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -18,22 +17,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import CreateCategory from "@/components/web/admin/create-category-section";
+import LoadingSpinner from "@/components/web/loading-spinner";
 
 import { create_Category, getAllCateogry } from "@/services/categoryService";
 import { toast } from "sonner";
 import { ProductType } from "@/Types/HomeTypes";
 
 export interface Category {
-  id: number;
-  name: string;
-  products: ProductType[];
+  Id: number;
+  category?: string;
+  products?: ProductType[];
 }
 
 export default function CategoriesPage() {
@@ -42,22 +36,22 @@ export default function CategoriesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryName, setCategoryName] = useState("");
-
-  const filteredCategories = useMemo(() => {
-    if (!categories) return [];
-    return categories.filter((category) =>
-      category?.name?.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [categories, search]);
-
+  const [loading, setLoading] = useState<boolean>(true);
   const getCategory = async () => {
     try {
+      setLoading(true);
       const res = await getAllCateogry();
       if (res?.status === 200) {
-        setCategories(res?.data?.data || []);
+        const rawData = res?.data?.data || res?.data || [];
+        console.log("Raw data " ,rawData);
+        setCategories(rawData);
       }
     } catch (error: any) {
-      console.error(error?.response?.data?.message || "Failed to fetch categories");
+      toast.error(
+        error?.response?.data?.message || "Failed to fetch categories"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,17 +67,12 @@ export default function CategoriesPage() {
 
   const openEditDialog = (category: Category) => {
     setEditingCategory(category);
-    setCategoryName(category.name);
     setIsDialogOpen(true);
   };
 
   const deleteCategory = (id: number) => {
-    setCategories((prev) => prev.filter((category) => category.id !== id));
+    setCategories((prev) => prev.filter((category) => category.Id !== id));
   };
-
-  console.log(categories)
-  console.log("filter  categories")
-  console.log(filteredCategories)
 
   const createCategory = async () => {
     if (!categoryName.trim()) {
@@ -96,11 +85,20 @@ export default function CategoriesPage() {
       toast.success(res?.data?.message || "Category created successfully");
       setIsDialogOpen(false);
       setCategoryName("");
-      getCategory(); 
+      getCategory();
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to create category");
+      toast.error(
+        error?.response?.data?.message || "Failed to create category"
+      );
     }
   };
+
+
+  console.log(categories)
+
+  if (categories.length==0 && loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-100 px-3 py-5 text-slate-950 transition-colors dark:bg-slate-950 dark:text-slate-100 sm:px-6 sm:py-8">
@@ -138,78 +136,69 @@ export default function CategoriesPage() {
           </CardContent>
         </Card>
 
-        {/* DESKTOP TABLE */}
-        <Card className="hidden border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 md:block">
-          <CardHeader>
+        {/* SINGLE RESPONSIVE CONTAINER */}
+        <Card className="border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
+          <CardHeader className="border-b border-slate-200 dark:border-slate-800 pb-4">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>All Categories</CardTitle>
-                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                <CardTitle className="text-lg font-semibold sm:text-xl">
+                  All Categories
+                </CardTitle>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 sm:text-sm">
                   {categories.length} categories found
                 </p>
               </div>
             </div>
           </CardHeader>
 
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-300 text-left dark:border-slate-800">
-                    <th className="px-4 py-3 font-medium">Category</th>
-                    <th className="px-4 py-3 font-medium">Products</th>
-                    <th className="px-4 py-3 text-right font-medium">Actions</th>
-                  </tr>
-                </thead>
+          <CardContent className="p-3 sm:p-6">
+            <div className="divide-y divide-slate-200 dark:divide-slate-800">
+              {categories.map((category) => (
+                <div
+                  key={category.Id}
+                  className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:py-4 transition-colors hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg px-2 sm:px-4"
+                >
+                  {/* Category Info */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800">
+                      <Package className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-slate-900 dark:text-slate-100 text-sm sm:text-base">
+                        {category.category}
+                      </h3>
+                      <span className="mt-1 inline-flex rounded-md bg-slate-200 dark:bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400">
+                        {category.products?.length || 0} products
+                      </span>
+                    </div>
+                  </div>
 
-                <tbody>
-                  {categories.map((category,index) => (
-                    <tr
-                      key={index + 1}
-                      className="border-b border-slate-200 hover:bg-slate-200 dark:border-slate-800 dark:hover:bg-slate-800"
+                  {/* Actions */}
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-800 sm:border-0 sm:pt-0">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openEditDialog(category)}
+                      className="h-8 border-slate-300 bg-slate-100 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800 px-3 text-xs"
                     >
-                      <td className="px-4 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800">
-                            <Package className="h-4 w-4" />
-                          </div>
-                          <span className="font-medium">afdsf</span>
-                        </div>
-                      </td>
+                      <Pencil className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="hidden md:block lg:block">Edit</span>
+                    </Button>
 
-                      <td className="px-4 py-4">
-                        <span className="inline-flex rounded-md bg-slate-200 px-2 py-1 text-xs font-medium dark:bg-slate-800">
-                          {category.products?.length} products
-                        </span>
-                      </td>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => deleteCategory(category.Id)}
+                      className="h-8 border-slate-300 bg-slate-100 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-slate-700 dark:bg-slate-950 dark:text-red-400 dark:hover:bg-red-950/50 px-3 text-xs"
+                    >
+                      <Trash2 className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="hidden md:block lg:block" >Delete</span>                      
+                    </Button>
+                  </div>
+                </div>
+              ))}
 
-                      <td className="px-4 py-4">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => openEditDialog(category)}
-                            className="border-slate-300 bg-slate-100 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800"
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => deleteCategory(category.id)}
-                            className="border-slate-300 bg-slate-100 text-slate-950 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {filteredCategories.length === 0 && (
+              {categories.length === 0 && (
                 <div className="py-12 text-center">
                   <p className="text-sm text-slate-500">No categories found.</p>
                 </div>
@@ -217,80 +206,6 @@ export default function CategoriesPage() {
             </div>
           </CardContent>
         </Card>
-
-        {/* MOBILE CARDS */}
-        <div className="space-y-3 md:hidden">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="font-semibold">All Categories</h2>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                {categories.length} categories found
-              </p>
-            </div>
-          </div>
-
-          {categories.map((category,index) => (
-            <Card
-              key={index + 1}
-              className="border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
-            >
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-800">
-                      <Package className="h-5 w-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="truncate font-semibold">{category.name}</h3>
-                    </div>
-                  </div>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger >
-                      <MoreHorizontal className="h-5 w-5" />
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent
-                      align="end"
-                      className="border-slate-300 bg-slate-100 dark:border-slate-700 dark:bg-slate-950"
-                    >
-                      <DropdownMenuItem
-                        onClick={() => openEditDialog(category)}
-                        className="cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800"
-                      >
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
-
-                      <DropdownMenuItem
-                        onClick={() => deleteCategory(category.id)}
-                        className="cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800"
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-
-                <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 dark:border-slate-800">
-                  <span className="text-xs text-slate-600 dark:text-slate-400">
-                    Products
-                  </span>
-                  <span className="rounded-md bg-slate-200 px-2 py-1 text-xs font-medium dark:bg-slate-800">
-                    {category.products?.length || 0}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        }
-          {categories.length === 0 && (
-            <div className="py-12 text-center">
-              <p className="text-sm text-slate-500">No categories found.</p>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* CREATE / EDIT DIALOG */}
