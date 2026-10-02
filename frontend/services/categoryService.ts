@@ -7,3 +7,7 @@ export type categoryType ={
 export const create_Category = (category:categoryType)=>{
     return api.post("/category",category);
 }
+
+export const getAllCateogry = ()=>{
+    return api.get("/category");
+}
