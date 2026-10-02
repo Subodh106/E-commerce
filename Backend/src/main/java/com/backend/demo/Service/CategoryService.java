@@ -24,10 +24,8 @@ public class CategoryService {
 
     public CategoryResponseDto createCategory(CategoryDto categoryDto){
         Category category = new Category();
-        System.out.println(categoryDto.getCategory());
         category.setName(categoryDto.getCategory());
         Category savedCategory = categoryRepository.save(category);
-        System.out.println(savedCategory.getName());
         List<Product> products = productRepository.findAllByCategoryId(savedCategory.getId()).orElseGet(ArrayList::new);
         savedCategory.setProductList(products);
         return buildCategory(savedCategory);
@@ -37,7 +35,6 @@ public class CategoryService {
         List<Category> categories = categoryRepository.findAll();
         List<CategoryResponseDto> categoryList = new ArrayList<>();
         for(Category category : categories){
-            System.out.println(category.getName());
             categoryList.add(buildCategory(category));
         }
         return categoryList;
