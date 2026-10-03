@@ -1,9 +1,11 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { useCategories } from "@/hooks/useCategories";
 import { Input } from "@base-ui/react";
 import { PackagePlus } from "lucide-react";
 
 export default function CreateProductCard() {
+  const {categories } = useCategories();
   return (
     <Card
       className=" border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 lg:col-span-2"
@@ -127,15 +129,10 @@ export default function CreateProductCard() {
             required
             className="h-10 w-full rounded-md border border-slate-300 bg-slate-100 px-3 text-sm text-slate-950 outline-none focus:ring-2 focus:ring-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:ring-slate-100"
           >
-            <option value="">Select category</option>
-
-            <option value="electronics">Electronics</option>
-
-            <option value="clothing">Clothing</option>
-
-            <option value="footwear">Footwear</option>
-
-            <option value="bags">Bags</option>
+            <option className="border-none" value="">Select category</option>
+            {categories.map((category)=>(
+              <option key={category.Id} value={category.Id}>{category.category}</option>
+            ))}
           </select>
         </div>
       </CardContent>
