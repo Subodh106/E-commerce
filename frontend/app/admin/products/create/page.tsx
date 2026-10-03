@@ -22,6 +22,16 @@ interface ProductImage {
   preview: string;
 }
 
+export type CreateProductDataType = {
+  productName:string;
+  description:string;
+  price:number;
+  stock:number;
+  categoryId:number;
+  image: ProductImage
+}
+
+
 export default function CreateProductPage() {
   const [images, setImages] = useState<ProductImage | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,7 +71,7 @@ export default function CreateProductPage() {
 
       console.log("Product:", {
         productName: formData.get("productName"),
-        description: formData.get("description"),
+        description: String(formData.get("description") ?? ""),
         price: formData.get("price"),
         stock: formData.get("stock"),
         category: formData.get("category"),
@@ -72,11 +82,19 @@ export default function CreateProductPage() {
         images
       );
 
-      const createProductData = {
-        formDate: formData,
-        image: images.file,
-      };
+      const parsedPrice = Number(formData.get("price"));
+      const parsedStock = Number(formData.get("stock"));
+      const parsedCategoryId = Number(formData.get("category"));
 
+      const createProductData: CreateProductDataType = {
+        productName: String(formData.get("productName") ?? ""),
+        description: String(formData.get("description") ?? ""),
+        price: parsedPrice,
+        stock: parsedStock,
+        categoryId: parsedCategoryId,
+        image: images,
+      };
+      console.log(createProductData);
       const res = await createProduct(createProductData);
       console.log(res);
     } catch (error:any) {
