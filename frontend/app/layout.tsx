@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/provider/ThemeProvider";
 import UserProvider from "@/provider/UserProvider";
+import Providers from "@/provider/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,16 +32,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
     suppressHydrationWarning >
       <body className="min-h-full flex flex-col" >
-        <UserProvider>
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        >
+        <Providers>
         <Toaster/>
         {children}
-        </ThemeProvider>
-        </UserProvider>
+        </Providers>
         </body>
     </html>
   );
