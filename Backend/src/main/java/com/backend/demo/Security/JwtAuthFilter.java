@@ -74,6 +74,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         System.out.println("After chain");
         filterChain.doFilter(request, response);
+        System.out.println("Return chain");
     }
 
 

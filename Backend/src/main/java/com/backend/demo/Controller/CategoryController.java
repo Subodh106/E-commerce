@@ -21,7 +21,6 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<CategoryResponseDto>> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        System.out.println("Create route");
         CategoryResponseDto response = categoryService.createCategory(categoryDto);
         ApiResponse<CategoryResponseDto> categoryResponse = new ApiResponse<>("New category is created ", response);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
