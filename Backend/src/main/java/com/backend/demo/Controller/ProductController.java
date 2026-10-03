@@ -25,7 +25,7 @@ public class ProductController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<ProductResponseDto>> createProduct(@Valid @ModelAttribute ProductRequestDto createProductDto, @AuthenticationPrincipal CustomUserPrincipal user ) {
-        System.out.println("afdfs");
+
         ProductResponseDto response = productService.create(createProductDto, user.getId());
 
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product Created Successfully", response);
