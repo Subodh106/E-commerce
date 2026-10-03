@@ -11,3 +11,7 @@ export const create_Category = (category:categoryType)=>{
 export const getAllCateogry = ()=>{
     return api.get("/category");
 }
+
+export const delete_Category = (categoryId:number)=>{
+    return api.delete(`/category/${categoryId}`)
+}
