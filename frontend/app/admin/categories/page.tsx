@@ -20,10 +20,10 @@ import {
 import CreateCategory from "@/components/web/admin/create-category-section";
 import LoadingSpinner from "@/components/web/loading-spinner";
 
-import { create_Category, getAllCateogry } from "@/services/categoryService";
+import { create_Category, delete_Category, getAllCateogry } from "@/services/categoryService";
 import { toast } from "sonner";
 import { ProductType } from "@/Types/HomeTypes";
-
+import { useCategories } from "@/hooks/useCategories";
 export interface Category {
   Id: number;
   category?: string;
@@ -31,12 +31,13 @@ export interface Category {
 }
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const {categories , setCategories} = useCategories();
   const [search, setSearch] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryName, setCategoryName] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
+  
   const getCategory = async () => {
     try {
       setLoading(true);
@@ -70,8 +71,17 @@ export default function CategoriesPage() {
     setIsDialogOpen(true);
   };
 
-  const deleteCategory = (id: number) => {
-    setCategories((prev) => prev.filter((category) => category.Id !== id));
+  const deleteCategory = async(categoryId: number) => {
+    try {
+      const res = await delete_Category(categoryId);
+      if(res.status===200){
+        console.log(res?.data?.message)
+        toast.success(res?.data?.message);
+       window.location.reload();
+      }
+    } catch (error : any) {
+      console.log(error?.response?.message)
+    }
   };
 
   const createCategory = async () => {
