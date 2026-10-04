@@ -1,12 +1,18 @@
 export type ProductType = {
     id : number,
-    name : string ,
+    productName : string ,
     description? : string ,
-    category? : string ,
+    category? : CategoryType ,
     stock : number,
-    image : string ,
+    imageUrl : string ,
     rating : number ,
     price : number,
     reviews : number,
     created_by?:string,
+}
+
+export type CategoryType = {
+    id:number ,
+    categoryName:string,
+    products : ProductType[]
 }
