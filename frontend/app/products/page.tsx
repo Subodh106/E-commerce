@@ -39,18 +39,7 @@ export default function ShopPage() {
   const[page,setPage] = useState<number>(0);
   const[direction , setDirection]=useState<string>("asc");
   const[sortBy , setSortBy] = useState<string>("price");
-  const[products , setProducts] = useState<ProductType[]>([{
-    "id": 101,
-    "name": "Wireless Bluetooth Headphones",
-    "category": "Electronics",
-    "image": "https://example.com/images/headphones.jpg",
-    "rating": 4.5,
-    "price": 59.99,
-    "reviews": 128,
-    "description": "",
-    "stock": 0,
-    "created_by": ""
-  },]);
+  const[products , setProducts] = useState<ProductType[]>([]);
   const[search ,setSearch] = useState<string>("");
   const[price , setPrice] = useState<number>(500);
 
