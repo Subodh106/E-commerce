@@ -1,11 +1,18 @@
+"use client"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useCategories } from "@/hooks/useCategories";
 import { Input } from "@base-ui/react";
 import { PackagePlus } from "lucide-react";
+import { useEffect } from "react";
 
 export default function CreateProductCard() {
-  const {categories } = useCategories();
+  const {categories , fetchCategories} = useCategories();
+
+  useEffect(()=>{
+    fetchCategories();
+  },[]);
+
   return (
     <Card
       className=" border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 lg:col-span-2"
