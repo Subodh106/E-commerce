@@ -9,9 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CreateProductCard from "@/components/web/admin/create-product-card";
 import { createProduct } from "@/services/adminService";
 import { toast } from "sonner";
-import { getAllProducts } from "@/services/productService";
-import axios from "axios";
-import { ProductType } from "@/Types/HomeTypes";
 
 export interface ProductImage {
   file: File;
