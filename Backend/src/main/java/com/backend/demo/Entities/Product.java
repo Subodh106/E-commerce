@@ -24,7 +24,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false )
+    @Column(name = "product_name", nullable = false )
     private String productName;
 
     @Column(nullable = false)
@@ -48,7 +48,7 @@ public class Product {
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by" , nullable = false)
     private User createdBy;
 
     @CreationTimestamp
