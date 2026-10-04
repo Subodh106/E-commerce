@@ -21,7 +21,7 @@ const PriceRange = ({price , setPrice}:{
 
       <input
         type="range"
-        min={100}
+        min={10}
         max={5000}
         value={price} 
         onChange={handleChange}
