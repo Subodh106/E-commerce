@@ -7,6 +7,8 @@ import { createContext } from "react"
 export type CategoryContextType = {
     categories :Category[]
      setCategories: React.Dispatch<React.SetStateAction<Category[]>>
+     fetchCategories :()=>void ,
+    loading:boolean
 }
 
 export const CategoryContext = createContext<CategoryContextType|null>(null);
