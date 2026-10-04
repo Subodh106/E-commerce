@@ -43,22 +43,31 @@ public class ProductService {
             product.setProductName(createProductDto.getProductName());
             product.setDescription(createProductDto.getDescription());
             product.setPrice(createProductDto.getPrice());
+            System.out.println("Before image upload");
             ImageDto image = imageService.upload(createProductDto.getImage());
+            System.out.println("After image upload");
             product.setImageUrl(image.getImageUrl());
             product.setPublicId(image.getPublicID());
+            System.out.println("After setting value");
             product.setStock(createProductDto.getStock());
+            System.out.println(createProductDto.getCategoryId());
+
+            System.out.println("Before cateogory");
             Category category = categoryRepository.findById(createProductDto.getCategoryId())
                     .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
             product.setCategory(category);
+            System.out.println("After category");
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("User not found"));
             product.setCreatedBy(user);
             product.setCreatedAt(LocalDateTime.now());
             product.setUpdatedAt(LocalDateTime.now());
+            System.out.println("Before saving");
             Product savedProduct= productRepository.save(product);
+            System.out.println("After saving");
             return buildProductResponse(savedProduct);
         }catch (Exception e){
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
