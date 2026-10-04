@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect , useState } from "react";
 import {
   FolderPlus,
   Search,
@@ -24,6 +24,7 @@ import { create_Category, delete_Category, getAllCateogry } from "@/services/cat
 import { toast } from "sonner";
 import { ProductType } from "@/Types/HomeTypes";
 import { useCategories } from "@/hooks/useCategories";
+
 export interface Category {
   Id: number;
   category?: string;
@@ -31,33 +32,16 @@ export interface Category {
 }
 
 export default function CategoriesPage() {
-  const {categories , setCategories} = useCategories();
+  // const {categories , setCategories} = useCategories();
   const [search, setSearch] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryName, setCategoryName] = useState("");
-  const [loading, setLoading] = useState<boolean>(true);
-  
-  const getCategory = async () => {
-    try {
-      setLoading(true);
-      const res = await getAllCateogry();
-      if (res?.status === 200) {
-        const rawData = res?.data?.data || res?.data || [];
-        console.log("Raw data " ,rawData);
-        setCategories(rawData);
-      }
-    } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "Failed to fetch categories"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {  categories , setCategories , fetchCategories, loading   } = useCategories();
+
 
   useEffect(() => {
-    getCategory();
+    fetchCategories();
   }, []);
 
   const openCreateDialog = () => {
@@ -95,7 +79,7 @@ export default function CategoriesPage() {
       toast.success(res?.data?.message || "Category created successfully");
       setIsDialogOpen(false);
       setCategoryName("");
-      getCategory();
+      window.location.reload();
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message || "Failed to create category"
