@@ -20,28 +20,36 @@ public class ImageService {
     private final Cloudinary cloudinary;
 
     public ImageDto upload(MultipartFile image) throws IOException {
+        if(image.isEmpty()){
+            throw new IllegalArgumentException("Cannot upload an empty or null file");
+        }
         try{
-            Map uploadResult = cloudinary.uploader().upload(
+            System.out.println("Inside upload");
+            Map<?,?> uploadResult = cloudinary.uploader().upload(
                     image.getBytes(),
                     ObjectUtils.emptyMap()
             );
+            System.out.println(uploadResult);
+            System.out.println("After uploading");
             String imageUrl =  uploadResult.get("secure_url").toString();
             String publicId = uploadResult.get("public_id").toString();
             return new ImageDto(imageUrl,publicId);
         }catch (Exception e){
-            throw new RuntimeException("Failed to upload image",e);
+            System.out.println("Upload failed "+e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     public void delete(String publicId) {
         try {
-            Map params =  ObjectUtils.asMap(
+            Map<?,?> params =  ObjectUtils.asMap(
                     "invalidate",true
             );
-            Map result = cloudinary.uploader().destroy(publicId,params);
+            Map<?,?> result = cloudinary.uploader().destroy(publicId,params);
             System.out.println(result);
         }catch(Exception e){
-            throw new RuntimeException("Failed to delete image",e);
+
+            throw new RuntimeException(e.getMessage());
         }
     }
     public ImageDto update(String imagePublicID ,MultipartFile image) {
