@@ -25,9 +25,9 @@ public class ProductController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<ProductResponseDto>> createProduct(@Valid @ModelAttribute ProductRequestDto createProductDto, @AuthenticationPrincipal CustomUserPrincipal user ) {
-
+        System.out.println("Inside create product");
         ProductResponseDto response = productService.create(createProductDto, user.getId());
-
+        System.out.println("After service layer");
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product Created Successfully", response);
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
@@ -50,13 +50,13 @@ public class ProductController {
         ApiResponse<Void> productResponse = new ApiResponse<>(response,null);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductResponseDto>> replaceProduct(@RequestBody ProductRequestDto productRequestDto , @PathVariable Long productId) {
         ProductResponseDto response = productService.replaceProduct(productRequestDto,productId);
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product replaced successfully",response);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
-    @PatchMapping("/{id}")
+    @PatchMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductResponseDto>> updateProduct(@RequestBody ProductRequestDto productRequestDto , @PathVariable Long productId){
         ProductResponseDto response = productService.updateProduct(productRequestDto,productId );
         ApiResponse<ProductResponseDto> productResponse = new ApiResponse<>("Product updated successfully",response);
