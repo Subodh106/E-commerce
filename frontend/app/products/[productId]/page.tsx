@@ -44,6 +44,7 @@ export default function ProductDetails() {
     try {
         const res = await getProductById(productId);
         console.log(res)
+        setProductData(res?.data?.data);
       } catch (error:any) {
         setServerErrors(error?.response?.data?.message)
         toast.error(error?.response?.data?.message)
