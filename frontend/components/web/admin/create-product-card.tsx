@@ -124,8 +124,8 @@ export default function CreateProductCard() {
           </label>
 
           <select
-            id="category"
-            name="category"
+            id="categoryId"
+            name="categoryId"
             required
             className="h-10 w-full rounded-md border border-slate-300 bg-slate-100 px-3 text-sm text-slate-950 outline-none focus:ring-2 focus:ring-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:ring-slate-100"
           >
