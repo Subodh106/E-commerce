@@ -1,4 +1,4 @@
-import { ProductType } from "@/Types/HomeTypes";
+import { CategoryType, ProductType } from "@/Types/HomeTypes";
 import { Heart, Star } from "lucide-react";
 import Link from "next/link";
 
@@ -11,27 +11,28 @@ export default function ProductCard({
   liked: boolean;
   onWishlist: () => void;
 }) {
+  console.log(product);
   return (
     <Link href={`/products/${product.id}`}>
-    <article className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-lg">
+    <article className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800">
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-slate-100">
         <img
-          src={product.image}
-          alt={product.name}
+          src={product.imageUrl}
+          alt={product.imageUrl}
           className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
         />
 
         <button
           onClick={onWishlist}
-          className="absolute right-3 top-3 rounded-full bg-white p-2 shadow-sm transition hover:scale-105"
+          className="absolute right-3 top-3 rounded-full bg-white p-2 shadow-sm transition hover:scale-105 dark:bg-slate-800"
         >
           <Heart
             size={17}
             className={
               liked
                 ? "fill-red-500 text-red-500"
-                : "text-slate-700"
+                : "text-slate-700 dark:text-slate-100"
             }
           />
         </button>
@@ -39,12 +40,12 @@ export default function ProductCard({
 
       {/* Info */}
       <div className="p-4">
-        <p className="mb-1 text-xs text-slate-500">
-          {product.category}
+         <p className="mb-1 text-xs text-slate-500">
+                {product.category?.categoryName}
         </p>
 
         <h3 className="truncate text-sm font-semibold">
-          {product.name}
+          {product.productName}
         </h3>
 
         <div className="mt-2 flex items-center justify-between">
