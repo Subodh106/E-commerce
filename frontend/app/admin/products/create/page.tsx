@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
 import Link from "next/link";
 
@@ -8,8 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CreateProductCard from "@/components/web/admin/create-product-card";
 import { createProduct } from "@/services/adminService";
+import { toast } from "sonner";
+import { getAllProducts } from "@/services/productService";
+import axios from "axios";
+import { ProductType } from "@/Types/HomeTypes";
 
-interface ProductImage {
+export interface ProductImage {
   file: File;
   preview: string;
 }
@@ -20,69 +24,59 @@ export type CreateProductDataType = {
   price: number;
   stock: number;
   categoryId: number;
-  image: ProductImage;
+  images: ProductImage;
 };
 
 export default function CreateProductPage() {
-  const [images, setImages] = useState<ProductImage | null>(null);
+  const [image, setImages] = useState<ProductImage>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
 
-    if (!file) return;
+    const newImage :ProductImage = {
+        file:files[0],
+        preview:URL.createObjectURL(files[0])
+    }
 
-    const newImage: ProductImage = {
-      file,
-      preview: URL.createObjectURL(file),
-    };
-
+    files[0]
     setImages(newImage);
 
+    // Reset input value to allow selecting the same file again if needed
     event.target.value = "";
   };
 
-  const removeImage = (_index: number) => {
-    setImages(null);
+  const removeImage = () => {
+    setImages(undefined);
   };
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!images) return;
+    if (image?.file==null) {
+      alert("Please upload at least one image.");
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
       const formData = new FormData(event.currentTarget);
 
-      console.log("Product:", {
-        productName: formData.get("productName"),
-        description: String(formData.get("description") ?? ""),
-        price: formData.get("price"),
-        stock: formData.get("stock"),
-        category: formData.get("category"),
-      });
+      formData.append("image",image.file);
 
-      console.log("Images:", images);
-
-      const parsedPrice = Number(formData.get("price"));
-      const parsedStock = Number(formData.get("stock"));
-      const parsedCategoryId = Number(formData.get("category"));
-
-      const createProductData: CreateProductDataType = {
-        productName: String(formData.get("productName") ?? ""),
-        description: String(formData.get("description") ?? ""),
-        price: parsedPrice,
-        stock: parsedStock,
-        categoryId: parsedCategoryId,
-        image: images,
-      };
-      console.log(createProductData);
-      const res = await createProduct(createProductData);
-      console.log(res);
+      const res = await createProduct(formData);
+      if(res.status===200){
+        setImages(undefined);
+        event.currentTarget.reset();
+        toast.success(res?.data?.message);
+      }
+      console.log("Product created successfully:", res);
     } catch (error: any) {
-      console.log("Create product failed:", error?.response?.data?.message);
+      console.log("Create product failed:", error?.response?.data?.message || error?.message);
+      toast.error(error?.response?.data?.message)
     } finally {
       setIsSubmitting(false);
     }
@@ -95,7 +89,6 @@ export default function CreateProductPage() {
         <div className="mb-6 flex items-center gap-3">
           <div>
             <h1 className="text-xl font-bold sm:text-2xl">Create Product</h1>
-
             <p className="text-xs text-slate-600 dark:text-slate-400 sm:text-sm">
               Add a new product to your store
             </p>
@@ -108,23 +101,9 @@ export default function CreateProductPage() {
             <CreateProductCard />
 
             {/* IMAGE SECTION */}
-
-            <Card
-              className="
-                h-fit
-
-                border-slate-300
-                bg-slate-100
-                text-slate-950
-
-                dark:border-slate-800
-                dark:bg-slate-950
-                dark:text-slate-100
-              "
-            >
+            <Card className="h-fit border-slate-300 bg-slate-100 text-slate-950 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">
               <CardHeader>
                 <CardTitle>Product Images</CardTitle>
-
                 <p className="text-xs text-slate-600 dark:text-slate-400">
                   Upload one or more product images
                 </p>
@@ -132,54 +111,18 @@ export default function CreateProductPage() {
 
               <CardContent className="space-y-4">
                 {/* Upload Box */}
-
                 <label
                   htmlFor="images"
-                  className="
-                    flex
-                    min-h-40
-                    cursor-pointer
-                    flex-col
-                    items-center
-                    justify-center
-                    rounded-lg
-                    border
-                    border-dashed
-                    border-slate-400
-                    bg-slate-200/50
-                    px-4
-                    py-8
-                    text-center
-                    transition-colors
-
-                    hover:bg-slate-200
-
-                    dark:border-slate-700
-                    dark:bg-slate-900
-                    dark:hover:bg-slate-800
-                  "
+                  className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-slate-400 bg-slate-200/50 px-4 py-8 text-center transition-colors hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
                 >
-                  <div
-                    className="
-                      flex
-                      h-12
-                      w-12
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-slate-300
-                      dark:bg-slate-800
-                    "
-                  >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-300 dark:bg-slate-800">
                     <ImagePlus className="h-5 w-5" />
                   </div>
 
                   <p className="mt-3 text-sm font-medium">Click to upload</p>
-
                   <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                     PNG, JPG or WEBP
                   </p>
-
                   <p className="mt-1 text-xs text-slate-500">
                     Multiple images supported
                   </p>
@@ -194,59 +137,27 @@ export default function CreateProductPage() {
                   />
                 </label>
 
-                {/* Preview */}
-
-                {images && (
+                {/* Preview Grid */}
+                {image && (
                   <div className="grid grid-cols-2 gap-3">
-                    <div
-                      className="
-                          group
-                          relative
-                          aspect-square
-                          overflow-hidden
-                          rounded-lg
-                          border
-
-                          border-slate-300
-                          bg-slate-200
-
-                          dark:border-slate-700
-                          dark:bg-slate-900
-                        "
-                    >
-                      <img
-                        src={images.preview}
-                        alt={`Product}`}
-                        className="h-full w-full object-cover"
-                      />
-
-                      <button
-                        type="button"
-                        onClick={() => removeImage(1)}
-                        className="
-                            absolute
-                            right-2
-                            top-2
-                            flex
-                            h-7
-                            w-7
-                            items-center
-                            justify-center
-                            rounded-full
-
-                            bg-slate-950
-                            text-slate-100
-
-                            hover:bg-slate-800
-
-                            dark:bg-slate-100
-                            dark:text-slate-950
-                            dark:hover:bg-slate-300
-                          "
+                      <div
+                        className="group relative aspect-square overflow-hidden rounded-lg border border-slate-300 bg-slate-200 dark:border-slate-700 dark:bg-slate-900"
                       >
-                        <X className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
+                        <img
+                          src={image.preview}
+                          alt={`Product preview`}
+                          className="h-full w-full object-cover"
+                        />
+
+                        <button
+                          type="button"
+                          onClick={removeImage}
+                          className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-slate-950 text-slate-100 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-300"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    
                   </div>
                 )}
               </CardContent>
@@ -254,35 +165,11 @@ export default function CreateProductPage() {
           </div>
 
           {/* ACTIONS */}
-
-          <div
-            className="
-              mt-5
-              flex
-              flex-col-reverse
-              gap-3
-
-              sm:flex-row
-              sm:justify-end
-            "
-          >
+          <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <Button
               type="button"
               variant="outline"
-              className="
-                w-full
-                border-slate-300
-                bg-slate-100
-                text-slate-950
-                hover:bg-slate-200
-
-                dark:border-slate-700
-                dark:bg-slate-950
-                dark:text-slate-100
-                dark:hover:bg-slate-800
-
-                sm:w-auto
-              "
+              className="w-full border-slate-300 bg-slate-100 text-slate-950 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800 sm:w-auto"
             >
               <Link href="/admin/products">Cancel</Link>
             </Button>
@@ -290,19 +177,7 @@ export default function CreateProductPage() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="
-                w-full
-
-                bg-slate-950
-                text-slate-100
-                hover:bg-slate-800
-
-                dark:bg-slate-100
-                dark:text-slate-950
-                dark:hover:bg-slate-300
-
-                sm:w-auto
-              "
+              className="w-full bg-slate-950 text-slate-100 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-300 sm:w-auto"
             >
               {isSubmitting ? "Creating..." : "Create Product"}
             </Button>
