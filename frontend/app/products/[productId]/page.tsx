@@ -10,6 +10,7 @@ import { toast} from 'sonner';
 import { ProductType } from '@/Types/HomeTypes';
 import { getProductById } from '@/services/productService';
 import { AddToCart } from '@/services/cartService';
+import LoadingSpinner from '@/components/web/loading-spinner';
 
 const images = [
   'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60',
@@ -24,6 +25,16 @@ const colors = [
   { name: 'Blue', class: 'bg-blue-600' },
 ];
 
+export type productDataType = {
+  id:number;
+  productName :string;
+  description : string
+  image : string;
+  price : number;
+  stock : number;
+
+}
+
 export default function ProductDetails() {
   const[productData , setProductData] = useState<ProductType>();
   const [selectedImage, setSelectedImage] = useState<number>(0);
@@ -31,9 +42,10 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState<number>(1);
   const [activeTab, setActiveTab] = useState<string>('Description');
   const [serverErrors , setServerErrors] = useState<string>("");
+  const [loading , setloading] = useState<boolean>(false);
 
   const params = useParams<{ productId: string }>();
-  const productId = params.productId;
+  const productId:number =Number(params.productId);
   const router = useRouter();
 
   useEffect(()=>{
@@ -41,6 +53,7 @@ export default function ProductDetails() {
   },[])
 
   const getProductDetails = async()=>{
+    setloading(true);
     try {
         const res = await getProductById(productId);
         console.log(res)
@@ -49,12 +62,18 @@ export default function ProductDetails() {
         setServerErrors(error?.response?.data?.message)
         toast.error(error?.response?.data?.message)
         router.push("/products")
+      }finally{
+        setloading(false);
       }
   }
 
+  console.log(productId);
+
   const addToCart = async()=>{
     try {
-      const res = await AddToCart({productId,quantity});
+    
+      console.log({productId,quantity})
+      const res = await AddToCart({ productId,quantity});
       if(res.status===200){
         toast.success(res?.data?.data);
       }
@@ -63,12 +82,16 @@ export default function ProductDetails() {
       toast.error(error?.response?.data?.message);
     } 
   }
+  if(loading) return <LoadingSpinner/>
+  if (!productData) return <LoadingSpinner />
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white dark:bg-slate-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Section: Image Gallery & Tabs */}
-      <LeftSection images={images}
+      <LeftSection 
+        productData = {productData}
+        images={images}
         selectedImage={selectedImage}
         setSelectedImage={setSelectedImage}
         activeTab={activeTab}
@@ -79,6 +102,7 @@ export default function ProductDetails() {
        
        
         <Rightsection  
+        productData = {productData}
         colors={colors}
         selectedColor={selectedColor}
         setSelectedColor={setSelectedColor}
