@@ -1,4 +1,3 @@
-"use client"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useCategories } from "@/hooks/useCategories";
@@ -11,7 +10,7 @@ export default function CreateProductCard() {
 
   useEffect(()=>{
     fetchCategories();
-  },[]);
+  },[fetchCategories]);
 
   return (
     <Card
