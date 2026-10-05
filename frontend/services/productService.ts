@@ -13,6 +13,6 @@ export const getAllProducts = (pathVariables:pathVariablesType)=>{
     return api.get(`/products?search=${pathVariables.search}&category=${pathVariables.selectedCategory}&minPrice=10&maxPrice=${pathVariables.price}&size=9&page=${pathVariables.page}&direction=${pathVariables.direction}&sortBy=${pathVariables.sortBy}`);
 }
 
-export const getProductById = (productId:string)=>{
+export const getProductById = (productId:number)=>{
     return api.get(`products/${productId}`);
 }
