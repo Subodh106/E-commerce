@@ -17,7 +17,7 @@ public class ProductRequestDto {
     @Size(min = 5 , max = 20 , message =  "Product name must be between 5 and 20 character")
     private String productName;
     @NotBlank(message = "Product must have its description")
-    @Size(min = 2 , max = 50 , message = "Product description must be between 20 and 500 character")
+    @Size(min = 2 , max = 500 , message = "Product description must be between 2 and 500 character")
     private String description;
     @NotNull(message =  "Product must have its price")
     @DecimalMin(value = "0.0" , inclusive = false , message = "Price must be greater than 0")
