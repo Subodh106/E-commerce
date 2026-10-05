@@ -42,7 +42,7 @@ export default function CategoriesPage() {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   const openCreateDialog = () => {
     setEditingCategory(null);
@@ -64,7 +64,8 @@ export default function CategoriesPage() {
        window.location.reload();
       }
     } catch (error : any) {
-      console.log(error?.response?.message)
+      console.log(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message)
     }
   };
 
