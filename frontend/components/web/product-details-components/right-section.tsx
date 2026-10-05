@@ -1,7 +1,9 @@
 "use client"
+import { ProductType } from '@/Types/HomeTypes';
 import { Star, Minus, Plus, ShoppingCart, Heart, Truck, RefreshCw, ShieldCheck } from 'lucide-react'
 
 type rightSectionProps ={
+    productData : ProductType;
     colors:colors[];
     selectedColor:string,
     setSelectedColor:(selectedColor:string)=>void;
@@ -15,12 +17,12 @@ type colors = {
     class:string
 }
 
-export default function Rightsection({colors,selectedColor , setSelectedColor , quantity , setQuantity , addToCart}:rightSectionProps) {
+export default function Rightsection({productData,colors,selectedColor , setSelectedColor , quantity , setQuantity , addToCart}:rightSectionProps) {
   return (
      <div className="lg:col-span-4 flex flex-col space-y-6">
           <div>
-            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">Wireless Headphones</h1>
-            <div className="mt-2 text-2xl font-semibold">$99.99</div>
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">{productData?.productName}</h1>
+            <div className="mt-2 text-2xl font-semibold">Rs : {productData.price}</div>
             
             {/* Rating */}
             <div className="flex items-center gap-2 mt-2">
@@ -35,7 +37,7 @@ export default function Rightsection({colors,selectedColor , setSelectedColor , 
           </div>
 
           <p className="text-sm text-gray-600 dark:text-zinc-400">
-            High-quality wireless headphones with noise cancellation and long battery life.
+            {productData?.description}
           </p>
 
           {/* Color Selection */}
@@ -78,10 +80,11 @@ export default function Rightsection({colors,selectedColor , setSelectedColor , 
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <button onClick={addToCart} className="cursor-pointer w-full bg-zinc-900 dark:bg-slate-950 text-white dark:text-white py-3.5 rounded-xl font-medium hover:bg-zinc-800 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2">
+            <button onClick={addToCart} className="border cursor-pointer w-full bg-zinc-900 dark:bg-slate-950 text-white dark:text-white py-3.5 rounded-xl font-medium hover:bg-zinc-800 dark:hover:bg-zinc-800
+            dark:border-slate-100 transition-colors flex items-center justify-center gap-2">
               <ShoppingCart className="w-5 h-5" /> Add to Cart
             </button>
-            <button  className="cursor-pointer w-full bg-gray-100 dark:bg-slate-950 text-zinc-900 dark:text-white py-3.5 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors"> 
+            <button  className=" dark:border dark:border-slate-100 cursor-pointer w-full bg-gray-100 dark:bg-slate-950 text-zinc-900 dark:text-white py-3.5 rounded-xl font-medium hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors"> 
               Buy Now
             </button>
           </div>
