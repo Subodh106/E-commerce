@@ -40,7 +40,6 @@ export default function CreateProductPage() {
     files[0]
     setImages(newImage);
 
-    // Reset input value to allow selecting the same file again if needed
     event.target.value = "";
   };
 
