@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   MoreHorizontal,
@@ -28,6 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getAllProducts } from "@/services/productService";
 
 
 interface Product {
@@ -140,6 +141,23 @@ export default function ProductsPage() {
         "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
     };
   };
+
+  useEffect(()=>{
+      FetchProducts();
+  },[search,categories])
+
+  const FetchProducts = async()=>{
+    try {
+      const pathVariables ={
+        search,
+        categories,
+      }
+      const res = await getAllProducts(pathVariables);
+      console.log(res);
+    } catch (error:any) {
+        console.log(error?.response?.data)
+    }
+  }
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-6 text-slate-950 dark:bg-slate-950 dark:text-slate-100 sm:px-6 lg:px-8">
@@ -381,13 +399,9 @@ export default function ProductsPage() {
 
                         <DropdownMenu>
                           <DropdownMenuTrigger >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="shrink-0"
-                            >
+                         
                               <MoreHorizontal className="h-4 w-4" />
-                            </Button>
+
                           </DropdownMenuTrigger>
 
                           <DropdownMenuContent align="end">
