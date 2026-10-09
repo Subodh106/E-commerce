@@ -29,6 +29,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getAllProducts } from "@/services/productService";
+import { api } from "@/lib/api";
+import { useCategories } from "@/hooks/useCategories";
 
 
 interface Product {
@@ -78,11 +80,13 @@ const initialProducts: Product[] = [
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
+  const [selectedcategory, setselectedCategory] = useState("electronics");
+  const {categories, fetchCategories} = useCategories();
+  const[loading , setLoading] = useState<boolean>(false);
 
-  const categories = useMemo(() => {
-    return [...new Set(products.map((product) => product.category))];
-  }, [products]);
+  // const categories = useMemo(() => {
+  //   return [...new Set(products.map((product) => product.category))];
+  // }, [products]);
 
   const filteredProducts = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -94,11 +98,11 @@ export default function ProductsPage() {
         product.category.toLowerCase().includes(query);
 
       const matchesCategory =
-        category === "all" || product.category === category;
+        selectedcategory=== "all" || product.category === selectedcategory;
 
       return matchesSearch && matchesCategory;
     });
-  }, [products, search, category]);
+  }, [products, search, selectedcategory]);
 
   const totalProducts = products.length;
 
@@ -144,6 +148,7 @@ export default function ProductsPage() {
 
   useEffect(()=>{
       FetchProducts();
+  
   },[search,categories])
 
   const FetchProducts = async()=>{
@@ -153,6 +158,7 @@ export default function ProductsPage() {
         categories,
       }
       const res = await getAllProducts(pathVariables);
+      // setProducts(res?.data?.data)
       console.log(res);
     } catch (error:any) {
         console.log(error?.response?.data)
@@ -224,7 +230,7 @@ export default function ProductsPage() {
             </div>
 
             {/* Category */}
-            <Select value={category} 
+            <Select value={categories.length} 
             onValueChange={(value) => {
               if (value !== null) setCategory(value);
             }}
@@ -238,9 +244,9 @@ export default function ProductsPage() {
                   All Categories
                 </SelectItem>
 
-                {categories.map((item) => (
-                  <SelectItem key={item} value={item}>
-                    {item}
+                {categories.map((category) => (
+                  <SelectItem key={category.Id} value={category.Id}>
+                    {category.category}
                   </SelectItem>
                 ))}
               </SelectContent>
