@@ -230,9 +230,9 @@ export default function ProductsPage() {
             </div>
 
             {/* Category */}
-            <Select value={categories.length} 
+            <Select value={selectedcategory}
             onValueChange={(value) => {
-              if (value !== null) setCategory(value);
+              if (value !== null) setselectedCategory(value);
             }}
             >
               <SelectTrigger className="w-full sm:w-50">
