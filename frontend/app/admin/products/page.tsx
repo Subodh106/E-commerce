@@ -158,7 +158,7 @@ export default function ProductsPage() {
         categories,
       }
       const res = await getAllProducts(pathVariables);
-      // setProducts(res?.data?.data)
+      setProducts(res?.data?.data)
       console.log(res);
     } catch (error:any) {
         console.log(error?.response?.data)
