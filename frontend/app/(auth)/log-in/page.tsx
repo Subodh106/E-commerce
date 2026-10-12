@@ -93,7 +93,7 @@ const LoginPage = () => {
         </CardContent>
         <CardFooter className='flex  justify-center flex-col items-center gap-3'>
           <CardDescription>Create an account?</CardDescription>
-          <Link href="/auth/sign-up">
+          <Link href="/sign-up">
             <Button variant="outline" type='submit' className="cursor-pointer">Sign Up</Button>
           </Link>
         </CardFooter>
