@@ -17,7 +17,7 @@ export function CategoryProvider({ children }: { children: React.ReactNode }) {
         const response = await getAllCateogry();
         setCategories(response?.data?.data);
       } catch (error:any) {
-        console.log("Error fetchiong categories",error);
+        console.log("Error fetchiong categories",error.message);
         toast.error(error?.response?.data?.message);
       }finally{
         setLoading(false);
@@ -36,8 +36,7 @@ const value = useMemo(
 
   return (
     <CategoryContext.Provider
-      value={value} 
-    >
+      value={value}>
       {children}
     </CategoryContext.Provider>
   )
