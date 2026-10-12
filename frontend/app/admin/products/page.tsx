@@ -84,14 +84,10 @@ export default function ProductsPage() {
   const {categories, fetchCategories} = useCategories();
   const[loading , setLoading] = useState<boolean>(false);
 
-  // const categories = useMemo(() => {
-  //   return [...new Set(products.map((product) => product.category))];
-  // }, [products]);
-
   const filteredProducts = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    return products.filter((product) => {
+    return products?.filter((product) => {
       const matchesSearch =
         !query ||
         product.productName.toLowerCase().includes(query) ||
@@ -104,21 +100,21 @@ export default function ProductsPage() {
     });
   }, [products, search, selectedcategory]);
 
-  const totalProducts = products.length;
+  const totalProducts = products?.length;
 
-  const inStock = products.filter((product) => product.stock > 10).length;
+  const inStock = products?.filter((product) => product.stock > 10).length;
 
-  const lowStock = products.filter(
+  const lowStock = products?.filter(
     (product) => product.stock > 0 && product.stock <= 10
   ).length;
 
-  const outOfStock = products.filter(
+  const outOfStock = products?.filter(
     (product) => product.stock === 0
   ).length;
 
   const handleDelete = (id: number) => {
     setProducts((current) =>
-      current.filter((product) => product.id !== id)
+      current?.filter((product) => product.id !== id)
     );
   };
 
@@ -151,6 +147,8 @@ export default function ProductsPage() {
   
   },[search,categories])
 
+  console.log("products :",products);
+
   const FetchProducts = async()=>{
     try {
       const pathVariables ={
@@ -159,7 +157,7 @@ export default function ProductsPage() {
       }
       const res = await getAllProducts(pathVariables);
       setProducts(res?.data?.data)
-      console.log(res);
+      console.log(res?.data?.data);
     } catch (error:any) {
         console.log(error?.response?.data)
     }
@@ -182,11 +180,11 @@ export default function ProductsPage() {
           </div>
 
           <Button
-            className="w-full bg-slate-950 text-slate-100 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-300 sm:w-auto"
+            className="w-full bg-slate-950 text-slate-100 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-300 sm:w-auto "
           >
-            <Link href="/admin/products/create">
+            <Link href="/admin/products/create" className="flex items-center gap-2 text-red-500">
               <Plus className="mr-2 h-4 w-4" />
-              Add Product
+              <span>Add Product</span>
             </Link>
           </Button>
         </section>
