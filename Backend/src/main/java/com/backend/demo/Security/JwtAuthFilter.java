@@ -69,7 +69,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         } catch (Exception ex) {
             SecurityContextHolder.clearContext();
-           response.sendError(HttpServletResponse.SC_UNAUTHORIZED, STR."jwt authorization failed: \{ex.getMessage()}");
+           response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "jwt authorization failed: ");
         }
 
         System.out.println("After chain");
