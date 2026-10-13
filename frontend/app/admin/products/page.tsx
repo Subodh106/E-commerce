@@ -28,9 +28,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAllProducts } from "@/services/productService";
+import { deleteProductById, getAllProducts } from "@/services/productService";
 import { api } from "@/lib/api";
 import { useCategories } from "@/hooks/useCategories";
+import { useProducts } from "@/hooks/useProduct";
 
 
 interface Product {
@@ -78,11 +79,10 @@ const initialProducts: Product[] = [
 ];
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
   const [search, setSearch] = useState("");
-  const [selectedcategory, setselectedCategory] = useState("electronics");
+  const [selectedcategory, setselectedCategory] = useState("all");
   const {categories, fetchCategories} = useCategories();
-  const[loading , setLoading] = useState<boolean>(false);
+  const {fetchProducts ,loading,products} = useProducts();
 
   const filteredProducts = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -91,10 +91,10 @@ export default function ProductsPage() {
       const matchesSearch =
         !query ||
         product.productName.toLowerCase().includes(query) ||
-        product.category.toLowerCase().includes(query);
+        product?.category?.categoryName.toLowerCase().includes(query);
 
       const matchesCategory =
-        selectedcategory=== "all" || product.category === selectedcategory;
+        selectedcategory=== "all" || product.category?.categoryName === selectedcategory;
 
       return matchesSearch && matchesCategory;
     });
@@ -112,10 +112,13 @@ export default function ProductsPage() {
     (product) => product.stock === 0
   ).length;
 
-  const handleDelete = (id: number) => {
-    setProducts((current) =>
-      current?.filter((product) => product.id !== id)
-    );
+  const handleDelete = async(id: number) => {
+    try {
+      const response = await deleteProductById(id);
+      console.log(response);
+    } catch (error:any) {
+        console.log(error?.response?.data);
+    } 
   };
 
   const getStockStatus = (stock: number) => {
@@ -143,25 +146,13 @@ export default function ProductsPage() {
   };
 
   useEffect(()=>{
-      FetchProducts();
+      fetchProducts({search});
+      fetchCategories();
   
-  },[search,categories])
+  },[search,selectedcategory])
 
   console.log("products :",products);
-
-  const FetchProducts = async()=>{
-    try {
-      const pathVariables ={
-        search,
-        categories,
-      }
-      const res = await getAllProducts(pathVariables);
-      setProducts(res?.data?.data)
-      console.log(res?.data?.data);
-    } catch (error:any) {
-        console.log(error?.response?.data)
-    }
-  }
+  console.log("Categories:",categories)
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-6 text-slate-950 dark:bg-slate-950 dark:text-slate-100 sm:px-6 lg:px-8">
@@ -315,7 +306,7 @@ export default function ProductsPage() {
 
                         {/* Category */}
                         <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                          {product.category}
+                          {product.category?.categoryName}
                         </td>
 
                         {/* Price */}
@@ -397,7 +388,7 @@ export default function ProductsPage() {
                           </h3>
 
                           <p className="mt-1 text-xs text-slate-500">
-                            {product.category}
+                            {product.category?.categoryName}
                           </p>
                         </div>
 
