@@ -14,5 +14,9 @@ export const getAllProducts = (pathVariables:pathVariablesType)=>{
 }
 
 export const getProductById = (productId:number)=>{
-    return api.get(`products/${productId}`);
+    return api.get(`/products/${productId}`);
+}
+
+export const deleteProductById = (productId:number)=>{
+    return api.delete(`/products/${productId}`);
 }
