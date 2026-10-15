@@ -64,8 +64,6 @@ public class CartItem {
     @JoinColumn(name = "cart_id" , nullable = false)
     private Cart cart;
 
-    @Column(nullable = false)
-    private BigDecimal subTotal;
 
     @Column(nullable = false)
     private Date added_at;
