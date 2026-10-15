@@ -8,3 +8,7 @@ export const logIn = (data:logInUser)=>{
 export const registerUser = (data:SignUpUser)=>{
     return api.post("/auth/user/register",data);
 }
+
+export const logoutUser = ()=>{
+    return api.post("/auth/user/logout");
+}
