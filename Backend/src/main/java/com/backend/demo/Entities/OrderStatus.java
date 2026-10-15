@@ -1,4 +1,11 @@
 package com.backend.demo.Entities;
 
-public enum OrderStatus {
+
+public enum OrderStatus{
+    Pending,
+    Processing,
+    Shipped,
+    Delivered,
+    Cancelled,
+    Refunded
 }
