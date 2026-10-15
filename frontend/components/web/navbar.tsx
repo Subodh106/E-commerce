@@ -21,6 +21,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { ModeToggle } from "./mode-toggle"
+import { logoutUser } from "@/services/authService"
+import { toast } from "sonner"
 
 const navItems = [
   { name: "Home", href: "/home" },
@@ -32,6 +34,16 @@ const navItems = [
 
 export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
+
+  const handleLogoutUser = async()=>{
+    try {
+      const res  = await logoutUser();
+      toast.success(res?.data?.message)
+      console.log(res);
+    } catch (error:any) {
+      console.log(error);
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-slate-950 backdrop-blur supports-backdrop-filter:bg-white/80">
@@ -89,6 +101,8 @@ export function Navbar() {
                   <ShoppingCart className="size-4" />
                   Cart
                 </Link>
+
+                <Button onClick={handleLogoutUser}>Log out</Button>
               </div>
             </div>
           </SheetContent>
