@@ -68,6 +68,7 @@ export default function CreateProductPage() {
         setImages(undefined);
         event.currentTarget.reset();
         toast.success(res?.data?.message);
+        window.location.reload();
       }
       console.log("Product created successfully:", res);
     } catch (error: any) {
