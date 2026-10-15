@@ -28,55 +28,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteProductById, getAllProducts } from "@/services/productService";
-import { api } from "@/lib/api";
+import { deleteProductById} from "@/services/productService";
 import { useCategories } from "@/hooks/useCategories";
 import { useProducts } from "@/hooks/useProduct";
+import { toast } from "sonner";
+import LoadingSpinner from "@/components/web/loading-spinner";
 
-
-interface Product {
-  id: number;
-  productName: string;
-  category: string;
-  price: number;
-  stock: number;
-  imageUrl: string;
-}
-
-const initialProducts: Product[] = [
-  {
-    id: 1,
-    productName: "Wireless Headphones",
-    category: "Electronics",
-    price: 89.99,
-    stock: 24,
-    imageUrl: "https://placehold.co/100x100",
-  },
-  {
-    id: 2,
-    productName: "Mechanical Keyboard",
-    category: "Electronics",
-    price: 129.99,
-    stock: 8,
-    imageUrl: "https://placehold.co/100x100",
-  },
-  {
-    id: 3,
-    productName: "Classic T-Shirt",
-    category: "Clothing",
-    price: 24.99,
-    stock: 0,
-    imageUrl: "https://placehold.co/100x100",
-  },
-  {
-    id: 4,
-    productName: "Running Shoes",
-    category: "Footwear",
-    price: 74.99,
-    stock: 15,
-    imageUrl: "https://placehold.co/100x100",
-  },
-];
 
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
@@ -112,14 +69,17 @@ export default function ProductsPage() {
     (product) => product.stock === 0
   ).length;
 
-  const handleDelete = async(id: number) => {
+  const handleDelete = async(productId : number)=>{
+
     try {
-      const response = await deleteProductById(id);
-      console.log(response);
+      const res = await deleteProductById(productId);
+      toast.success(res?.data?.message||"Product deleted successfully");
+      window.location.reload();
     } catch (error:any) {
-        console.log(error?.response?.data);
-    } 
-  };
+      console.log(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
+    }
+  }
 
   const getStockStatus = (stock: number) => {
     if (stock === 0) {
@@ -154,6 +114,8 @@ export default function ProductsPage() {
   console.log("products :",products);
   console.log("Categories:",categories)
 
+  if(loading) <LoadingSpinner/>
+
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-6 text-slate-950 dark:bg-slate-950 dark:text-slate-100 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-7xl space-y-6">
@@ -173,7 +135,7 @@ export default function ProductsPage() {
           <Button
             className="w-full bg-slate-950 text-slate-100 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-300 sm:w-auto "
           >
-            <Link href="/admin/products/create" className="flex items-center gap-2 text-red-500">
+            <Link href="/admin/products/create" className="flex items-center gap-2 ">
               <Plus className="mr-2 h-4 w-4" />
               <span>Add Product</span>
             </Link>
