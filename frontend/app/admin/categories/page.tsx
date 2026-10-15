@@ -32,12 +32,11 @@ export interface Category {
 }
 
 export default function CategoriesPage() {
-  // const {categories , setCategories} = useCategories();
   const [search, setSearch] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryName, setCategoryName] = useState("");
-  const {  categories , setCategories , fetchCategories, loading   } = useCategories();
+  const {  categories, fetchCategories, loading   } = useCategories();
 
 
   useEffect(() => {
