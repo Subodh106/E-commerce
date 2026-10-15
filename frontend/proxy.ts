@@ -12,12 +12,12 @@ export function proxy(request : NextRequest){
   
     if(isProtectedRoutes && isAuthed==undefined){
         const loginUrl = request.nextUrl.clone();
-        loginUrl.pathname = "/log-in";
+        loginUrl.pathname = "/login";
         loginUrl.searchParams.set("next" , pathname);
         return NextResponse.redirect(loginUrl)
     }
 
-    if(pathname.startsWith("/log-in") && isAuthed!=null){
+    if(pathname.startsWith("/login") && isAuthed!=null){
         const homeUrl = request.nextUrl.clone();
         homeUrl.pathname = "/home";
         return NextResponse.redirect(homeUrl);
