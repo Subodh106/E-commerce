@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @RequiredArgsConstructor
 public class OrderItemResponseDto {
 }
