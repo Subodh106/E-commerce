@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 public class OrderItemDto {
 }
