@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
-public OrderResponse placeOrder(OrderItemDto orderItem){
+public void placeOrder(OrderItemDto orderItem){
     OrderItem orderItems = new OrderItem();
-    return orderItems;
 }
 }
