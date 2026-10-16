@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     private OrderService orderService;
     @GetMapping
-    private ResponseEntity<ApiResponse<OrderResponse>> placeOrder(@RequestBody @Valid OrderItemDto orderItem ){
-        OrderResponse response = orderService.placeOrder(orderItem);
-        ApiResponse<OrderResponse> orderResponse = new ApiResponse<>("Order placed successfully",response);
+    private ResponseEntity<ApiResponse<Void>> placeOrder(@RequestBody @Valid OrderItemDto orderItem ){
+//        Void response = orderService.placeOrder(orderItem);
+        ApiResponse<Void> orderResponse = new ApiResponse<>("Order placed successfully",null);
         return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
     }
 }
