@@ -54,26 +54,26 @@ public class CartService {
                 .orElse(null);
 
         // 4. Update existing or create new CartItem
-        if (cartItem != null) {
-            cartItem.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
-            cartItem.setSubTotal(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
-        } else {
-            CartItem newCartItem = createCartItem(cartItemDto, product, existedCart);
-            existedCart.getCartItems().add(newCartItem);
-        }
+//        if (cartItem != null) {
+//            cartItem.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
+//            cartItem.setSubTotal(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+//        } else {
+//            CartItem newCartItem = createCartItem(cartItemDto, product, existedCart);
+//            existedCart.getCartItems().add(newCartItem);
+//        }
 
-        // 5. Recalculate totals cleanly
-        BigDecimal subTotal = BigDecimal.ZERO;
-        for (CartItem item : existedCart.getCartItems()) {
-            if (item.getSubTotal() != null) {
-                subTotal = subTotal.add(item.getSubTotal());
-            }
-        }
+//        // 5. Recalculate totals cleanly
+//        BigDecimal subTotal = BigDecimal.ZERO;
+//        for (CartItem item : existedCart.getCartItems()) {
+//            if (item.getSubTotal() != null) {
+//                subTotal = subTotal.add(item.getSubTotal());
+//            }
+//        }
 
-        existedCart.setSubTotal(subTotal);
-        BigDecimal shipping = existedCart.getShipping() != null ? existedCart.getShipping() : BigDecimal.ZERO;
-        existedCart.setTotal(subTotal.add(shipping));
-        existedCart.setUpdated_at(new Date());
+//        existedCart.setSubTotal(subTotal);
+//        BigDecimal shipping = existedCart.getShipping() != null ? existedCart.getShipping() : BigDecimal.ZERO;
+//        existedCart.setTotal(subTotal.add(shipping));
+//        existedCart.setUpdated_at(new Date());
 
         // 6. Save and Return
         Cart savedCart = cartRepository.save(existedCart);
@@ -92,7 +92,7 @@ public class CartService {
 
         BigDecimal price = product.getPrice() != null ? product.getPrice() : BigDecimal.ZERO;
         BigDecimal quantity = BigDecimal.valueOf(cartItem.getQuantity());
-        cartItem.setSubTotal(price.multiply(quantity));
+//        cartItem.setSubTotal(price.multiply(quantity));
         return cartItem;
     }
 
