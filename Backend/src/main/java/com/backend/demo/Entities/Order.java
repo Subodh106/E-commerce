@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-//@NoArgsConstructor
 @RequiredArgsConstructor
 public class Order {
     @Id
@@ -27,10 +26,58 @@ public class Order {
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
     private PaymentType payment_type;
-    private String shipping_address;
-    private String billing_address;
-    private String tracking_number;
-    private Date update_at;
     @OneToMany
     private List<OrderItem> order_item = new ArrayList<>();
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name="full_name",
+                    column = @Column(name = "shipping_full_name")
+            ),
+            @AttributeOverride(
+                    name="phone_number",
+                    column = @Column(name = "shipping_phone_number")
+            ),
+            @AttributeOverride(
+                    name="street",
+                    column = @Column(name="shipping_street")
+            ),
+            @AttributeOverride(
+                    name="postal_code",
+                    column = @Column(name = "shipping_postal_code")
+            )
+    }
+    )
+    private Address shipping_address;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name="full_name",
+                    column = @Column(name = "billing_full_name")
+            ),
+            @AttributeOverride(
+                    name="phone_number",
+                    column = @Column(name = "billing_phone_number")
+            ),
+            @AttributeOverride(
+                    name="street",
+                    column = @Column(name="billing_street")
+            ),
+            @AttributeOverride(
+                    name="postal_code",
+                    column = @Column(name = "billing_postal_code")
+            )
+    }
+    )
+    private Address billing_address;
+    private String tracking_number;
+    private Date update_at;
+
+    public void setBilling_address(String fullName, String phoneNumber, String street, String postalCode) {
+
+    }
+
+    public void setShipping_address(String fullName, String phoneNumber, String street, String postalCode) {
+    }
 }
+
