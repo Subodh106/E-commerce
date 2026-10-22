@@ -1,7 +1,6 @@
 package com.backend.demo.Entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -30,11 +29,6 @@ public class Cart {
     @Column(nullable = false)
     private BigDecimal subTotal;
 
-    @Column(nullable = false)
-    private BigDecimal shipping;
-
-    @Column(nullable = false)
-    private BigDecimal total;
 
     @Column(nullable = false)
     private Date created_at;
