@@ -23,8 +23,9 @@ public class OrderItem {
     private Long product_id;
     private int quantity;
     private BigDecimal price;
-    @OneToMany
-    private List<Category> category;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private Category category;
     private Date created_at;
     private Date updated_at;
 
