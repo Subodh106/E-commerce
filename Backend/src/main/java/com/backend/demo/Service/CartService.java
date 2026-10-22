@@ -7,10 +7,10 @@ import com.backend.demo.Entities.Cart;
 import com.backend.demo.Entities.CartItem;
 import com.backend.demo.Entities.Product;
 import com.backend.demo.Exception.Custom.ResourceNotFoundException;
+import com.backend.demo.Repository.CartItemRepository;
 import com.backend.demo.Repository.CartRepository;
 import com.backend.demo.Repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +26,7 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Transactional
     public CartResponseDto addToCart(CartItemDto cartItemDto, Long userId) {
@@ -34,67 +35,48 @@ public class CartService {
             Cart newCart = new Cart();
             newCart.setUserId(userId);
             newCart.setCreated_at(new Date());
-            newCart.setCartItems(new ArrayList<>()); // Ensure list is initialized
-            newCart.setShipping(BigDecimal.ZERO);    // Ensure shipping is not null
+            newCart.setUpdated_at(new Date());
+            newCart.setCartItems(new ArrayList<>());
+            newCart.setSubTotal(BigDecimal.ZERO);
             return newCart;
         });
 
-        if (existedCart.getCartItems() == null) {
-            existedCart.setCartItems(new ArrayList<>());
-        }
 
         // 2. Fetch Product
         Product product = productRepository.findById(cartItemDto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         // 3. Find existing CartItem if present
-        CartItem cartItem = existedCart.getCartItems().stream()
-                .filter(item -> Objects.equals(item.getProductId(), product.getId()))
-                .findFirst()
-                .orElse(null);
+        CartItem newCartItem = new CartItem();
+        newCartItem.setProductId(product.getId());
+        newCartItem.setCategory(product.getCategory());
+        newCartItem.setImageUrl(product.getImageUrl());
+        newCartItem.setPrice(product.getPrice());
+        if(cartItemDto.getQuantity()>product.getStock()|| cartItemDto.getQuantity()==0){
+            throw new IllegalArgumentException("Set correct quantity");
+        }
+        newCartItem.setQuantity(cartItemDto.getQuantity());
+        newCartItem.setCart(existedCart);
+        newCartItem.setAdded_at(new Date());
 
-        // 4. Update existing or create new CartItem
-//        if (cartItem != null) {
-//            cartItem.setQuantity(cartItem.getQuantity() + cartItemDto.getQuantity());
-//            cartItem.setSubTotal(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
-//        } else {
-//            CartItem newCartItem = createCartItem(cartItemDto, product, existedCart);
-//            existedCart.getCartItems().add(newCartItem);
-//        }
+        CartItem savedCartItem =  cartItemRepository.save(newCartItem);
 
-//        // 5. Recalculate totals cleanly
-//        BigDecimal subTotal = BigDecimal.ZERO;
-//        for (CartItem item : existedCart.getCartItems()) {
-//            if (item.getSubTotal() != null) {
-//                subTotal = subTotal.add(item.getSubTotal());
-//            }
-//        }
+        List<CartItem> existedCartItems = existedCart.getCartItems();
+        existedCartItems.add(savedCartItem);
 
-//        existedCart.setSubTotal(subTotal);
-//        BigDecimal shipping = existedCart.getShipping() != null ? existedCart.getShipping() : BigDecimal.ZERO;
-//        existedCart.setTotal(subTotal.add(shipping));
-//        existedCart.setUpdated_at(new Date());
+        existedCart.setCartItems(existedCartItems);
 
+        // calculate total sum of cartItems
+        BigDecimal subTotal = BigDecimal.ZERO;
+        for(CartItem cartItem:existedCartItems){
+            subTotal = subTotal.add(cartItem.getPrice());
+        }
+        existedCart.setSubTotal(subTotal);
         // 6. Save and Return
         Cart savedCart = cartRepository.save(existedCart);
         return buildCartDto(savedCart);
     }
 
-    private static @NonNull CartItem createCartItem(CartItemDto cartItemDto, Product product, Cart existedCart) {
-        CartItem cartItem = new CartItem();
-        cartItem.setProductId(product.getId());
-        cartItem.setCategory(product.getCategory());
-        cartItem.setPrice(product.getPrice());
-        cartItem.setImageUrl(product.getImageUrl());
-        cartItem.setQuantity(cartItemDto.getQuantity());
-        cartItem.setCart(existedCart);
-        cartItem.setAdded_at(new Date());
-
-        BigDecimal price = product.getPrice() != null ? product.getPrice() : BigDecimal.ZERO;
-        BigDecimal quantity = BigDecimal.valueOf(cartItem.getQuantity());
-//        cartItem.setSubTotal(price.multiply(quantity));
-        return cartItem;
-    }
 
     public CartResponseDto getCart(Long userID) {
         Cart existingCart = cartRepository.findByUserId(userID)
