@@ -19,65 +19,71 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long customer_id;
-    private Date order_date;
-    private OrderStatus order_status;
-    private BigDecimal sub_total;
-    private BigDecimal tax_amount;
-    private BigDecimal total_amount;
-    private PaymentType payment_type;
-    @OneToMany
-    private List<OrderItem> order_item = new ArrayList<>();
+    private Long customerId;
+    private Date orderDate;
+    private OrderStatus orderStatus;
+    private BigDecimal subTotal;
+    private BigDecimal taxAmount;
+    private BigDecimal totalAmount;
+    private PaymentType paymentType;
+    @OneToMany(
+            mappedBy = "orderId",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<OrderItem> orderItem = new ArrayList<>();
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name="fullName",
+                    column = @Column(name = "shippingFullName")
+            ),
+            @AttributeOverride(
+                    name="phoneNumber",
+                    column = @Column(name = "shippingPhoneNumber")
+            ),
+            @AttributeOverride(
+                    name="city",
+                    column = @Column(name = "shippingCity")
+            ),
+            @AttributeOverride(
+                    name="street",
+                    column = @Column(name="ShippingStreet")
+            ),
+            @AttributeOverride(
+                    name="postalCode",
+                    column = @Column(name = "shippingPostalCode")
+            )
+    }
+    )
+    private Address shippingAddress;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(
                     name="full_name",
-                    column = @Column(name = "shipping_full_name")
+                    column = @Column(name = "billingFullName")
             ),
             @AttributeOverride(
                     name="phone_number",
-                    column = @Column(name = "shipping_phone_number")
+                    column = @Column(name = "billingPhoneNumber")
+            ),
+            @AttributeOverride(
+                    name = "city",
+                    column = @Column(name = "billingCity")
             ),
             @AttributeOverride(
                     name="street",
-                    column = @Column(name="shipping_street")
+                    column = @Column(name="billingStreet")
             ),
             @AttributeOverride(
                     name="postal_code",
-                    column = @Column(name = "shipping_postal_code")
+                    column = @Column(name = "billingPostalCode")
             )
     }
     )
-    private Address shipping_address;
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(
-                    name="full_name",
-                    column = @Column(name = "billing_full_name")
-            ),
-            @AttributeOverride(
-                    name="phone_number",
-                    column = @Column(name = "billing_phone_number")
-            ),
-            @AttributeOverride(
-                    name="street",
-                    column = @Column(name="billing_street")
-            ),
-            @AttributeOverride(
-                    name="postal_code",
-                    column = @Column(name = "billing_postal_code")
-            )
-    }
-    )
-    private Address billing_address;
-    private String tracking_number;
-    private Date update_at;
+    private Address billingAddress;
+    private String trackingNumber;
+    private Date updateAt;
 
-    public void setBilling_address(String fullName, String phoneNumber, String street, String postalCode) {
-
-    }
-
-    public void setShipping_address(String fullName, String phoneNumber, String street, String postalCode) {
-    }
 }
 
