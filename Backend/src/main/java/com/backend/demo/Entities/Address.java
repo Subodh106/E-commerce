@@ -1,12 +1,19 @@
 package com.backend.demo.Entities;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class Address {
-    private String full_name;
-    private String phone_number;
-    private String street;
+    private String fullName;
+    private String phoneNumber;
     private String city;
-    private String postal_code;
+    private String street;
+    private String postalCode;
+
 }
