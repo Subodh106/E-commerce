@@ -14,19 +14,20 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-//@RequiredArgsConstructor
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long order_id;
-    private Long product_id;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order orderId;
+    private Long productId;
     private int quantity;
     private BigDecimal price;
     @JoinColumn(nullable = false)
     @ManyToOne
     private Category category;
-    private Date created_at;
-    private Date updated_at;
+    private Date createdAt;
+    private Date updatedAt;
 
 }
