@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class OrderItemDto {
+public class OrderDto {
     private Long[] cartItemId;
     private AddressDto billingAddress;
     private AddressDto shippingAddress;
