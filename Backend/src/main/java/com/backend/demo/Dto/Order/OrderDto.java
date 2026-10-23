@@ -1,5 +1,6 @@
 package com.backend.demo.Dto.Order;
 
+import com.backend.demo.Dto.Address.AddressDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -9,9 +10,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class OrderItemDto {
     private Long[] cartItemId;
-    private String fullName;
-    private String phoneNumber;
-    private String city;
-    private String street;
-    private String postalCode;
+    private AddressDto billingAddress;
+    private AddressDto shippingAddress;
 }
