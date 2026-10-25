@@ -50,19 +50,15 @@ public class CartItem {
                     name = "check_quantity_positive",
                     constraint = "quantity >= 0"
                 )
-            },
-
-            columnDefinition = "quantity"
+            }
     )
     @Min(1)
     private int quantity;
 
     @ManyToOne
-    @JoinColumn( nullable = false)
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
-
-    @Column(nullable = false)
     private Date added_at;
 
 
