@@ -22,7 +22,7 @@ public class Cart {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false,name = "cart_items")
+    @Column(name = "cart_items")
     @OneToMany(mappedBy = "cart" ,cascade = CascadeType.ALL , orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
