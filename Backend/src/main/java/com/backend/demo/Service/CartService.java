@@ -42,9 +42,18 @@ public class CartService {
         });
 
 
+
         // 2. Fetch Product
         Product product = productRepository.findById(cartItemDto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        System.out.println();
+        System.out.println(product.getCategory());
+        System.out.println(product.getPrice());
+        System.out.println(product.getImageUrl());
+        System.out.println(product.getId());
+        System.out.println(product.getProductName());
+        System.out.println(product.getStock());
 
         // 3. Find existing CartItem if present
         CartItem newCartItem = new CartItem();
@@ -55,25 +64,43 @@ public class CartService {
         if(cartItemDto.getQuantity()>product.getStock()|| cartItemDto.getQuantity()==0){
             throw new IllegalArgumentException("Set correct quantity");
         }
+        newCartItem.setCategory(product.getCategory());
         newCartItem.setQuantity(cartItemDto.getQuantity());
-        newCartItem.setCart(existedCart);
         newCartItem.setAdded_at(new Date());
 
+        System.out.println("Before cart Item");
         CartItem savedCartItem =  cartItemRepository.save(newCartItem);
 
+        System.out.println("After cart Item");
         List<CartItem> existedCartItems = existedCart.getCartItems();
         existedCartItems.add(savedCartItem);
-
+        System.out.println("Before cart");
         existedCart.setCartItems(existedCartItems);
 
+        Cart savedCart = cartRepository.save(existedCart);
+
+        System.out.println("After cart");
+        savedCartItem.setCart(savedCart);
         // calculate total sum of cartItems
         BigDecimal subTotal = BigDecimal.ZERO;
         for(CartItem cartItem:existedCartItems){
             subTotal = subTotal.add(cartItem.getPrice());
         }
-        existedCart.setSubTotal(subTotal);
+        savedCart.setSubTotal(subTotal);
+        System.out.println(savedCart.getId());
+        System.out.println(savedCart.getUserId());
+        System.out.println(savedCart.getSubTotal());
+        for(CartItem cartItem:savedCart.getCartItems()){
+            System.out.println(cartItem.getCategory());
+            System.out.println(cartItem.getPrice());
+            System.out.println(cartItem.getImageUrl());
+            System.out.println(cartItem.getId());
+            System.out.println(cartItem.getProductId());
+            System.out.println(cartItem.getQuantity());
+        }
+
+
         // 6. Save and Return
-        Cart savedCart = cartRepository.save(existedCart);
         return buildCartDto(savedCart);
     }
 
