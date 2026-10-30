@@ -3,6 +3,7 @@ package com.backend.demo.Service;
 import com.backend.demo.Dto.Cart.CartItemDto;
 import com.backend.demo.Dto.Cart.CartItemResponseDto;
 import com.backend.demo.Dto.Cart.CartResponseDto;
+import com.backend.demo.Dto.Category.CategorySummaryDto;
 import com.backend.demo.Entities.Cart;
 import com.backend.demo.Entities.CartItem;
 import com.backend.demo.Entities.Product;
@@ -11,6 +12,7 @@ import com.backend.demo.Repository.CartItemRepository;
 import com.backend.demo.Repository.CartRepository;
 import com.backend.demo.Repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,24 +42,17 @@ public class CartService {
             newCart.setSubTotal(BigDecimal.ZERO);
             return newCart;
         });
-
-
+        Cart savedCart = cartRepository.save(existedCart);
 
         // 2. Fetch Product
+        System.out.println("After Add to cart");
         Product product = productRepository.findById(cartItemDto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
-
-        System.out.println();
-        System.out.println(product.getCategory());
-        System.out.println(product.getPrice());
-        System.out.println(product.getImageUrl());
-        System.out.println(product.getId());
-        System.out.println(product.getProductName());
-        System.out.println(product.getStock());
 
         // 3. Find existing CartItem if present
         CartItem newCartItem = new CartItem();
         newCartItem.setProductId(product.getId());
+        newCartItem.setProductName(product.getProductName());
         newCartItem.setCategory(product.getCategory());
         newCartItem.setImageUrl(product.getImageUrl());
         newCartItem.setPrice(product.getPrice());
@@ -67,7 +62,7 @@ public class CartService {
         newCartItem.setCategory(product.getCategory());
         newCartItem.setQuantity(cartItemDto.getQuantity());
         newCartItem.setAdded_at(new Date());
-
+        newCartItem.setCart(savedCart);
         System.out.println("Before cart Item");
         CartItem savedCartItem =  cartItemRepository.save(newCartItem);
 
@@ -77,7 +72,6 @@ public class CartService {
         System.out.println("Before cart");
         existedCart.setCartItems(existedCartItems);
 
-        Cart savedCart = cartRepository.save(existedCart);
 
         System.out.println("After cart");
         savedCartItem.setCart(savedCart);
@@ -137,16 +131,8 @@ public class CartService {
 
         if (cart.getCartItems() != null) {
             for (CartItem item : cart.getCartItems()) {
-                CartItemResponseDto dto = new CartItemResponseDto();
-                dto.setId(item.getId());
-                dto.setProductId(item.getProductId());
-                dto.setCategory(item.getCategory());
-                dto.setPrice(item.getPrice());
-                dto.setImageUrl(item.getImageUrl());
-                dto.setQuantity(item.getQuantity());
-                dto.setCart(item.getCart());
-                dto.setAdded_at(item.getAdded_at());
-                cartItemsList.add(dto);
+                CartItemResponseDto cartItemDto = createCartItemDto(item);
+                cartItemsList.add(cartItemDto);
             }
         }
         cartResponseDto.setCartItems(cartItemsList);
@@ -154,5 +140,21 @@ public class CartService {
         cartResponseDto.setCreate_at(cart.getCreated_at());
         cartResponseDto.setUpdated_at(cart.getUpdated_at());
         return cartResponseDto;
+    }
+    private static @NonNull CartItemResponseDto createCartItemDto(CartItem item) {
+        CartItemResponseDto dto = new CartItemResponseDto();
+        dto.setId(item.getId());
+        dto.setProductId(item.getProductId());
+        dto.setProductName(item.getProductName());
+        CategorySummaryDto category = new CategorySummaryDto();
+        category.setId(item.getCategory().getId());
+        category.setName(item.getCategory().getName());
+        dto.setCategorySummary(category);
+        dto.setPrice(item.getPrice());
+        dto.setImageUrl(item.getImageUrl());
+        dto.setQuantity(item.getQuantity());
+        dto.setCartId(item.getCart().getId());
+        dto.setAdded_at(item.getAdded_at());
+        return dto;
     }
 }
