@@ -22,6 +22,9 @@ public class CartItem {
     @Column(nullable = false)
     private Long productId;
 
+    @Column(nullable = false)
+    private String productName;
+
     @JoinColumn(nullable = false)
     @ManyToOne
     private Category category;
@@ -56,7 +59,7 @@ public class CartItem {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cart_id" , nullable = true)
     private Cart cart;
 
     private Date added_at;
