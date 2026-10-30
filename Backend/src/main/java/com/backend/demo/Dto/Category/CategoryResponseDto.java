@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CategoryResponseDto {
-    private Long Id;
+    private Long id;
     private String category;
     private List<ProductResponseDto> products = new ArrayList<>();
 }
