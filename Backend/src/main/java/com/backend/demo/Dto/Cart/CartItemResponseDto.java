@@ -2,7 +2,6 @@ package com.backend.demo.Dto.Cart;
 
 import com.backend.demo.Dto.Category.CategorySummaryDto;
 import com.backend.demo.Entities.Cart;
-import com.backend.demo.Entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +15,14 @@ import java.util.Date;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class CartItemResponseDto {
-    private Long Id;
+    private Long id;
     private Long productId;
-    private CategorySummaryDto category;
+    private String productName;
+    private CategorySummaryDto categorySummary;
     private BigDecimal price;
     private String imageUrl;
     private int quantity;
-    private Cart cart;
+    private Long cartId;
     private BigDecimal subtotal;
     private Date added_at;
-
-    public void setCategory(Category category) {
-
-    }
 }
