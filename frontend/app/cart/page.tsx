@@ -15,15 +15,23 @@ import OrderSummaryCard from '@/components/web/cart/order-summary-card';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { fetchCart, removeItemFromCart } from '@/services/cartService';
+import LoadingSpinner from '@/components/web/loading-spinner';
 
 export type cart = {
-  id : string ;
-  name : string ;
-  price : number ;
-  quantity : number;
-  variant : string ;
-  image : string ;
-  inStock : boolean;
+  added_at:string;
+  cart_id: number;
+  category:categroyType;
+  id : number ;
+  imageUrl:string;
+  price:string;
+  productId:number;
+  productName:string;
+  subtotal:number;
+}
+
+type categroyType={
+  id:number;
+  name:string;
 }
 
 const INITIAL_CART = [
@@ -69,12 +77,13 @@ export type appliedPromo = {
 
 export default function page() {
   // Cart state
-  const [cart, setCart] = useState<cart[]>(INITIAL_CART);
+  const [cart, setCart] = useState<cart[]>([]);
   const [promoInput, setPromoInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<appliedPromo|null>(null); // { code: 'SAVE10', type: 'fixed'|'percent', amount: 10 }
   const [promoError, setPromoError] = useState('');
   const[subTotal , setSubtotal] = useState<number>(100);
-  const[discountAmount,setDiscountAmount]=useState<number>(10);  
+  const[discountAmount,setDiscountAmount]=useState<number>(10);
+  const[loading , setLoading]=useState<boolean>(false);  
 
 
   // UI States
@@ -86,16 +95,6 @@ export default function page() {
 
 
   const updateQuantity = (id:string, delta:number) => {
-    setCart((prev) =>
-      prev.map((item) => {
-          if (item.id === id) {
-            const nextQty = item.quantity + delta;
-            return nextQty > 0 ? { ...item, quantity: nextQty } : undefined;
-          }
-          return item;
-        })
-        .filter((item): item is cart => item !== undefined)
-    );
   };
 
 
@@ -106,31 +105,9 @@ export default function page() {
   };
 
   const handleRestoreCart = () => {
-    setCart(INITIAL_CART);
-    setAppliedPromo(null);
-    setPromoInput('');
-    setOrderConfirmed(false);
   };
 
   const handleApplyPromo = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setPromoError('');
-
-    const cleanCode = promoInput.trim().toUpperCase();
-    if (!cleanCode) {
-      setPromoError('Please enter a coupon code.');
-      return;
-    }
-
-    if (cleanCode === 'SAVE10') {
-      setAppliedPromo({ code: 'SAVE10', type: 'fixed', amount: 10 });
-      setPromoInput('');
-    } else if (cleanCode === 'HALFPRICE') {
-      setAppliedPromo({ code: 'HALFPRICE', type: 'percent', amount: 0.5 });
-      setPromoInput('');
-    } else {
-      setPromoError('Invalid coupon. Try "SAVE10" or "HALFPRICE"');
-    }
   };
 
   const removePromo = () => {
@@ -138,34 +115,39 @@ export default function page() {
   };
 
  
-  const postDiscountSubtotal = Math.max(0, subTotal - discountAmount);
+  const postDiscountSubtotal = 100;
   
   // Free shipping logic ($100 target)
   const freeShippingThreshold = 100;
-  const shippingFee = postDiscountSubtotal >= freeShippingThreshold || cart.length === 0 ? 0 : 9.99;
-  const estimatedTax = postDiscountSubtotal * 0.08; // 8% Tax rate
+  const shippingFee = 100;
+  const estimatedTax = 0.4
   const grandTotal = postDiscountSubtotal + shippingFee + estimatedTax;
 
-  const totalItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItemCount = 10;
 
   const handleCheckoutProcess = () => {
-    setIsCheckingOut(true);
-    setTimeout(() => {
-      setIsCheckingOut(false);
-      setOrderConfirmed(true);
-      setCart([]);
-    }, 1200);
+    // setIsCheckingOut(true);
+    // setTimeout(() => {
+    //   setIsCheckingOut(false);
+    //   setOrderConfirmed(true);
+    //   setCart([]);
+    // }, 1200);
   };
 
   const getCart =  async()=>{
-      
+      setLoading(true);
       try {
         const res = await fetchCart();
-      console.log(res);
+        setCart(res?.data?.data?.cartItems)
+        console.log(res.data?.data?.cartItems)
+        console.log(res?.data?.data);
+        console.log("adsadfds");
       } catch (error:any) {
         setServerErrors(error?.response?.data?.message);
         toast.error(error?.response?.data?.message);
-      } 
+      }finally{
+        setLoading(false);
+      }
   }
 
   const removeProductFromCart = async(id:string)=>{
@@ -192,6 +174,10 @@ export default function page() {
   useEffect(()=>{
     getCart();
   },[])
+
+  console.log(cart)
+
+    if(loading) return <LoadingSpinner/>
 
   return (
    
