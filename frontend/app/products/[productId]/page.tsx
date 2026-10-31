@@ -44,6 +44,7 @@ export default function ProductDetails() {
   const [serverErrors , setServerErrors] = useState<string>("");
   const [loading , setloading] = useState<boolean>(false);
 
+
   const params = useParams<{ productId: string }>();
   const productId:number =Number(params.productId);
   const router = useRouter();
@@ -74,8 +75,10 @@ export default function ProductDetails() {
     
       console.log({productId,quantity})
       const res = await AddToCart({ productId,quantity});
-      if(res.status===200){
-        toast.success(res?.data?.data);
+      console.log(res.status);
+      if(res.status===201){
+        toast.success(res?.data?.message);
+        router.push('/cart')
       }
     } catch (error:any) {
       setServerErrors(error?.response?.data?.message)
