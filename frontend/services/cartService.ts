@@ -9,7 +9,7 @@ export const fetchCart = ()=>{
     return api.get("/cart");
 }
 
-export const removeItemFromCart =(id:string)=>{
+export const removeItemFromCart =(id:number)=>{
     return api.delete(`/cart/${id}`);
 }
 
