@@ -4,6 +4,7 @@ import {
   RotateCcw,
   AlertCircle,
   ShoppingBasket,
+  MoveLeftIcon,
 } from 'lucide-react';
 import { Button  } from '@/components/ui/button';
 
@@ -14,8 +15,9 @@ import ListItems from '@/components/web/cart/list-items';
 import OrderSummaryCard from '@/components/web/cart/order-summary-card';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { fetchCart, removeItemFromCart } from '@/services/cartService';
+import { clearAllItemFromCart, fetchCart, removeItemFromCart } from '@/services/cartService';
 import LoadingSpinner from '@/components/web/loading-spinner';
+import Link from 'next/link';
 
 export type cart = {
   added_at:string;
@@ -23,9 +25,10 @@ export type cart = {
   category:categroyType;
   id : number ;
   imageUrl:string;
-  price:string;
+  price:number;
   productId:number;
   productName:string;
+  quantity:number;
   subtotal:number;
 }
 
@@ -94,15 +97,15 @@ export default function page() {
   const [serverErrors , setServerErrors] = useState();
 
 
-  const updateQuantity = (id:string, delta:number) => {
+  const updateQuantity = (id:number, delta:number) => {
   };
 
 
 
-  const handleClearCart = () => {
-    setCart([]);
-    setShowClearModal(false);
-  };
+  // const handleClearCart = () => {
+  //   setCart([]);
+  //   setShowClearModal(false);
+  // };
 
   const handleRestoreCart = () => {
   };
@@ -150,7 +153,7 @@ export default function page() {
       }
   }
 
-  const removeProductFromCart = async(id:string)=>{
+  const removeProductFromCart = async(id:number)=>{
     try {
       const res = await removeItemFromCart(id);
       console.log(res);
@@ -162,7 +165,7 @@ export default function page() {
 
   const clearCart = async()=>{
     try {
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/cart`,{withCredentials:true})
+      const res = await clearAllItemFromCart();
       setShowClearModal(true);
       console.log(res);
     } catch (error:any) {
@@ -186,7 +189,11 @@ export default function page() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Breadcrumb Bar */}
-          <Breadcrumb/>
+          <Breadcrumb/> {/* {item.variant && (
+                                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    Variant: <span className="font-medium text-slate-700 dark:text-slate-300">{item.variant}</span>
+                                  </p>
+                                )}
 
         {/* Free Shipping Progress Indicator */}
         <FreeShippingIndicator
@@ -208,10 +215,12 @@ export default function page() {
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6">
               Looks like you haven't added anything to your cart yet.
             </p>
-            <Button onClick={handleRestoreCart} variant="default" className="gap-2">
-              <RotateCcw className="w-4 h-4" />
-              Load Sample Cart Items
+              <Link href="/products">
+              <Button  variant="default" className="gap-2">
+              <MoveLeftIcon className='w-4 h-4'/>
+                  Continue Shopping 
             </Button>
+              </Link>
           </div>
         ) : (
           /* 2-COLUMN CART CONTENT LAYOUT */
@@ -222,8 +231,8 @@ export default function page() {
                 cart={cart}
                 totalItemCount={totalItemCount}
                 setShowClearModal={setShowClearModal}
-                updateQuantity={updateQuantity}
-                removeItem={removeProductFromCart}
+                updateQuantity={(id, value) => updateQuantity(Number(id), value)}
+                removeItem={(id) => removeProductFromCart(Number(id))}
                 clearCart={clearCart}
                 />
 
@@ -263,8 +272,9 @@ export default function page() {
               <Button variant="outline" onClick={() => setShowClearModal(false)} className="flex-1">
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={handleClearCart} className="flex-1">
-                Clear Cart
+              <Button variant="destructive" 
+              onClick={clearCart} className="flex-1">
+                Clear Cartf
               </Button>
             </div>
           </div>
