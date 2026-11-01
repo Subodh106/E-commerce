@@ -90,7 +90,7 @@ export default function page() {
 
 
   // UI States
-  const [showClearModal, setShowClearModal] = useState<boolean>(false);
+  // const [showClearModal, setShowClearModal] = useState<boolean>(false);
   const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false);
   const [orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
 
@@ -129,12 +129,6 @@ export default function page() {
   const totalItemCount = 10;
 
   const handleCheckoutProcess = () => {
-    // setIsCheckingOut(true);
-    // setTimeout(() => {
-    //   setIsCheckingOut(false);
-    //   setOrderConfirmed(true);
-    //   setCart([]);
-    // }, 1200);
   };
 
   const getCart =  async()=>{
@@ -156,7 +150,7 @@ export default function page() {
   const removeProductFromCart = async(id:number)=>{
     try {
       const res = await removeItemFromCart(id);
-      console.log(res);
+      console.log(res.status);
     } catch (error:any) {
       setServerErrors(error?.response?.data?.message);
       toast.error(error?.response?.data?.message);
@@ -166,8 +160,7 @@ export default function page() {
   const clearCart = async()=>{
     try {
       const res = await clearAllItemFromCart();
-      setShowClearModal(true);
-      console.log(res);
+      console.log(res.status)
     } catch (error:any) {
       setServerErrors(error?.response?.data?.message);
       toast.error(error?.response?.data?.message);
@@ -189,13 +182,9 @@ export default function page() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Breadcrumb Bar */}
-          <Breadcrumb/> {/* {item.variant && (
-                                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                    Variant: <span className="font-medium text-slate-700 dark:text-slate-300">{item.variant}</span>
-                                  </p>
-                                )}
+          <Breadcrumb/> {/*
 
-        {/* Free Shipping Progress Indicator */}
+      {/* Free Shipping Progress Indicator */}
         <FreeShippingIndicator
           cart={cart}
           postDiscountSubtotal={postDiscountSubtotal}
@@ -230,9 +219,7 @@ export default function page() {
               <ListItems
                 cart={cart}
                 totalItemCount={totalItemCount}
-                setShowClearModal={setShowClearModal}
-                updateQuantity={(id, value) => updateQuantity(Number(id), value)}
-                removeItem={(id) => removeProductFromCart(Number(id))}
+                updateQuantity={updateQuantity}
                 clearCart={clearCart}
                 />
 
@@ -256,30 +243,6 @@ export default function page() {
           </div>
         )}
       </main>
-
-    
-      {showClearModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-950 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
-            <div className="w-12 h-12 bg-red-100 dark:bg-slate-950 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mb-4">
-              <AlertCircle className="w-6 h-6" />
-            </div>
-            <h3 className="text-lg font-bold mb-1 text-slate-900 dark:text-white">Clear Shopping Cart?</h3>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-              Are you sure you want to remove all products from your cart? This action cannot be reversed.
-            </p>
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => setShowClearModal(false)} className="flex-1">
-                Cancel
-              </Button>
-              <Button variant="destructive" 
-              onClick={clearCart} className="flex-1">
-                Clear Cartf
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       </div>
   );
