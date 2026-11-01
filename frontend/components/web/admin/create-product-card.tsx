@@ -8,6 +8,8 @@ import { useEffect } from "react";
 export default function CreateProductCard() {
   const {categories , fetchCategories} = useCategories();
 
+  console.log(categories);
+
   useEffect(()=>{
     fetchCategories();
   },[fetchCategories]);
@@ -137,7 +139,7 @@ export default function CreateProductCard() {
           >
             <option className="border-none" value="">Select category</option>
             {categories.map((category)=>(
-              <option key={category.Id} value={category.Id}>{category.category}</option>
+              <option key={category.id} value={category.id}>{category.category}</option>
             ))}
           </select>
         </div>
