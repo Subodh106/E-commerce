@@ -4,7 +4,7 @@ export function proxy(request : NextRequest){
     const {pathname} = request.nextUrl;
     const isAuthed = request.cookies.get("token")?.value;
 
-    const protectedRoute = ["/home","/products"]
+    const protectedRoute = ["/home","/products/","/cart","/admin/**","/about"]
 
     console.log(isAuthed);
 
@@ -29,5 +29,9 @@ export function proxy(request : NextRequest){
 export const config={
     matcher:["/home/:path*",
         "/log-in/:path*",
-        "/products/:path*"],
+        "/products/:path*",
+        "/cart/:path",
+        "/admin/:path",
+        "/about/:path"
+    ],
 }
