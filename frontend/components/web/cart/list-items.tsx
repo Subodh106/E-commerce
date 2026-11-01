@@ -1,15 +1,16 @@
 import { cart } from '@/app/cart/page'
 import { Button } from '@/components/ui/button'
+import { removeItemFromCart } from '@/services/cartService'
 import { removeItem } from '@base-ui/react/internals/itemEquality'
 import { Badge, Trash2, Minus, Plus, X, ArrowLeft, AlertCircle } from 'lucide-react'
+import Link from 'next/link'
 import React, { useState } from 'react'
+import { toast } from 'sonner'
 
 export type ListItems = {
     cart : cart[];
     totalItemCount : number;
-    setShowClearModal:(value :boolean)=>void;
     updateQuantity : (id:number , value:number)=>void;
-    removeItem : (id:number )=>void;
     clearCart : ()=>void
 }
 
@@ -18,7 +19,6 @@ export default function ListItems(
         cart,
         totalItemCount,
         updateQuantity,
-        removeItem,
         clearCart
     }
     :ListItems
@@ -30,6 +30,20 @@ export default function ListItems(
     clearCart();
     setShowClearModal(false)
     window.location.reload();
+  }
+  const delteItemById = async(id:number)=>{
+    console.log("asdfasdf")
+    try {
+      console.log(id)
+        const res = await removeItemFromCart(id);
+        console.log(res.status)
+        if(res.status===200){
+          toast.success(res?.data?.message||"Item removed from cart successfully");
+          window.location.reload();
+        }
+    } catch (error:any) {
+        console.log(error?.response?.data?.message)
+    }
   }
 
   return (
@@ -133,8 +147,8 @@ export default function ListItems(
                           <td className="py-4 px-6 text-right">
                             <Button
                               variant="ghost"
+                              onClick={() => delteItemById(item.productId)}
                               size="icon"
-                              onClick={() => removeItem(item.productId)}
                               className="text-slate-400 hover:text-red-500 dark:hover:text-red-400"
                             >
                               <X className="w-4 h-4" /> Clear
@@ -164,7 +178,7 @@ export default function ListItems(
                             <Button
                               variant="ghost"
                             
-                              // onClick={() => removeItem(item.id)}
+                              onClick={() => delteItemById(item.productId)}
                               className="text-slate-400 hover:text-red-500 shrink-0"
                             >
                               <X className="w-4 h-4" />
@@ -218,12 +232,14 @@ export default function ListItems(
                 </div>
 
                 {/* Footer link back to shop */}
-                <div className="p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <Link href="/products">
+                    <div className="p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                   <Button variant="outline" className="gap-2">
                     <ArrowLeft className="w-4 h-4" />
                     Continue Shopping
                   </Button>
                 </div>
+                  </Link>
 
               </div>
 
