@@ -26,7 +26,7 @@ import { ProductType } from "@/Types/HomeTypes";
 import { useCategories } from "@/hooks/useCategories";
 
 export interface Category {
-  Id: number;
+  id: number;
   category?: string;
   products?: ProductType[];
 }
@@ -148,7 +148,7 @@ export default function CategoriesPage() {
             <div className="divide-y divide-slate-200 dark:divide-slate-800">
               {categories.map((category) => (
                 <div
-                  key={category.Id}
+                  key={category.id}
                   className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:py-4 transition-colors hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg px-2 sm:px-4"
                 >
                   {/* Category Info */}
@@ -181,7 +181,7 @@ export default function CategoriesPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => deleteCategory(category.Id)}
+                      onClick={() => deleteCategory(category.id)}
                       className="h-8 border-slate-300 bg-slate-100 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-slate-700 dark:bg-slate-950 dark:text-red-400 dark:hover:bg-red-950/50 px-3 text-xs"
                     >
                       <Trash2 className="mr-1.5 h-3.5 w-3.5" />
