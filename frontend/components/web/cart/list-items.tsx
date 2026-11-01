@@ -1,7 +1,6 @@
 import { cart } from '@/app/cart/page'
 import { Button } from '@/components/ui/button'
 import { removeItemFromCart } from '@/services/cartService'
-import { removeItem } from '@base-ui/react/internals/itemEquality'
 import { Badge, Trash2, Minus, Plus, X, ArrowLeft, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
