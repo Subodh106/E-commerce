@@ -30,48 +30,6 @@ export default function OrderSummaryCard({appliedPromo,removePromo,handleApplyPr
                 </h2>
 
                 {/* PROMO CODE SECTION */}
-                <div className="my-5">
-                  <label htmlFor="promo" className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wide">
-                    Promo Code
-                  </label>
-
-                  {appliedPromo ? (
-                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50 dark:bg-slate-950 border border-emerald-200 dark:border-emerald-800/60 text-xs">
-                      <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
-                        <Tag className="w-4 h-4" />
-                        <span className="font-mono font-bold">{appliedPromo.code}</span>
-                        <Badge>Applied</Badge>
-                      </div>
-                      <Button variant="ghost" onClick={removePromo} className="text-emerald-700 hover:text-red-500">
-                        <X className="w-3.5 h-3.5" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleApplyPromo} className="space-y-2">
-                      <div className="flex gap-2">
-                        <div className="relative flex-1">
-                          <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                          <Input
-                            id="promo"
-                            placeholder="Try SAVE10 or HALFPRICE"
-                            value={promoInput}
-                            onChange={(e) => setPromoInput(e.target.value)}
-                            className="pl-9 font-mono text-xs uppercase"
-                          />
-                        </div>
-                        <Button type="submit" variant="secondary">
-                          Apply
-                        </Button>
-                      </div>
-                      {promoError && (
-                        <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
-                          {promoError}
-                        </p>
-                      )}
-                    </form>
-                  )}
-                </div>
 
                 {/* CALCULATIONS BREAKDOWN */}
                 <div className="space-y-3 text-sm border-t border-slate-100 dark:border-slate-800 pt-4">
