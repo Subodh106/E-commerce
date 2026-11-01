@@ -162,7 +162,7 @@ export default function CreateProductPage() {
           </div>
 
           {/* ACTIONS */}
-          <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <div className="mt-5 flex flex-cartol-reverse gap-3 sm:flex-row sm:justify-end">
             <Button
               type="button"
               variant="outline"
