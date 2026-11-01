@@ -3,7 +3,6 @@
 import { Category } from '@/app/admin/categories/page'
 import { CategoryContext } from '@/context/CategoryContext'
 import { getAllCateogry } from '@/services/categoryService'
-import axios from 'axios'
 import React, { useCallback, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
