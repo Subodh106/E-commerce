@@ -5,23 +5,13 @@ import { Tag, Badge, X, AlertCircle, Percent, ChevronRight, ShieldCheck, Lock } 
 import { FormEvent, ChangeEvent } from 'react'
 
 export type OrderSummaryCard = {
-    appliedPromo: appliedPromo | null;
-    removePromo :()=>void;
-    handleApplyPromo : (e : FormEvent<HTMLFormElement>)=>void;
-    promoInput : string;
-    setPromoInput:(value : string) => void;
-    promoError : string;
-    discountAmount : number;
-    shippingFee : number;
-    estimatedTax : number;
-    subTotal : number
-    grandTotal : number;
+    subTotal : number;
     isCheckingOut : boolean;
     handleCheckOutProcess : ()=>void;
 
 }
 
-export default function OrderSummaryCard({appliedPromo,removePromo,handleApplyPromo, promoInput , setPromoInput , promoError , discountAmount , shippingFee , estimatedTax , subTotal ,grandTotal , isCheckingOut , handleCheckOutProcess}:OrderSummaryCard) {
+export default function OrderSummaryCard({subTotal , isCheckingOut , handleCheckOutProcess}:OrderSummaryCard) {
   return (
        <div className="lg:col-span-4 space-y-6">
               <div className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs">
@@ -29,45 +19,11 @@ export default function OrderSummaryCard({appliedPromo,removePromo,handleApplyPr
                   Order Summary
                 </h2>
 
-                {/* PROMO CODE SECTION */}
-
                 {/* CALCULATIONS BREAKDOWN */}
                 <div className="space-y-3 text-sm border-t border-slate-100 dark:border-slate-800 pt-4">
                   <div className="flex justify-between text-slate-600 dark:text-slate-400">
                     <span>Subtotal</span>
                     <span className="font-semibold text-slate-900 dark:text-slate-100">${subTotal.toFixed(2)}</span>
-                  </div>
-
-                  {appliedPromo && (
-                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
-                      <span className="flex items-center gap-1">
-                        <Percent className="w-3.5 h-3.5" /> Coupon Discount
-                      </span>
-                      <span className="font-semibold">-${discountAmount.toFixed(2)}</span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between text-slate-600 dark:text-slate-400">
-                    <span>Shipping</span>
-                    <span>
-                      {shippingFee === 0 ? (
-                        <span className="text-emerald-600 dark:text-emerald-400 font-semibold">FREE</span>
-                      ) : (
-                        `$${shippingFee.toFixed(2)}`
-                      )}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between text-slate-600 dark:text-slate-400">
-                    <span>Estimated Tax (8%)</span>
-                    <span className="font-semibold text-slate-900 dark:text-slate-100">${estimatedTax.toFixed(2)}</span>
-                  </div>
-
-                  <div className="border-t border-slate-100 dark:border-slate-800 pt-3.5 flex justify-between items-baseline">
-                    <span className="text-base font-bold text-slate-900 dark:text-white">Total</span>
-                    <span className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">
-                      ${grandTotal.toFixed(2)}
-                    </span>
                   </div>
                 </div>
 
