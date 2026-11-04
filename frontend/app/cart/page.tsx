@@ -81,11 +81,7 @@ export type appliedPromo = {
 export default function page() {
   // Cart state
   const [cart, setCart] = useState<cart[]>([]);
-  const [promoInput, setPromoInput] = useState('');
-  const [appliedPromo, setAppliedPromo] = useState<appliedPromo|null>(null); // { code: 'SAVE10', type: 'fixed'|'percent', amount: 10 }
-  const [promoError, setPromoError] = useState('');
-  const[subTotal , setSubtotal] = useState<number>(100);
-  const[discountAmount,setDiscountAmount]=useState<number>(10);
+  const[subTotal , setSubtotal] = useState<number>(0);
   const[loading , setLoading]=useState<boolean>(false);  
 
 
@@ -102,31 +98,18 @@ export default function page() {
 
 
 
-  // const handleClearCart = () => {
-  //   setCart([]);
-  //   setShowClearModal(false);
-  // };
-
-  const handleRestoreCart = () => {
-  };
-
-  const handleApplyPromo = (e: FormEvent<HTMLFormElement>) => {
-  };
-
-  const removePromo = () => {
-    setAppliedPromo(null);
-  };
-
  
-  const postDiscountSubtotal = 100;
-  
-  // Free shipping logic ($100 target)
-  const freeShippingThreshold = 100;
-  const shippingFee = 100;
-  const estimatedTax = 0.4
-  const grandTotal = postDiscountSubtotal + shippingFee + estimatedTax;
+  // // Free shipping logic ($100 target)
+  // const freeShippingThreshold = 100;
+  // const shippingFee = 100;
+  // const estimatedTax = 0.4
+  // const grandTotal = postDiscountSubtotal + shippingFee + estimatedTax;
 
-  const totalItemCount = 10;
+  const handleRestoreCart = ()=>{
+    
+  }
+
+  const totalItemCount = cart.length;
 
   const handleCheckoutProcess = () => {
   };
@@ -136,25 +119,14 @@ export default function page() {
       try {
         const res = await fetchCart();
         setCart(res?.data?.data?.cartItems)
-        console.log(res.data?.data?.cartItems)
-        console.log(res?.data?.data);
-        console.log("adsadfds");
+        setSubtotal(res?.data?.data?.subTotal)
+        console.log("Date",res.data?.data)
       } catch (error:any) {
         setServerErrors(error?.response?.data?.message);
         toast.error(error?.response?.data?.message);
       }finally{
         setLoading(false);
       }
-  }
-
-  const removeProductFromCart = async(id:number)=>{
-    try {
-      const res = await removeItemFromCart(id);
-      console.log(res.status);
-    } catch (error:any) {
-      setServerErrors(error?.response?.data?.message);
-      toast.error(error?.response?.data?.message);
-    }
   }
 
   const clearCart = async()=>{
@@ -178,18 +150,18 @@ export default function page() {
   return (
    
       <div>
-      {/* MAIN CONTAINER */}
+      {/* Main */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Breadcrumb Bar */}
           <Breadcrumb/> {/*
 
       {/* Free Shipping Progress Indicator */}
-        <FreeShippingIndicator
+        {/* <FreeShippingIndicator
           cart={cart}
           postDiscountSubtotal={postDiscountSubtotal}
           freeShippingThreshold={freeShippingThreshold}
-        />
+        /> */}
 
         {/* ORDER SUCCESS SCREEN */}
         {orderConfirmed ? (
@@ -225,17 +197,7 @@ export default function page() {
 
             {/* COLUMN 2: ORDER SUMMARY CARD (4 cols) */}
               <OrderSummaryCard
-                appliedPromo={appliedPromo}
-                removePromo={removePromo}
-                handleApplyPromo={handleApplyPromo}
-                promoInput={promoInput}
-                setPromoInput={setPromoInput}
-                promoError={promoError}
-                discountAmount={discountAmount}
-                shippingFee={shippingFee}
-                estimatedTax={estimatedTax}
                 subTotal={subTotal}
-                grandTotal={grandTotal}
                 isCheckingOut = {isCheckingOut}
                 handleCheckOutProcess={handleCheckoutProcess}
             />
