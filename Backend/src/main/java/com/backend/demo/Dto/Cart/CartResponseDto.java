@@ -18,8 +18,7 @@ public class CartResponseDto {
     private Long id;
     private Long user_id;
     private List<CartItemResponseDto> cartItems= new ArrayList<>();
-    private BigDecimal subtotal;
-    private BigDecimal total;
+    private BigDecimal subTotal;
     private Date create_at;
     private Date updated_at;
 }
