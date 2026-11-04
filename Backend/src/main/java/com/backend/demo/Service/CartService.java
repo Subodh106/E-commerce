@@ -45,7 +45,6 @@ public class CartService {
         Cart savedCart = cartRepository.save(existedCart);
 
         // 2. Fetch Product
-        System.out.println("After Add to cart");
         Product product = productRepository.findById(cartItemDto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
@@ -61,37 +60,22 @@ public class CartService {
         }
         newCartItem.setCategory(product.getCategory());
         newCartItem.setQuantity(cartItemDto.getQuantity());
+        newCartItem.setSubTotal(product.getPrice().multiply(BigDecimal.valueOf(cartItemDto.getQuantity())));
         newCartItem.setAdded_at(new Date());
         newCartItem.setCart(savedCart);
-        System.out.println("Before cart Item");
         CartItem savedCartItem =  cartItemRepository.save(newCartItem);
-
-        System.out.println("After cart Item");
         List<CartItem> existedCartItems = existedCart.getCartItems();
         existedCartItems.add(savedCartItem);
-        System.out.println("Before cart");
         existedCart.setCartItems(existedCartItems);
 
 
-        System.out.println("After cart");
         savedCartItem.setCart(savedCart);
         // calculate total sum of cartItems
         BigDecimal subTotal = BigDecimal.ZERO;
-        for(CartItem cartItem:existedCartItems){
-            subTotal = subTotal.add(cartItem.getPrice());
+        for(CartItem cartItem:existedCart.getCartItems()){
+            subTotal = subTotal.add(cartItem.getSubTotal());
         }
         savedCart.setSubTotal(subTotal);
-        System.out.println(savedCart.getId());
-        System.out.println(savedCart.getUserId());
-        System.out.println(savedCart.getSubTotal());
-        for(CartItem cartItem:savedCart.getCartItems()){
-            System.out.println(cartItem.getCategory());
-            System.out.println(cartItem.getPrice());
-            System.out.println(cartItem.getImageUrl());
-            System.out.println(cartItem.getId());
-            System.out.println(cartItem.getProductId());
-            System.out.println(cartItem.getQuantity());
-        }
 
 
         // 6. Save and Return
@@ -102,6 +86,9 @@ public class CartService {
     public CartResponseDto getCart(Long userID) {
         Cart existingCart = cartRepository.findByUserId(userID)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
+        for(CartItem cartItem : existingCart.getCartItems()){
+            System.out.println(cartItem.getSubTotal());
+        }
         return buildCartDto(existingCart);
     }
 
@@ -112,6 +99,8 @@ public class CartService {
         if (existingCart.getCartItems() == null || existingCart.getCartItems().isEmpty()) {
             throw new ResourceNotFoundException("Cart is already empty");
         }
+        existingCart.setSubTotal(BigDecimal.ZERO);
+        existingCart.setUpdated_at(new Date());
         existingCart.getCartItems().clear();
     }
 
@@ -122,6 +111,12 @@ public class CartService {
         if (existingCart.getCartItems() != null) {
             existingCart.getCartItems().removeIf(cartItem -> Objects.equals(cartItem.getProductId(), productId));
         }
+        BigDecimal subTotal = BigDecimal.ZERO;
+        assert existingCart.getCartItems() != null;
+        for(CartItem cartItem:existingCart.getCartItems()){
+            subTotal = subTotal.add(cartItem.getPrice());
+        }
+        existingCart.setSubTotal(subTotal);
     }
 
     private CartResponseDto buildCartDto(Cart cart) {
@@ -137,6 +132,7 @@ public class CartService {
         }
         cartResponseDto.setCartItems(cartItemsList);
         cartResponseDto.setUser_id(cart.getUserId());
+        cartResponseDto.setSubTotal(cart.getSubTotal());
         cartResponseDto.setCreate_at(cart.getCreated_at());
         cartResponseDto.setUpdated_at(cart.getUpdated_at());
         return cartResponseDto;
@@ -153,6 +149,7 @@ public class CartService {
         dto.setPrice(item.getPrice());
         dto.setImageUrl(item.getImageUrl());
         dto.setQuantity(item.getQuantity());
+        dto.setSubtotal(item.getSubTotal());
         dto.setCartId(item.getCart().getId());
         dto.setAdded_at(item.getAdded_at());
         return dto;
