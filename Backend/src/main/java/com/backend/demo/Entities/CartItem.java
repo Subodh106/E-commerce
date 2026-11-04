@@ -58,6 +58,9 @@ public class CartItem {
     @Min(1)
     private int quantity;
 
+    @Column(nullable = false)
+    private BigDecimal subTotal;
+
     @ManyToOne
     @JoinColumn(name = "cart_id" , nullable = true)
     private Cart cart;
