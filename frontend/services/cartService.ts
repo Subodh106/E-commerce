@@ -16,3 +16,7 @@ export const removeItemFromCart =(id:number)=>{
 export const clearAllItemFromCart = ()=>{
     return api.delete(`/cart`);
 }
+
+export const increase = (cartItemId : number)=>{
+    return api.patch(`/${cartItemId}/increase`)
+}
