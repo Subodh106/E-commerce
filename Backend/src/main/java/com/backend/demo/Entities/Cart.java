@@ -32,7 +32,6 @@ public class Cart {
 
     @Column(nullable = false)
     private Date created_at;
-
     @Column(nullable = false)
     private Date updated_at;
 
