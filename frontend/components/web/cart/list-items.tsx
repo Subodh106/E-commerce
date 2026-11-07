@@ -1,6 +1,6 @@
 import { cart } from '@/app/cart/page'
 import { Button } from '@/components/ui/button'
-import { removeItemFromCart } from '@/services/cartService'
+import { increase, removeItemFromCart } from '@/services/cartService'
 import { Badge, Trash2, Minus, Plus, X, ArrowLeft, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -42,6 +42,19 @@ export default function ListItems(
         }
     } catch (error:any) {
         console.log(error?.response?.data?.message)
+    }
+  }
+
+  const handleIncrease = async(id:number)=>{
+    console.log("afas")
+    try {
+      console.log(id)
+      const res = await increase(id);
+      console.log(res);
+    } catch (
+    error:any
+    ) {
+        console.log(error.message)
     }
   }
 
@@ -128,11 +141,15 @@ export default function ListItems(
                                 <Button
                                   variant="ghost"
                                   
-                                  // onClick={() => updateQuantity(1, 1)}
+                                  onClick={() => handleIncrease(item.id)}
                                   className="h-7 w-7 text-slate-600 dark:text-slate-300"
                                 >
                                   <Plus className="w-3.5 h-3.5" />
+                                  
                                 </Button> 
+                                <Button>
+                                  Increase
+                                </Button>
                               </div>
                             </div>
                           </td>
