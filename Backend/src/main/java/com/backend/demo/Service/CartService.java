@@ -48,7 +48,10 @@ public class CartService {
         Product product = productRepository.findById(cartItemDto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
+//        CartItem cartItemExistInCart = cartItemRepository.findByProductIdAndCart(cartItemDto.getProductId(),existedCart).orElseThrow();
+
         // 3. Find existing CartItem if present
+
         CartItem newCartItem = new CartItem();
         newCartItem.setProductId(product.getId());
         newCartItem.setProductName(product.getProductName());
@@ -117,6 +120,19 @@ public class CartService {
             subTotal = subTotal.add(cartItem.getPrice());
         }
         existingCart.setSubTotal(subTotal);
+    }
+
+    public CartResponseDto increaseQuantity(Long cartItemId , Long userId){
+        System.out.print("asfs");
+        Cart existingCart = cartRepository.findByUserId(userId).orElseThrow();
+        System.out.print("afs");
+        CartItem existingCartItem = cartItemRepository.findByIdAndCart(cartItemId,existingCart).orElseThrow();
+        System.out.print("Id"+existingCartItem.getId());
+        return null;
+    }
+
+    public CartResponseDto decreaseQuantity(Long cartItemId , Long userId){
+        return null;
     }
 
     private CartResponseDto buildCartDto(Cart cart) {
