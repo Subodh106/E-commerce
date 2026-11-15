@@ -52,17 +52,17 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
     }
     @PatchMapping("/{cartItemId}/increase")
-    public ResponseEntity<ApiResponse<CartResponseDto>> increaseQuantityOfCartItem(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable Long cartItemId){
+    public ResponseEntity<ApiResponse<Void>> increaseQuantityOfCartItem(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable Long cartItemId){
         Long userId = customUserPrincipal.getId();
-        CartResponseDto response = cartService.increaseQuantity(cartItemId,userId);
-        ApiResponse<CartResponseDto> cartResponse = new ApiResponse<>("Quantity increase successfully",response);
+        cartService.increaseQuantity(cartItemId,userId);
+        ApiResponse<Void> cartResponse = new ApiResponse<>("Quantity increase successfully",null);
         return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
     }
     @PatchMapping("/{cartItemId}/decrease")
-    public ResponseEntity<ApiResponse<CartResponseDto>> decreaseQuantityOfCartItem(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable Long cartItemId){
+    public ResponseEntity<ApiResponse<Void>> decreaseQuantityOfCartItem(@AuthenticationPrincipal CustomUserPrincipal customUserPrincipal , @PathVariable Long cartItemId){
         Long userId = customUserPrincipal.getId();
-        CartResponseDto response = cartService.decreaseQuantity(cartItemId,userId);
-        ApiResponse<CartResponseDto> cartResponse = new ApiResponse<>("Quantity decrease successfully",response);
+        cartService.decreaseQuantity(cartItemId,userId);
+        ApiResponse<Void> cartResponse = new ApiResponse<>("Quantity decrease successfully",null);
         return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
     }
 }
