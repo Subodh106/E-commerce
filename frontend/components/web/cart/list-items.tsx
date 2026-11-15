@@ -1,6 +1,6 @@
 import { cart } from '@/app/cart/page'
 import { Button } from '@/components/ui/button'
-import { increase, removeItemFromCart } from '@/services/cartService'
+import { decrease, increase, removeItemFromCart } from '@/services/cartService'
 import { Badge, Trash2, Minus, Plus, X, ArrowLeft, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -9,7 +9,6 @@ import { toast } from 'sonner'
 export type ListItems = {
     cart : cart[];
     totalItemCount : number;
-    updateQuantity : (id:number , value:number)=>void;
     clearCart : ()=>void
 }
 
@@ -17,7 +16,6 @@ export default function ListItems(
     {
         cart,
         totalItemCount,
-        updateQuantity,
         clearCart
     }
     :ListItems
@@ -31,9 +29,7 @@ export default function ListItems(
     window.location.reload();
   }
   const delteItemById = async(id:number)=>{
-    console.log("asdfasdf")
     try {
-      console.log(id)
         const res = await removeItemFromCart(id);
         console.log(res.status)
         if(res.status===200){
@@ -42,19 +38,34 @@ export default function ListItems(
         }
     } catch (error:any) {
         console.log(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message);
     }
   }
 
   const handleIncrease = async(id:number)=>{
-    console.log("afas")
     try {
-      console.log(id)
       const res = await increase(id);
-      console.log(res);
-    } catch (
-    error:any
-    ) {
-        console.log(error.message)
+      if(res.status==200){
+        toast.success(res?.data?.message||"Quantity increased successfully");
+        window.location.reload();
+      }
+    } catch (error:any) {
+        console.log(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message)
+    }
+  }
+  
+   const handleDecrease = async(id:number)=>{
+    try {
+      const res = await decrease(id);
+      if(res.status==200){
+        toast.success(res?.data?.message||"Quantity decreased successfully");
+        window.location.reload();
+      }
+  
+    } catch (error:any) {
+        console.log(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message)
     }
   }
 
@@ -129,8 +140,7 @@ export default function ListItems(
                               <div className="flex items-center border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-950 p-0.5">
                                  <Button
                                   variant="ghost"
-                                
-                                  // onClick={updateQuantity(item.qu)}
+                                  onClick={()=>{handleDecrease(item.id)}}
                                   className="h-7 w-7 text-slate-600 dark:text-slate-300"
                                 >
                                   <Minus className="w-3.5 h-3.5" />
@@ -140,16 +150,12 @@ export default function ListItems(
                                 </span>
                                 <Button
                                   variant="ghost"
-                                  
-                                  onClick={() => handleIncrease(item.id)}
+                                  onClick={() => { void handleIncrease(item.id) }}
                                   className="h-7 w-7 text-slate-600 dark:text-slate-300"
                                 >
                                   <Plus className="w-3.5 h-3.5" />
                                   
                                 </Button> 
-                                <Button>
-                                  Increase
-                                </Button>
                               </div>
                             </div>
                           </td>
