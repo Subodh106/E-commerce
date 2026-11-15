@@ -4,7 +4,7 @@ export const AddToCart = (addToCartItems:{productId:number,quantity:number})=>{
     console.log("cart deatils",addToCartItems)
     return api.post("/cart",addToCartItems)
 }
-
+  
 export const fetchCart = ()=>{
     return api.get("/cart");
 }
@@ -18,5 +18,9 @@ export const clearAllItemFromCart = ()=>{
 }
 
 export const increase = (cartItemId : number)=>{
-    return api.patch(`/${cartItemId}/increase`)
+    return api.patch(`/cart/${cartItemId}/increase`)
+}
+
+export const decrease = (cartItemId : number) =>{
+    return api.patch(`/cart/${cartItemId}/decrease`);
 }
