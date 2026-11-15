@@ -46,11 +46,8 @@ export default function page() {
 
 
   // UI States
-  // const [showClearModal, setShowClearModal] = useState<boolean>(false);
   const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false);
   const [orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
-
-  const [serverErrors , setServerErrors] = useState();
 
 
   const updateQuantity = (id:number, delta:number) => {
@@ -73,7 +70,6 @@ export default function page() {
         setSubtotal(res?.data?.data?.subTotal)
         console.log("Date",res.data?.data)
       } catch (error:any) {
-        setServerErrors(error?.response?.data?.message);
         toast.error(error?.response?.data?.message);
       }finally{
         setLoading(false);
@@ -85,7 +81,6 @@ export default function page() {
       const res = await clearAllItemFromCart();
       console.log(res.status)
     } catch (error:any) {
-      setServerErrors(error?.response?.data?.message);
       toast.error(error?.response?.data?.message);
     }
   }
