@@ -37,46 +37,6 @@ type categroyType={
   name:string;
 }
 
-const INITIAL_CART = [
-  {
-    id: '101',
-    name: 'Wireless Headphones',
-    price: 99,
-    quantity: 1,
-    variant: 'Black',
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80',
-    inStock: true,
-  },
-  {
-    id: '102',
-    name: 'Cotton T-Shirt',
-    price: 19.99,
-    quantity: 2,
-    variant: 'White / L',
-    image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop&q=80',
-    inStock: true,
-  },
-  {
-    id: '103',
-    name: 'Minimal Backpack',
-    price: 78.99,
-    quantity: 1,
-    variant: 'Black',
-    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80',
-    inStock: true,
-  },
-];
-
-type Toast = {
-  message: string;
-  type: string;
-};
-
-export type appliedPromo = {
-  code : string , 
-  type: string ,
-  amount : number
-}
 
 export default function page() {
   // Cart state
@@ -95,15 +55,6 @@ export default function page() {
 
   const updateQuantity = (id:number, delta:number) => {
   };
-
-
-
- 
-  // // Free shipping logic ($100 target)
-  // const freeShippingThreshold = 100;
-  // const shippingFee = 100;
-  // const estimatedTax = 0.4
-  // const grandTotal = postDiscountSubtotal + shippingFee + estimatedTax;
 
   const handleRestoreCart = ()=>{
     
@@ -191,7 +142,6 @@ export default function page() {
               <ListItems
                 cart={cart}
                 totalItemCount={totalItemCount}
-                updateQuantity={updateQuantity}
                 clearCart={clearCart}
                 />
 
