@@ -122,17 +122,40 @@ public class CartService {
         existingCart.setSubTotal(subTotal);
     }
 
-    public CartResponseDto increaseQuantity(Long cartItemId , Long userId){
-        System.out.print("asfs");
+    @Transactional
+    public void increaseQuantity(Long cartItemId , Long userId){
         Cart existingCart = cartRepository.findByUserId(userId).orElseThrow();
-        System.out.print("afs");
         CartItem existingCartItem = cartItemRepository.findByIdAndCart(cartItemId,existingCart).orElseThrow();
-        System.out.print("Id"+existingCartItem.getId());
-        return null;
+        int currentQuantity = existingCartItem.getQuantity();
+        Product product = productRepository.findById(existingCartItem.getProductId()).orElseThrow();
+        if(currentQuantity>=product.getStock()){
+            throw new IllegalArgumentException("Quantity can't be increase");
+        }
+        existingCartItem.setQuantity(currentQuantity+1);
+        existingCart.setSubTotal(product.getPrice().multiply(BigDecimal.valueOf(existingCartItem.getQuantity())));
+        BigDecimal subTotal = BigDecimal.ZERO;
+        for(CartItem cartItem : existingCart.getCartItems()){
+            subTotal = subTotal.add(cartItem.getSubTotal());
+        }
+        existingCart.setSubTotal(subTotal);
     }
 
-    public CartResponseDto decreaseQuantity(Long cartItemId , Long userId){
-        return null;
+    @Transactional
+    public void decreaseQuantity(Long cartItemId , Long userId){
+        Cart existingCart = cartRepository.findByUserId(userId).orElseThrow();
+        CartItem existingCartItem = cartItemRepository.findByIdAndCart(cartItemId,existingCart).orElseThrow();
+        int currentQuantity = existingCartItem.getQuantity();
+        if(currentQuantity<=1){
+            throw new IllegalArgumentException("Quantity can't be decrease");
+        }
+        existingCartItem.setQuantity(currentQuantity-1);
+        Product product = productRepository.findById(existingCartItem.getProductId()).orElseThrow();
+        existingCart.setSubTotal(product.getPrice().multiply(BigDecimal.valueOf(existingCartItem.getQuantity())));
+        BigDecimal subTotal = BigDecimal.ZERO;
+        for(CartItem cartItem : existingCart.getCartItems()){
+            subTotal = subTotal.add(cartItem.getSubTotal());
+        }
+        existingCart.setSubTotal(subTotal);
     }
 
     private CartResponseDto buildCartDto(Cart cart) {
