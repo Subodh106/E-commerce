@@ -47,7 +47,7 @@ export default function ListItems(
       const res = await increase(id);
       if(res.status==200){
         toast.success(res?.data?.message||"Quantity increased successfully");
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error:any) {
         console.log(error?.response?.data?.message)
@@ -60,7 +60,7 @@ export default function ListItems(
       const res = await decrease(id);
       if(res.status==200){
         toast.success(res?.data?.message||"Quantity decreased successfully");
-        window.location.reload();
+        // window.location.reload();
       }
   
     } catch (error:any) {

@@ -1,8 +1,7 @@
-import { appliedPromo } from '@/app/cart/page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Tag, Badge, X, AlertCircle, Percent, ChevronRight, ShieldCheck, Lock } from 'lucide-react'
-import { FormEvent, ChangeEvent } from 'react'
+import { ChevronRight, ShieldCheck, Lock } from 'lucide-react'
+import Link from 'next/link'
 
 export type OrderSummaryCard = {
     subTotal : number;
@@ -41,9 +40,11 @@ export default function OrderSummaryCard({subTotal , isCheckingOut , handleCheck
                     </>
                   ) : (
                     <>
-                      <Lock className="w-4 h-4" />
-                      <span>Proceed to Checkout</span>
-                      <ChevronRight className="w-4 h-4" />
+                      <Link href="/checkout" className='flex justify-center items-center gap-2'>
+                        <Lock className="w-4 h-4" />
+                        <span>Proceed to Checkout</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </Link>
                     </>
                   )}
                 </Button>
