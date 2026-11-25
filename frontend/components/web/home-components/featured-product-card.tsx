@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
 import { Star , ShoppingCart, } from 'lucide-react'
-import { ProductType } from '@/Types/HomeTypes'
+import { ProductType } from '@/Types/home.types'
 
 
 

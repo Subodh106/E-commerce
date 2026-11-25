@@ -1,6 +1,6 @@
 "use client"
 import { loginUserSchema } from '@/Schema/LoginUserSchema'
-import { logInUser } from '@/Types/authTypes'
+import { logInUser } from '@/Types/auth.types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Field, FieldContent, FieldError, FieldGroup } from '@/components/ui/field'
@@ -13,7 +13,7 @@ import  * as z from "zod";
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import useUser from '@/hooks/useUser'
+import useUser from '@/hooks/context-hooks/useUser'
 import { logIn } from '@/services/authService'
 
 

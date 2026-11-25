@@ -10,7 +10,7 @@ import BreadCrumb from "@/components/web/product-components/bread-crumb";
 import ProductCard from "@/components/web/product-components/product-card";
 import DesktopSideBar from "@/components/web/product-components/desktop-sidebar";
 import axios from "axios";
-import { ProductType } from "@/Types/HomeTypes";
+import { ProductType } from "@/Types/home.types";
 
 import { toast } from "sonner";
 import Pagination from "@/components/web/product-components/pagination";

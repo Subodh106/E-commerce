@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { useCategories } from "@/hooks/useCategories";
+import { useCategories } from "@/hooks/context-hooks/useCategories";
 import { Input } from "@base-ui/react";
 import { PackagePlus } from "lucide-react";
 import { useEffect } from "react";

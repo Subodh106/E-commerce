@@ -29,8 +29,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteProductById} from "@/services/productService";
-import { useCategories } from "@/hooks/useCategories";
-import { useProducts } from "@/hooks/useProduct";
+import { useCategories } from "@/hooks/context-hooks/useCategories";
+import { useProducts } from "@/hooks/context-hooks/useProduct";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/web/loading-spinner";
 
@@ -196,7 +196,7 @@ export default function ProductsPage() {
                 </SelectItem>
 
                 {categories.map((category) => (
-                  <SelectItem key={category.Id} value={category.Id}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.category}
                   </SelectItem>
                 ))}

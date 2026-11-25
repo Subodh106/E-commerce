@@ -22,8 +22,8 @@ import LoadingSpinner from "@/components/web/loading-spinner";
 
 import { create_Category, delete_Category, getAllCateogry } from "@/services/categoryService";
 import { toast } from "sonner";
-import { ProductType } from "@/Types/HomeTypes";
-import { useCategories } from "@/hooks/useCategories";
+import { ProductType } from "@/Types/home.types";
+import { useCategories } from "@/hooks/context-hooks/useCategories";
 
 export interface Category {
   id: number;

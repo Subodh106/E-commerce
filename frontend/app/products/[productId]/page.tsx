@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { toast} from 'sonner';
-import { ProductType } from '@/Types/HomeTypes';
+import { ProductType } from '@/Types/home.types';
 import { getProductById } from '@/services/productService';
 import { AddToCart } from '@/services/cartService';
 import LoadingSpinner from '@/components/web/loading-spinner';
