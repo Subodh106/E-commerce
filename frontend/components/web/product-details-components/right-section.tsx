@@ -1,5 +1,5 @@
 "use client"
-import { ProductType } from '@/Types/HomeTypes';
+import { ProductType } from '@/Types/home.types';
 import { Star, Minus, Plus, ShoppingCart, Heart, Truck, RefreshCw, ShieldCheck } from 'lucide-react'
 
 type rightSectionProps ={

@@ -1,4 +1,4 @@
-import { CategoryType, ProductType } from "@/Types/HomeTypes";
+import { CategoryType, ProductType } from "@/Types/home.types";
 import { Heart, Star } from "lucide-react";
 import Link from "next/link";
 

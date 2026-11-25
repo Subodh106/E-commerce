@@ -1,4 +1,4 @@
-import { ProductType } from '@/Types/HomeTypes';
+import { ProductType } from '@/Types/home.types';
 import React from 'react'
 
 type leftSectionProp = {

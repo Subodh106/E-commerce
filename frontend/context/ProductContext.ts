@@ -1,7 +1,7 @@
 "use client"
 
 import { pathVariablesType } from "@/services/productService";
-import { ProductType } from "@/Types/HomeTypes";
+import { ProductType } from "@/Types/home.types";
 import { createContext } from "react";
 
 

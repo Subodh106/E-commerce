@@ -1,5 +1,5 @@
 "use client"
-import { User } from '@/Types/authTypes';
+import { User } from '@/Types/auth.types';
 import {createContext} from 'react';
 
 export type UserContextType ={
