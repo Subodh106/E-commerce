@@ -2,7 +2,7 @@
 
 import { ProductContext } from "@/context/ProductContext"
 import { getAllProducts, pathVariablesType } from "@/services/productService";
-import { ProductType } from "@/Types/HomeTypes";
+import { ProductType } from "@/Types/home.types";
 import { useCallback, useMemo, useState } from "react"
 import { toast } from "sonner";
 

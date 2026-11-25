@@ -1,6 +1,6 @@
 "use client"
 import { UserContext, UserContextType } from '@/context/UserContext';
-import { User } from '@/Types/authTypes';
+import { User } from '@/Types/auth.types';
 import React, { useMemo, useState } from 'react'
 
 export default function UserProvider({children}:{children:React.ReactNode}) {
