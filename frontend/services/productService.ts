@@ -6,7 +6,7 @@ export type pathVariablesType = {
     price?:number,
     page?:number,
     direction?:string,
-    sortBy?:string
+   sortBy?:string
 }
 
 export const getAllProducts = (pathVariables:pathVariablesType)=>{

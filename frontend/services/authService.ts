@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { logInUser, SignUpUser } from "@/Types/authTypes";
+import { logInUser, SignUpUser } from "@/Types/auth.types";
 
 export const logIn = (data:logInUser)=>{
     return api.post("/auth/user/login",data)
